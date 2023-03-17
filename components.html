@@ -1,15 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Minimal Button using Material 3</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/button@3.1.1/dist/mdc.button.min.css" />
-    <style>
-      
-    </style>
-  </head>
-  <body>
-    <button class="button">Click me</button>
-  </body>
+<head>
+	<title>Color Palette</title>
+	<style>
+		.color {
+			display: inline-block;
+			width: 100px;
+			height: 100px;
+			margin: 5px;
+      border-radius: 8px;
+			cursor: pointer;
+			border: 1px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div class="color" style="background-color: #809bce;" onclick="copyToClipboard('#809bce')"> </div>
+	<div class="color" style="background-color: #95b8d1;" onclick="copyToClipboard('#95b8d1')"> </div>
+	<div class="color" style="background-color: #b8e0d2;" onclick="copyToClipboard('#b8e0d2')"> </div>
+	<div class="color" style="background-color: #d6eadf;" onclick="copyToClipboard('#d6eadf')"> </div>
+	<div class="color" style="background-color: #eac4d5;" onclick="copyToClipboard('#eac4d5')"> </div>
+	<div class="color" style="background-color: #ddedea;" onclick="copyToClipboard('#ddedea')"> </div>
+	<div class="color" style="background-color: #52b2cf;" onclick="copyToClipboard('#52b2cf')"> </div>
+	<div class="color" style="background-color: #fb6f92;" onclick="copyToClipboard('#fb6f92')"> </div>
+
+	<script>
+		function copyToClipboard(text) {
+			// Create a temporary input element
+			var input = document.createElement("input");
+			input.setAttribute("value", text);
+			document.body.appendChild(input);
+			input.select();
+
+			// Copy the text inside the input element to clipboard
+			document.execCommand("copy");
+
+			// Remove the temporary input element
+			document.body.removeChild(input);
+		}
+	</script>
+</body>
 </html>

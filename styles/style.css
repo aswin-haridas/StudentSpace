@@ -1,19 +1,44 @@
-p{
-    margin-top: 0;
-    margin-bottom: 0;
+p {
+  margin-top: 0;
+  margin-bottom: 0;
 }
-body{
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
 }
-.header{
-    background-color: aquamarine;
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+.header {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: aquamarine;
 }
-.middle-section{
-    font-weight: 800;
-    font-size: 20px;
+
+.left-section {
+  margin-left: 10px;
+}
+
+.middle-section {
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.main-section {
+  display: flex;
+  flex-direction: row;
+  background-color: #52b2cf;
+}
+
+.sidebar {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(255, 246, 127);
+}
+
+.sidebar-tabs {
+ 
 }
