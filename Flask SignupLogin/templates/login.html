@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Page</title>
+  </head>
+  <body style="background-color: #f2f2f2; font-family: Arial, sans-serif;">
+    <h1 style="text-align: center;">Login</h1>
+    <form style="text-align: center;">
+      <label for="username" style="font-weight: bold;">Username:</label>
+      <input type="text" id="username" name="username" style="margin-bottom: 10px;"><br>
+      <label for="password" style="font-weight: bold;">Password:</label>
+      <input type="password" id="password" name="password" style="margin-bottom: 10px;"><br>
+      <input type="submit" value="Login" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+    </form>        
+    <a href="{{ url_for('register') }}" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; text-decoration: none;">register</a></li>
+
+  </body>
+</html>
