@@ -90,3 +90,11 @@ p {
 .sidebar-tabs{
   padding: 3px;
 }
+
+.blue{
+  background-color: rgb(136, 161, 161);
+}
+
+.green{
+  background-color: rgb(112, 158, 110);
+}
