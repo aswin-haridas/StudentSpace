@@ -1,22 +1,24 @@
-
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Registration Page</title>
-  </head>
-  <body style="background-color: #f2f2f2; font-family: Arial, sans-serif;">
-    <h1 style="text-align: center;">Register</h1>
-    <form style="text-align: center;">
-      <label for="username" style="font-weight: bold;">Username:</label>
-      <input type="text" id="username" name="username" style="margin-bottom: 10px;"><br>
-      <label for="password" style="font-weight: bold;">Password:</label>
-      <input type="password" id="password" name="password" style="margin-bottom: 10px;"><br>
-      <label for="email" style="font-weight: bold;">Email:</label>
-      <input type="email" id="email" name="email" style="margin-bottom: 10px;"><br>
-      <input type="submit" value="Register" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-    
-    </form>
-    <a href="{{ url_for('login') }}" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; text-decoration: none;">login</a></li>
+<html lang="en">
 
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+
+<body>
+    <h1>Register Page</h1>
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ form.username }}
+        {{ form.password }}
+        {{ form.submit }}
+    </form>
+
+    <a href="{{ url_for('login') }}">Already have an account? Log In</a>
+</body>
+
 </html>
