@@ -12,10 +12,6 @@ body {
   line-height: 1.5;
 }
 
-p {
-  margin: 0;
-  padding: 10px;
-}
 /* Layout styles */
 .StudentSpace {
   display: flex;
@@ -27,7 +23,6 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(212, 212, 212);
   height: 55px;
   padding: 0 20px;
 }
@@ -35,7 +30,6 @@ p {
 .left-section {
   font-weight: 800;
   font-size: 20px;
-  background-color: lightblue;
   width: 250px;
   margin-right: 50px;
   display: flex;
@@ -46,24 +40,22 @@ p {
 .middle-section {
   flex: 1;
   max-width: 400px;
-  background-color: lightpink;
   display: flex;
   align-items: center;
 }
 
 .right-section {
-  background-color: lightblue;
   width: 400px;
 }
 
 .search-bar {
   flex: 1;
-  height: 30px;
+  height: 35px;
   padding-left: 10px;
-  border-width: 1px;
+  border-width: 2px;
   border-style: solid;
-  border-color: rgb(212, 212, 212);
-  border-radius: 70px;
+  border-color: rgb(68, 68, 68);
+  border-radius: 50px;
   box-shadow: inset 1px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
@@ -79,22 +71,35 @@ p {
   margin-left: -30px;
 }
 
-.sidebar{
-  background-color: rgb(136, 161, 161);
+.sidebar {
+  position: fixed;
+  top: 55px;
+  left: 0;
+  bottom: 0;
   width: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: rgb(140, 128, 194);
 }
 
 .sidebar-tabs{
-  padding: 3px;
+  padding: 10px;
+  
 }
 
-.blue{
-  background-color: rgb(136, 161, 161);
+.student-main {
+  display: flex;
+  padding-left: 200px;
+  flex-direction: column;
+  height: calc(100% - 55px); /* Subtract the height of the header */
 }
 
-.green{
-  background-color: rgb(112, 158, 110);
+
+.student-progress {
+  background-color: #f2f2f2;
+}
+
+.student-todo {
+  background-color: #f7f7f7;
 }
