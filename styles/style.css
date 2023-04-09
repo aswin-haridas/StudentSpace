@@ -25,6 +25,8 @@ body {
   justify-content: space-between;
   height: 55px;
   padding: 0 20px;
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
 
 .left-section {
@@ -45,7 +47,20 @@ body {
 }
 
 .right-section {
-  width: 400px;
+  display: flex;
+  align-items: end;
+  flex-direction: row;
+}
+
+.notification-icon,
+.settings-icon {
+  margin-left: 20px;
+}
+
+.rs-notification,
+.rs-settings {
+  width: 24px;
+  height: 24px;
 }
 
 .search-bar {
@@ -57,18 +72,17 @@ body {
   border-color: rgb(68, 68, 68);
   border-radius: 50px;
   box-shadow: inset 1px 2px 5px rgba(0, 0, 0, 0.05);
+  background-image: url("assets/search.png");
 }
 
 .search-bar::placeholder {
   font-family: "Roboto", Arial;
 }
 
-.search-button {
-  height: 32px;
-  width: 60px;
-  border-radius: 60px;
-  border-width: 0px;
-  margin-left: -30px;
+.search-icon {
+  width: 24px;
+  height: 24px;
+  position: fixed;
 }
 
 .sidebar {
@@ -79,27 +93,39 @@ body {
   width: 200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: rgb(140, 128, 194);
+  align-items: stretch;
 }
 
-.sidebar-tabs{
-  padding: 10px;
-  
+.sidebar-tabs {
+  height: 50px;
+  margin: 10px;
+  padding: 16px;
+  text-align: center;
+  border-radius: 45px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.sidebar-tabs:hover {
+  background-color: rgb(236, 236, 236);
 }
 
 .student-main {
   display: flex;
-  padding-left: 200px;
   flex-direction: column;
-  height: calc(100% - 55px); /* Subtract the height of the header */
+  padding-left: 200px;
+  border-radius: 15px;
 }
-
 
 .student-progress {
-  background-color: #f2f2f2;
+  background-color: #95b694;
+  margin: 15px;
+  display: flex;
+}
+.student-progress-graph {
+  margin: 20px;
 }
 
-.student-todo {
-  background-color: #f7f7f7;
+.todo{
+  background-color: #aebaff;
+  margin: 15px;
 }
