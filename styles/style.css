@@ -80,34 +80,47 @@ body {
 }
 
 .search-icon {
-  width: 24px;
-  height: 24px;
-  position: fixed;
+  width: 22px;
+  height: 22px;
+  position: relative;
+  right: 35px;
 }
 
 .sidebar {
   position: fixed;
-  top: 55px;
+  top: 70px;
   left: 0;
   bottom: 0;
   width: 200px;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
 }
-
 .sidebar-tabs {
   height: 50px;
-  margin: 10px;
-  padding: 16px;
-  text-align: center;
+  width: 150px;
   border-radius: 45px;
   transition: background-color 0.3s ease-in-out;
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 50px;
+  margin: 10px;
+}
+
+.sidebar-tabs a{
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+  color: black;
 }
 
 .sidebar-tabs:hover {
   background-color: rgb(236, 236, 236);
 }
+
 
 .student-main {
   display: flex;
@@ -125,7 +138,45 @@ body {
   margin: 20px;
 }
 
+.attendance-percentage{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .todo{
   background-color: #aebaff;
   margin: 15px;
+}
+
+.course-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.course-list li {
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.course-list li:hover {
+  background-color: #e7e7e7;
+}
+
+.course-list li:active {
+  background-color: #d7d7d7;
+}
+
+.course-list li:first-child {
+  margin-top: 10px;
+}
+
+.course-list li:last-child {
+  margin-bottom: 0;
 }

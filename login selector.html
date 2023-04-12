@@ -8,45 +8,22 @@
         margin: 0;
         padding: 0;
       }
-
       body {
         font-family: sans-serif;
-        height: 100vh;
       }
-
       .container {
         display: flex;
-        flex-direction: column;
-        height: 100%;
-      }
-
-      .row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 2rem;
-        color: white;
-      }
-
-      .velya-petti1,
-      .velya-petti3 {
-        flex: 1;
-        background-color: #fff;
-      }
-
-      .velya-petti2 {
-        flex: 2;
-        display: flex;
+        flex-direction: row;
+        height: 100vh;
         align-items: center;
         justify-content: center;
-        background-color: #ffffff;
+        flex-wrap: wrap;
       }
-
       .petti {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: space-evenly;
         width: 200px;
         height: 200px;
         margin: 60px;
@@ -55,65 +32,35 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease-in-out;
       }
-
       .petti:hover {
         transform: scale(1.05);
       }
-
       .padam {
         width: 100px;
         height: 100px;
         margin: 10px;
       }
-
       .user {
         font-size: 1.2rem;
         font-weight: bold;
-      }
-      @media screen and (max-width: 768px) {
-        .velya-petti2 {
-          flex-direction: column;
-        }
-        .petti {
-          margin: 10px 0;
-        }
+        color: rgb(48, 48, 48);
       }
     </style>
   </head>
-
   <body>
     <div class="container">
-      <div class="velya-petti1"></div>
-      <div class="velya-petti2">
-        <div class="petti">
-          <img
-            onclick="goto_Studentlogin()"
-            class="padam"
-            src="assets/student.png"
-            alt=""
-          />
-          <p class="user">Student</p>
-        </div>
-        <div class="petti">
-          <img
-            onclick="goto_Facultylogin()"
-            class="padam"
-            src="assets/faculty.png"
-            alt=""
-          />
-          <p class="user">Faculty</p>
-        </div>
-        <div class="petti">
-          <img
-            onclick="goto_Adminlogin()"
-            class="padam"
-            src="assets/admin.png"
-            alt=""
-          />
-          <p class="user">Admin</p>
-        </div>
+      <div class="petti" onclick="goto_Studentlogin()">
+        <img class="padam" src="assets/student.png" alt="Student" />
+        <p class="user">Student</p>
       </div>
-      <div class="velya-petti3"></div>
+      <div class="petti" onclick="goto_Facultylogin()">
+        <img class="padam" src="assets/faculty.png" alt="Faculty" />
+        <p class="user">Faculty</p>
+      </div>
+      <div class="petti" onclick="goto_Adminlogin()">
+        <img class="padam" src="assets/admin.png" alt="Admin" />
+        <p class="user">Admin</p>
+      </div>
     </div>
 
     <script>
