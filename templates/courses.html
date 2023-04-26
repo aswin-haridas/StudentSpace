@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>StudentSpace</title>
-    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="styles/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -39,32 +39,16 @@
           <div class="sidebar-tabs"><a href="">Notes</a></div>
         </div>
         <div class="student-main">
-          <table>
-            <thead>
-              <tr>
-                <th>Reg No</th>
-                <th>Name</th>
-                <th>AAD</th>
-                <th>CGIP</th>
-                <th>CD</th>
-                <th>DA</th>
-                <th>IEFT</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in rows %}
-                <tr>
-                  <td>{{ row[0] }}</td>
-                  <td>{{ row[1] }}</td>
-                  <td>{{ row[2] }}</td>
-                  <td>{{ row[3] }}</td>
-                  <td>{{ row[4] }}</td>
-                  <td>{{ row[5] }}</td>
-                  <td>{{ row[6] }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+          <h2>Courses</h2>
+          <div>
+            <ul class="course-list">
+              <li>DATA ANALYTICS</li>
+              <li>INDUSTRIAL ECONOMICS & FOREIGN TRADE</li>
+              <li>COMPUTER GRAPHICS & IMAGE PROCESSING</li>
+              <li>COMPILER DESIGN</li>
+              <li>ALGORITHM ANALYSIS AND DESIGN</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
