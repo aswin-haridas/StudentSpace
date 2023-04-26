@@ -1,0 +1,14 @@
+git hub codes
+
+git clone <repository-url>
+
+git status
+(This command displays the status of your local repository, showing any changes you have made, untracked files, and the current branch status.)
+
+git commit -m "Commit message"
+
+git push origin <branch-name>
+
+git fetch (fetches updates from the remote repository but does not merge them.)
+
+git merge <branch-name>
