@@ -1,18 +1,17 @@
-/* Reset styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Global styles */
+
 body {
   font-family: "Roboto", Arial, sans-serif;
   font-weight: 400;
   line-height: 1.5;
 }
 
-/* Layout styles */
+
 .StudentSpace {
   display: flex;
   flex-direction: column;
@@ -96,6 +95,7 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
 .sidebar-tabs {
   height: 50px;
   width: 150px;
@@ -110,7 +110,7 @@ body {
   margin: 10px;
 }
 
-.sidebar-tabs a{
+.sidebar-tabs a {
   text-decoration: none;
   font-size: 20px;
   font-weight: 500;
@@ -134,18 +134,19 @@ body {
   margin: 15px;
   display: flex;
 }
+
 .student-progress-graph {
   margin: 20px;
 }
 
-.attendance-percentage{
+.attendance-percentage {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.todo{
+.todo {
   background-color: #aebaff;
   margin: 15px;
 }
@@ -182,19 +183,29 @@ body {
 }
 
 table {
-  border-collapse: collapse;
   width: 100%;
-  margin-top: 20px;
-}
-th,
-td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
-th {
+thead th {
   background-color: #f2f2f2;
-  font-weight: 600;
+  text-align: left;
+  padding: 8px;
+  font-weight: bold;
+  border: 1px solid #ccc;
 }
 
+*/ tbody td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #e2e2e2;
+  cursor: pointer;
+}
