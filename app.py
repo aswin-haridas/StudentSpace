@@ -2,9 +2,9 @@ from flask import Flask, render_template
 import sqlite3
 from openpyxl import load_workbook
 
-# Open the Excel workbook
-wb = load_workbook(filename='data.xlsx')
-
+# Open the Excel workboo
+wb = load_workbook(filename='student-marks.xlsx')
+  
 # Get the active worksheet
 ws = wb.active
 
@@ -28,9 +28,6 @@ def show_students():
     cursor = conn.execute('SELECT * FROM students')
     rows = cursor.fetchall()
     conn.close()
-
-    # Render the HTML file with the rows of data
-    return render_template('perfomance.html', rows=rows)
 
 if __name__ == '__main__':
     app.run(debug=True)
