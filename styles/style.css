@@ -2,11 +2,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border: 1px solid rgb(0, 0, 255);
+  font-family: "Poppins", sans-serif;
 }
 
 body {
-  font-family: "Roboto", Arial, sans-serif;
   font-weight: 400;
   line-height: 1.5;
   font-size: 16px;
@@ -65,7 +64,7 @@ body {
 
 .search-bar {
   flex: 1;
-  height: 30px;
+  height: 36px;
   padding-left: 16px;
   border-width: 2px;
   border-style: solid;
@@ -75,7 +74,6 @@ body {
 }
 
 .search-bar::placeholder {
-  font-family: "Roboto", Arial;
 }
 
 .search-icon {

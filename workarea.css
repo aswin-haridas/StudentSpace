@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 50px repeat(5, 1fr);
+  gap: 1px;
+  overflow: hidden;
+}
+
+.header {
+  grid-column: 1 / 8;
+  text-align: center;
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.day {
+  text-align: center;
+  width: 50px;
+  height: 50px;
+}
+
+.date {
+  text-align: center;
+  margin: 10px;
+  width: 32px;
+  height: 32px;
+  border: 2px solid #000000;
+  border-radius: 15px;
+}
+
+.date,.day{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+*{
+  border: solid 1px;
+}
