@@ -18,7 +18,7 @@ cursor = conn.cursor()
 for row in ws.iter_rows(min_row=2, values_only=True):
     regbo, name, ADD, CGIP, CD, DA, IEFT = row
     # Insert data into the database
-    cursor.execute("INSERT INTO table_name(regbo, name, ADD, CGIP, CD, DA, IEFT) VALUES (?, ?, ?, ?, ?, ?, ?)", (regbo, name, ADD, CGIP, CD, DA, IEFT))
+    cursor.execute("INSERT INTO table_name(regno, name, ADD, CGIP, CD, DA, IEFT) VALUES (?, ?, ?, ?, ?, ?, ?)", (regbo, name, ADD, CGIP, CD, DA, IEFT))
 
 app = Flask(__name__,)
 @app.route('/')
