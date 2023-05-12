@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>StudentSpace</title>
-    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="styles/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,35 +19,39 @@
         <div class="left-section">StudentSpace.</div>
         <div class="middle-section">
           <input class="search-bar" type="text" placeholder="Search" />
-          <img class="search-icon" src="../assets/search.png" />
+          <img class="search-icon" src="assets/search.png" />
         </div>
         <div class="right-section">
           <div class="notification-icon">
-            <img class="rs-notification" src="../assets/notification.png" />
+            <img class="rs-notification" src="assets/notification.png" />
           </div>
           <div class="settings-icon">
-            <img class="rs-settings" src="../assets/settings.png" />
+            <img class="rs-settings" src="assets/settings.png" />
           </div>
         </div>
       </div>
       <div class="main-section">
         <div class="sidebar">
-          <div class="sidebar-tabs"><a href="">My Profile</a></div>
-          <div class="sidebar-tabs active"><a href="">Courses</a></div>
-          <div class="sidebar-tabs"><a href="">Perfomance</a></div>
-          <div class="sidebar-tabs"><a href="">Attendance</a></div>
-          <div class="sidebar-tabs"><a href="">Notes</a></div>
+          <div class="sidebar-tabs"><a href="profile.html">My Profile</a></div>
+          <div class="sidebar-tabs"><a href="courses.html">Courses</a></div>
+          <div class="sidebar-tabs"><a href="templates/perfomance.html">Perfomance</a></div>
+          <div class="sidebar-tabs"><a href="attendance.html">Attendance</a></div>
+          <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
         </div>
         <div class="student-main">
-          <h2>Courses</h2>
-          <div>
-            <ul class="course-list">
-              <li>DATA ANALYTICS</li>
-              <li>INDUSTRIAL ECONOMICS & FOREIGN TRADE</li>
-              <li>COMPUTER GRAPHICS & IMAGE PROCESSING</li>
-              <li>COMPILER DESIGN</li>
-              <li>ALGORITHM ANALYSIS AND DESIGN</li>
-            </ul>
+          <div class="student-progress">
+            <div class="student-progress-graph">
+              <img src="assets/dummy graph.png" />
+            </div>
+            <div class="attendance-percentage"><p>80%</p></div>
+          </div>
+          <div class="todo">
+            <h2>TODO</h2>
+            <li>subject</li>
+            <li>subject</li>
+            <li>subject</li>
+            <li>subject</li>
+            <li>subject</li>
           </div>
         </div>
       </div>
