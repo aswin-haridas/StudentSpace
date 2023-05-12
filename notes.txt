@@ -12,3 +12,18 @@ git push origin <branch-name>
 git fetch (fetches updates from the remote repository but does not merge them.)
 
 git merge <branch-name>
+
+//
+SGPA = Σ (Ci×GPi)/ΣCi
+
+Where Ci is the credit of all subjects for a course
+
+GPi is the grade point for that course.
+
+CGPA = Σ (Ci×GPi)/ΣCi
+
+Where Ci is the credit of all subjects for a course
+
+GPi is the grade point for that course.
+
+(CGPA of the higher semester is average of scored SGPA up to that semester)
