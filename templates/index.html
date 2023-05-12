@@ -3,6 +3,7 @@
   <head>
     <title>StudentSpace</title>
     <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/index-style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -10,13 +11,12 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../scripts/chart.js"></script>
     <script src="../scripts/todo.js"></script>
   </head>
   <body>
     <div class="StudentSpace">
       <div class="header">
-        <div class="left-section"> StudentSpace.</div>
+        <div class="left-section">StudentSpace.</div>
         <div class="middle-section">
           <input class="search-bar" type="text" placeholder="Search" />
           <img class="search-icon" src="../assets/search.png" />
@@ -42,9 +42,12 @@
             <a href="attendance.html">Attendance</a>
           </div>
           <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
-          
         </div>
       </div>
+      <div class="chart-canvas" style="margin-left: 220px; margin-top: 8px">
+        <canvas id="myChart"></canvas>
+      </div>
+      <script src="../scripts/chart.js"></script>
     </div>
   </body>
 </html>
