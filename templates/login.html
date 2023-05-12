@@ -1,80 +1,57 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      body {
-        background-color: #f5f5f5;
-        font-family: Arial, sans-serif;
-      }
-
-      .login-container {
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #ffffff;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-      }
-
-      .login-container h1 {
-        font-size: 24px;
-        margin-top: 0px;
-      }
-
-      .form-group {
-        margin-bottom: 10px;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-      }
-
-      .form-group input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #cccccc;
-        border-radius: 5px;
-        font-size: 16px;
-        box-sizing: border-box;
-      }
-
-      .form-group button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007aff;
-        color: #ffffff;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-      }
-
-      .form-group button:hover {
-        background-color: #0062cc;
-      }
-    </style>
+    <meta charset="UTF-8" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="../styles/login-style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
   </head>
-
   <body>
-    <div class="login-container">
-      <h1>Login</h1>
+    <div class="login-box">
+      <div style="display: flex; flex-direction: row; justify-content: center;">
+        <p>Login as</p>
+        <img id="user-image" src="../assets/student.png" alt="User Image" />
+      </div>
       <form>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
-        </div>
-        <div class="form-group">
-          <button type="submit">Login</button>
-        </div>
+        <select
+          name="user-type"
+          class="select"
+          onchange="updateImage(this.value)"
+        >
+          <option value="student">Student</option>
+          <option value="faculty">Faculty</option>
+          <option value="admin">Admin</option>
+        </select>
+        <input type="text" name="username" placeholder="Username" required />
+        <br />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <br />
+        <input type="submit" value="Login" />
       </form>
     </div>
+    <script>
+      function updateImage(userType) {
+        const image = document.getElementById("user-image");
+        if (userType === "student") {
+          image.src = "../assets/student.png";
+        } else if (userType === "faculty") {
+          image.src = "../assets/faculty.png";
+        } else if (userType === "admin") {
+          image.src = "../assets/admin.png";
+        } else {
+          image.src = "../images/placeholder.png";
+        }
+      }
+    </script>
   </body>
 </html>
