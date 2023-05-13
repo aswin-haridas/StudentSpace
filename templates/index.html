@@ -45,24 +45,16 @@
       <div class="main-section">
         <div class="chart-canvas" >
           <canvas id="myChart"></canvas>
-          <canvas id="attendanceChart"></canvas>
+          <!-- <canvas id="attendanceChart"></canvas> -->
         </div>
-        <div class="todo" >
-          todo--todo--todo--todo--todo--todo--todo--todo--todo--todo--
-          todo--todo--todo--todo--todo--todo--todo--todo--todo--todo--
-          todo--todo--todo--todo--todo--todo--todo--todo--todo--todo--
-          todo--todo--todo--todo--todo--todo--todo--todo--todo--todo--
-          todo--todo--todo--todo--todo--todo--todo--todo--todo--todo--
-          todo--todo--todo--todo--todo--todo--todo--todo--todo--todo-
-          -todo--todo--todo--todo--todo--todo--todo--todo--todo--todo-
-          -todo--todo--todo--todo--todo--todo--todo--todo--todo--todo-
-          -todo--todo--todo--todo--todo--todo--todo--todo--todo--todo-
-          -todo--todo--todo--todo--todo--todo--todo--todo--todo--todo-
-          -todo--todo--todo--todo--todo--todo--todo--todo--todo--todo-
-          -todo--todo--todo--todo--todo--todo--todo--todo--todo--todo-
-          -todo--todo--todo--todo--todo--todo--todo--todo--todo--todo-
-          -todo--todo--todo--todo--todo--todo--todo--todo--todo--todo-
-          -todo--todo--todo--todo--todo--todo--todo--
+        <div id="todo-container">
+          <h1>Todo List</h1>
+          <form>
+            <input type="text" id="todo-input" placeholder="Add new todo">
+            <button type="button" id="add-button" onclick="addTodo()">Add</button>
+          </form>
+          <ul id="todo-list">
+          </ul>
         </div>
         <script src="../scripts/chart.js"></script>
       </div>
