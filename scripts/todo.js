@@ -1,26 +1,35 @@
-const form = document.querySelector('form');
-    const input = document.querySelector('#new-task');
-    const todoList = document.querySelector('#todo-list');
+let todoList = [];
+function addTodo() {
+	let todoInput = document.getElementById("todo-input");
+	let todoListContainer = document.getElementById("todo-list");
+	if (todoInput.value !== "") {
+		// add the todo to the array
+		todoList.push(todoInput.value);
+		// clear the input field
+		todoInput.value = "";
+		// update the list of todos
+		updateTodoList(todoListContainer);
+	}
+}
 
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
+function removeTodo(index) {
+	// remove the todo at the specified index
+	todoList.splice(index, 1);
 
-      const taskName = input.value.trim();
+	// update the list of todos
+	let todoListContainer = document.getElementById("todo-list");
+	updateTodoList(todoListContainer);
+}
 
-      if (taskName) {
-        const newTask = document.createElement('li');
-        newTask.innerHTML = `
-          <input type="checkbox" id="task${todoList.children.length + 1}" name="task${todoList.children.length + 1}">
-          <label for="task${todoList.children.length + 1}">${taskName}</label>
-          <button class="delete-btn">Delete</button>
-        `;
-        todoList.appendChild(newTask);
-        input.value = '';
-      }
-    });
+function updateTodoList(container) {
+	// clear the current list
+	container.innerHTML = "";
 
-    todoList.addEventListener('click', (event) => {
-      if (event.target.matches('.delete-btn')) {
-        event.target.parentNode.remove();
-      }
-    });
+	// add each todo to the list
+	todoList.forEach(function(todo, index) {
+		let li = document.createElement("li");
+		li.innerHTML = todo;
+		li.setAttribute("onclick", `removeTodo(${index})`);
+		container.appendChild(li);
+	});
+}
