@@ -1,0 +1,26 @@
+
+.calendar {
+    width: 400px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columns for each day of the week */
+    grid-template-rows: auto; /* rows adjust automatically to content */
+    gap: 10px; /* spacing between the dates */
+    border: #333 1px solid;
+    padding: 15px;
+    border-radius: 15px;
+  }
+  
+  .date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+  }
+  
+  

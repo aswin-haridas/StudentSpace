@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>StudentSpace</title>
-    <link rel="stylesheet" href="../styles/style.css" />
-    <link rel="stylesheet" href="../styles/courses-style.css" />
+    <meta charset="UTF-8" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="workarea.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -12,35 +12,19 @@
     />
   </head>
   <body>
-    <div class="StudentSpace">
-      <div class="header">
-        <div class="left-section">StudentSpace.</div>
-        <div class="middle-section">
-          <input class="search-bar" type="text" placeholder="Search" />
-          <img class="search-icon" src="../assets/search.png" />
-        </div>
-        <div class="right-section">
-          <div class="notification-icon">
-            <img class="rs-notification" src="../assets/notification.png" />
-          </div>
-          <div class="settings-icon">
-            <img class="rs-settings" src="../assets/settings.png" />
-          </div>
-        </div>
-      </div>
-
-      <div class="sidebar">
-        <div class="sidebar-tabs"><a href="profile.html">My Profile</a></div>
-        <div class="sidebar-tabs"><a href="courses.html">Courses</a></div>
-        <div class="sidebar-tabs">
-          <a href="templates/perfomance.html">Perfomance</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="attendance.html">Attendance</a>
-        </div>
-        <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
-      </div>
-      <div class="main-section"></div>
+    <div class="calendar">
     </div>
+    <script>
+      // get the calendar container element
+      const calendar = document.querySelector('.calendar');
+      // create 31 date elements and append them to the calendar container
+      for (let i = 1; i <= 31; i++) {
+        const date = document.createElement('div');
+        date.className = 'date';
+        date.textContent = i;
+        calendar.appendChild(date);
+      }
+    </script>
+
   </body>
 </html>
