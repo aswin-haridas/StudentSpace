@@ -1,0 +1,30 @@
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  grid-gap: 10px;
+  border: #333 1px solid;
+}
+.present {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  font-weight: bold;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+}
+.absent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  font-weight: bold;
+  color: #333;
+  background-color: #ff0000;
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+}
