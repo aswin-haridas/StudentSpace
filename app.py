@@ -1,29 +1,36 @@
-import pandas as pd
-from openpyxl import load_workbook
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request
+import openpyxl
+import sqlite3
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-db = SQLAlchemy(app)
+
+@app.route('/')
+def upload():
+    return render_template('upload.html')
+
+@app.route('/process', methods=['POST'])
+def process():
+    file = request.files['file']
+    wb = openpyxl.load_workbook(file)
+    sheet = wb.active
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS attendance (
+            date TEXT,
+            student_id TEXT,
+            attendance_status INTEGER
+        )
+    ''')
+    for row in sheet.iter_rows(min_row=2):
+        date = row[0].value
+        student_id = row[1].value
+        attendance_status = row[2].value
+        cursor.execute('INSERT INTO attendance VALUES (?, ?, ?)', (date, student_id, attendance_status))
+    conn.commit()
+    conn.close()
+    return 'File uploaded successfully!'
 
 
-class Attendance(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.String(50), unique=True, nullable=False)
-    date = db.Column(db.String(50), nullable=False)
-    attendance_status = db.Column(db.Boolean, nullable=False)
-
-
-workbook = load_workbook(filename="attendance.xlsx")
-sheet = workbook["Attendance-January"]
-df = pd.DataFrame(sheet.values, columns=["student_id", "date", "attendance_status"])
-
-for index, row in df.iterrows():
-    attendance = Attendance(
-        student_id=row["student_id"],
-        date=row["date"],
-        attendance_status=bool(int(row["attendance_status"])),
-    )
-    db.session.add(attendance)
-db.session.commit()
+if __name__ == '__main__':
+    app.run(debug=True)
