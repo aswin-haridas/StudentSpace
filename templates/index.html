@@ -10,18 +10,25 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
       rel="stylesheet"
     />
+    <!--font keteeth aanu-->
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- aa ith oru pradhana petta item aanu. matte graph ille ith run chyyumba bannath athinte files njan online vazhi link chythath aan melithe line -->
     <script src="../scripts/todo.js"></script>
   </head>
   <body>
     <div class="StudentSpace">
+      <!-- logoum search barum olla oru strip ille athaan ee header  -->
       <div class="header">
         <div class="left-section">StudentSpace.</div>
+        <!-- logo -->
         <div class="middle-section">
+          <!-- searchbar -->
           <input class="search-bar" type="text" placeholder="Search" />
           <img class="search-icon" src="../assets/search.png" />
         </div>
         <div class="right-section">
+          <!-- notification , settings button -->
           <div class="notification-icon">
             <img class="rs-notification" src="../assets/notification.png" />
           </div>
@@ -31,6 +38,7 @@
         </div>
       </div>
 
+      <!-- sidebar mansilayile left ile oro page ilekkum pona bar aanu sidebar -->
       <div class="sidebar">
         <div class="sidebar-tabs"><a href="profile.html">My Profile</a></div>
         <div class="sidebar-tabs"><a href="courses.html">Courses</a></div>
@@ -42,21 +50,30 @@
         </div>
         <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
       </div>
-      <div class="main-section">
-        <div class="chart-canvas" >
+      <!-- ini aan main  -->
+      <div class="main-section"> 
+        <div class="chart-canvas">
+          <!-- njan paranjile mate graph ath idan olla salam aanu canvas -->
           <canvas id="myChart"></canvas>
-          <!-- <canvas id="attendanceChart"></canvas> -->
+          <!-- attendanceChart koode idan ond -->
         </div>
+
+        <!-- ith matte todo sambavam antony ne elpichekkana aan chyyo aavo -->
+
         <div id="todo-container">
           <h1>Todo List</h1>
           <form>
-            <input type="text" id="todo-input" placeholder="Add new todo">
-            <button type="button" id="add-button" onclick="addTodo()">Add</button>
+            <input type="text" id="todo-input" placeholder="Add new todo" />
+            <button type="button" id="add-button" onclick="addTodo()">
+              Add
+            </button>
           </form>
-          <ul id="todo-list">
-          </ul>
+          <ul id="todo-list"></ul>
         </div>
         <script src="../scripts/chart.js"></script>
+
+        <!-- ithrem ollu ini courses.html edk ath athikam paryan ila -->
+
       </div>
     </div>
   </body>

@@ -1,8 +1,21 @@
-from flask import Flask, render_template, request ,redirect, url_for
+# login.html edk adhyam
+
+# uploadil ninn aanu vannenki vaayicho
+
+
+# aadhyam namk korch saathanangal import chyyam
+# import chyaneth namma pip install vech install chytha items aaanu
+
+from flask import Flask, render_template, request, redirect, url_for
 import openpyxl
 import sqlite3
 
+# ini flask enna application initialize chyaam
+
 app = Flask(__name__)
+
+# app route / set aakial namma ee code run chyyumba kanikkanda homepage aanu
+# ee homepageum nammada homepageum ayit yaathoru benthom illa
 
 
 @app.route("/")
@@ -10,13 +23,31 @@ def upload():
     return render_template("upload.html")
 
 
+# ivide render template upload anu kodthekkane, sherikinum login aanu varande.(for the moment ingana aan)
+# ini namma nerathe kanille upload chyan parayanath matte xl file..
+# avidethe upload button press chyyyumbo ent sambavikanam ennanu thaze kodthekkane
+
+
 @app.route("/process", methods=["POST"])
 def process():
     file = request.files["file"]
+    # namma upload chytha file load chyth file enn paranja variablilek idum
+
     wb = openpyxl.load_workbook(file)
+    # ennit aa file openpyxl enna library vech open chyyum. enthinaa?
+    # enthinaaa?
+    # enthinaa? ath extract chyyande ennalalle databaseil idan pattullu
+
     sheet = wb.active
+    # ennit athile sheet edkum. aake oru sheetey kaanullu
+
     conn = sqlite3.connect("database.db")
+    # ennit namma database ayit connection indakum . set aakande
+
     cursor = conn.cursor()
+    # a cursor is a control structure that allows us to interact with the SQLite database.hemme inklish
+    # ee cursor vech namk database il read um write oke chyyam
+
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS attendance (
@@ -26,6 +57,8 @@ def process():
         )
     """
     )
+    # ith namma attendance enna table indakkan aanu .already illenki indakkum illel athil thanne add chyum
+
     for row in sheet.iter_rows(min_row=2):
         date = row[0].value
         student_id = row[1].value
@@ -34,10 +67,19 @@ def process():
             "INSERT INTO attendance VALUES (?, ?, ?)",
             (date, student_id, attendance_status),
         )
+        # ellam mansilayille. insert chythath aan
     conn.commit()
+    # commit chythu
     conn.close()
-    message = 'File uploaded successfully!'
-    return render_template('upload.html', message=message)
+    # connection verpirinju
+    message = "File uploaded successfully!"
+    # chumma oru message irikkate . ith avar kanumbalekkum exel sheetinn data mothom table il store ayitindavum
+    return render_template(
+        "upload.html", message=message
+    )  # ini namma upload.html onnude render chyyth kanikum.
+
+    # ee coma kainj enthelum ital ath html ilek pass chyyan aanu in this case "upload sucesful" aan message
+    # ee message aan njan paranje %% oke kanum enn %% ittale html il ee pass chytha sambavam varullu
 
 
 @app.route("/attendance")
@@ -50,5 +92,9 @@ def attendance():
     return render_template("attendance.html", attendance_data=attendance_data)
 
 
+# ee function enthinanen vecha database il poi attendance ile ella recordum select chythit attendance.html ilek pass chyyum
+# ath namma avida display chyyum
+
 if __name__ == "__main__":
     app.run(debug=True)
+# app run kanumbo matte server varum 127:000 enna address olla sambavam
