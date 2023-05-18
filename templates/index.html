@@ -2,8 +2,14 @@
 <html>
   <head>
     <title>StudentSpace</title>
-    <link rel="stylesheet" href="../styles/style.css" />
-    <link rel="stylesheet" href="../styles/index-style.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/index-style.css') }}"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,6 +35,9 @@
         </div>
         <div class="right-section">
           <!-- notification , settings button -->
+          <div class="name">
+            <a href="" class="name">Hii {{whois}}</a>
+          </div>
           <div class="notification-icon">
             <img class="rs-notification" src="../assets/notification.png" />
           </div>
@@ -51,7 +60,7 @@
         <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
       </div>
       <!-- ini aan main  -->
-      <div class="main-section"> 
+      <div class="main-section">
         <div class="chart-canvas">
           <!-- njan paranjile mate graph ath idan olla salam aanu canvas -->
           <canvas id="myChart"></canvas>
@@ -73,7 +82,6 @@
         <script src="../scripts/chart.js"></script>
 
         <!-- ithrem ollu ini courses.html edk ath athikam paryan ila -->
-
       </div>
     </div>
   </body>

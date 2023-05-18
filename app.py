@@ -35,7 +35,18 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         # Verify the credentials and redirect to appropriate page
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor
 
+        cursor.execute('SELECT user_type FROM users WHERE username=? AND password=?',
+                       (username, password))
+        result = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if result is not None:
+            return render_template("index.html",whois=result[0])
 
     return render_template("login.html",admin=admin,student=student,faculty=faculty)
 
