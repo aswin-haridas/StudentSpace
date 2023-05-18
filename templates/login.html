@@ -4,16 +4,10 @@
     <meta charset="UTF-8" />
     <title>Login Page</title>
     <link
-<<<<<<< HEAD
-    rel="stylesheet"
-    href="{{ url_for('static', filename='login-style.css') }}"/>   
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-=======
       rel="stylesheet"
       href="{{ url_for('static', filename='login-style.css') }}"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
->>>>>>> 69876928b3890780f49bf1001d235d5b6122eeb1
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
@@ -28,15 +22,14 @@
     <div class="login-box">
       <div style="display: flex; flex-direction: row; justify-content: center">
         <p>Login as</p>
-        <img  id='user-image' src="{{student}}" alt="Student Image">
-
-
+        <img id="user-image" src="{{student}}" alt="Student Image" />
       </div>
       <form>
         <select
           name="user-type"
           class="select"
-          onchange="updateImage(this.value)">
+          onchange="updateImage(this.value)"
+        >
           <option value="student">Student</option>
           <option value="faculty">Faculty</option>
           <option value="admin">Admin</option>

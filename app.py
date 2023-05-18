@@ -24,20 +24,19 @@ app = Flask(__name__)
 # app route / set aakial namma ee code run chyyumba kanikkanda homepage aanu
 # ee homepageum nammada homepageum ayit yaathoru benthom illa
 
-class LoginForm(FlaskForm):
-    username = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
-
-    password = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
-
-    submit = SubmitField('Login')
-
-@app.route("/")
+@app.route('/', methods=['GET', 'POST'])
 def login():
     admin='/static/assets/admin.png'
     student='/static/assets/student.png'
     faculty='/static/assets/faculty.png'
+    if request.method == 'POST':
+        # Perform login verification here
+        user_type = request.form.get('user-type')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        # Verify the credentials and redirect to appropriate page
+
+
     return render_template("login.html",admin=admin,student=student,faculty=faculty)
 
 @app.route("/upload")
