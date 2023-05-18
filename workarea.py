@@ -1,40 +1,27 @@
-import openpyxl
-import random
+import pandas as pd
+import sqlite3
 
-# Create a workbook object
-workbook = openpyxl.Workbook()
+# Read the Excel file
+df = pd.read_excel('accounts.xlsx')  # Replace 'usernames.xlsx' with your actual file name
 
-# Create a sheet object
-sheet = workbook.active
+# Establish a connection to the SQLite database
+conn = sqlite3.connect('database.db')  # Replace 'database.db' with your database file name
+cursor = conn.cursor()
 
-# Write column headers
-sheet['A1'] = 'Student ID'
-sheet['B1'] = 'Date'
-sheet['C1'] = 'Attendance Status'
+# Create a table to store the usernames and passwords
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        username TEXT,
+        password TEXT
+    )
+''')
 
-# Create a list of student IDs
-student_ids = ['CS{:03d}'.format(i) for i in range(1, 51)]
+# Iterate over the rows of the DataFrame and insert data into the database
+for _, row in df.iterrows():
+    username = row['USERNAME']
+    password = row['PASSWORD']
+    cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
 
-# Create a dictionary of dates and attendance status
-attendance_data = {}
-
-# Generate attendance data for each day in January
-for day in range(1, 32):
-    date = f'{day:02}/01/2022'
-    for student_id in student_ids:
-        # Generate random attendance status with priority to 1
-        if random.randint(1, 10) <= 8:
-            attendance_data[(student_id, date)] = 1
-        else:
-            attendance_data[(student_id, date)] = 0
-
-# Write attendance data to Excel sheet
-row = 2  # start writing from row 2
-for (student_id, date), attendance_status in attendance_data.items():
-    sheet.cell(row=row, column=1).value = student_id
-    sheet.cell(row=row, column=2).value = date
-    sheet.cell(row=row, column=3).value = attendance_status
-    row += 1
-
-# Save the workbook
-workbook.save('attendance.xlsx')
+# Commit the changes and close the connection
+conn.commit()
+conn.close()
