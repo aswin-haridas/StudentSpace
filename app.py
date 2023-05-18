@@ -17,8 +17,14 @@ app = Flask(__name__)
 # app route / set aakial namma ee code run chyyumba kanikkanda homepage aanu
 # ee homepageum nammada homepageum ayit yaathoru benthom illa
 
-
 @app.route("/")
+def login():
+    admin='/static/assets/admin.png'
+    student='/static/assets/student.png'
+    faculty='/static/assets/faculty.png'
+    return render_template("login.html")
+
+@app.route("/upload")
 def upload():
     return render_template("upload.html")
 

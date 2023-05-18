@@ -3,8 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>Login Page</title>
-    <link rel="stylesheet" href="../styles/login-style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='login-style.css') }}"
+  />    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
@@ -19,7 +21,8 @@
     <div class="login-box">
       <div style="display: flex; flex-direction: row; justify-content: center">
         <p>Login as</p>
-        <img id="user-image" src="../assets/student.png" alt="User Image" />
+        <img src="{{ url_for('static', filename='student.png') }}" alt="Student Image">
+
       </div>
       <form>
         <select
@@ -58,11 +61,11 @@
       function updateImage(userType) {
         const image = document.getElementById("user-image");
         if (userType === "student") {
-          image.src = "../assets/student.png";
+          image.src = "{{student}}";
         } else if (userType === "faculty") {
-          image.src = "../assets/faculty.png";
+          image.src = "{{faculty}}";
         } else if (userType === "admin") {
-          image.src = "../assets/admin.png";
+          image.src = "{{admin}}";
         } else {
           image.src = "../images/placeholder.png";
         }
