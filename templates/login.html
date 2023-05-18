@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <title>Login Page</title>
     <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='login-style.css') }}"
-  />    <link rel="preconnect" href="https://fonts.googleapis.com" />
+      rel="stylesheet"
+      href="{{ url_for('static', filename='login-style.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
@@ -21,8 +22,7 @@
     <div class="login-box">
       <div style="display: flex; flex-direction: row; justify-content: center">
         <p>Login as</p>
-        <img src="{{student}}" alt="Student Image">
-
+        <img id="user-image" src="{{student}}" alt="Student Image" />
       </div>
       <form>
         <select
@@ -52,9 +52,8 @@
         <input type="submit" value="Login" />
 
         <!-- ee submit button nekkumbo server ilekk namma adichath pokum ennit ath check chyym -->
-        
-        <!-- ah ini index.html edk -->
 
+        <!-- ah ini index.html edk -->
       </form>
     </div>
     <script>
