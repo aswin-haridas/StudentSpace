@@ -29,6 +29,7 @@ def login():
     admin='/static/assets/admin.png'
     student='/static/assets/student.png'
     faculty='/static/assets/faculty.png'
+
     if request.method == 'POST':
         # Perform login verification here
         user_type = request.form.get('user-type')
@@ -38,7 +39,7 @@ def login():
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor
 
-        cursor.execute('SELECT user_type FROM users WHERE username=? AND password=?',
+        cursor.execute('SELECT name FROM users WHERE username=? AND password=?',
                        (username, password))
         result = cursor.fetchone()
 
@@ -46,7 +47,7 @@ def login():
         conn.close()
 
         if result is not None:
-            return render_template("index.html",whois=result[0])
+            return render_template("index.html",whois=user_type)
 
     return render_template("login.html",admin=admin,student=student,faculty=faculty)
 
