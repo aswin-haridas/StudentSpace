@@ -22,7 +22,7 @@ def login():
     admin='/static/assets/admin.png'
     student='/static/assets/student.png'
     faculty='/static/assets/faculty.png'
-    return render_template("login.html")
+    return render_template("login.html",admin=admin,student=student,faculty=faculty)
 
 @app.route("/upload")
 def upload():
