@@ -11,6 +11,8 @@ git push origin <branch-name>
 
 git fetch (fetches updates from the remote repository but does not merge them.)
 
+git pull
+
 git merge <branch-name>
 
 //
