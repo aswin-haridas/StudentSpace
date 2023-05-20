@@ -1,3 +1,10 @@
+# login.html edk adhyam
+
+# uploadil ninn aanu vannenki vaayicho
+
+
+# aadhyam namk korch saathanangal import chyyam
+# import chyaneth namma pip install vech install chytha items aaanu
 
 from flask import Flask, render_template, request, redirect, url_for
 import openpyxl
@@ -24,50 +31,23 @@ def login():
     faculty='/static/assets/faculty.png'
 
     if request.method == 'POST':
+        # Perform login verification here
         user_type = request.form.get('user-type')
         username = request.form.get('username')
         password = request.form.get('password')
-
-        # Verify the credentials against the database
+        # Verify the credentials and redirect to appropriate page
         conn = sqlite3.connect('database.db')
-        cursor = conn.cursor()
+        cursor = conn.cursor
 
         cursor.execute('SELECT name FROM users WHERE username=? AND password=?',
                        (username, password))
         result = cursor.fetchone()
         cursor.close()
         conn.close()
-
         if result is not None:
-            name = result[0]
-            if user_type == 'student':
-                return redirect(url_for('student_home', name=name))
-            elif user_type == 'faculty':
-                return redirect(url_for('faculty_home', name=name))
-            elif user_type == 'admin':
-                return redirect(url_for('admin_home', name=name))
+            return render_template("index.html",name=name)
 
-        # Credentials are incorrect, show an error message
-        error_message = "Invalid username or password"
-        return render_template('login.html', error=error_message)
-
-    return render_template('login.html',admin=admin,faculty=faculty,student=student)
-
-
-@app.route('/student-home/<name>', endpoint='student_home')
-def student_home(name):
-    return render_template('student-home.html', name=name)
-
-@app.route('/faculty-home/<name>', endpoint='faculty_home')
-def faculty_home(name):
-    return render_template('faculty-home.html', name=name)
-
-@app.route('/admin-home/<name>', endpoint='admin_home')
-def admin_home(name):
-    return render_template('admin-home.html', name=name)
-
-
-
+    return render_template("login.html",admin=admin,student=student,faculty=faculty)
 
 @app.route("/upload")
 def upload():
