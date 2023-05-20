@@ -35,6 +35,7 @@ def login():
         user_type = request.form.get('user-type')
         username = request.form.get('username')
         password = request.form.get('password')
+        
         # Verify the credentials and redirect to appropriate page
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor
@@ -45,7 +46,13 @@ def login():
         cursor.close()
         conn.close()
         if result is not None:
-            return render_template("index.html",name=name)
+            name = result[0]
+            if user_type == 'student':
+                return redirect(url_for('student_home', name=name))
+            elif user_type == 'faculty':
+                return redirect(url_for('faculty_home', name=name))
+            elif user_type == 'admin':
+                return redirect(url_for('admin_home', name=name))
 
         # Credentials are incorrect, show an error message
         error_message = "Invalid username or password"
