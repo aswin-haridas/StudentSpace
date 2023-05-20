@@ -67,8 +67,6 @@ def admin_home(name):
     return render_template('admin-home.html', name=name)
 
 
-
-
 @app.route("/upload")
 def upload():
     return render_template("upload.html")
