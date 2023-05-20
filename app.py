@@ -42,12 +42,10 @@ def login():
         cursor.execute('SELECT name FROM users WHERE username=? AND password=?',
                        (username, password))
         result = cursor.fetchone()
-
         cursor.close()
         conn.close()
-
         if result is not None:
-            return render_template("index.html",whois=user_type)
+            return render_template("index.html",whois=name)
 
     return render_template("login.html",admin=admin,student=student,faculty=faculty)
 
