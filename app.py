@@ -43,7 +43,7 @@ def login():
         cursor.execute('SELECT name FROM users WHERE username=? AND password=?',
                        (username, password))
         result = cursor.fetchone()
-        cursor.close()
+        cursor.close() #hello
         conn.close()
         if result is not None:
             name = result[0]
