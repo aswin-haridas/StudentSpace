@@ -19,6 +19,10 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    admin='/static/assets/admin.png'
+    student='/static/assets/student.png'
+    faculty='/static/assets/faculty.png'
+
     if request.method == 'POST':
         user_type = request.form.get('user-type')
         username = request.form.get('username')
@@ -47,7 +51,7 @@ def login():
         error_message = "Invalid username or password"
         return render_template('login.html', error=error_message)
 
-    return render_template('login.html')
+    return render_template('login.html',admin=admin,faculty=faculty,student=student)
 
 
 @app.route("/upload")
