@@ -12,15 +12,18 @@ cursor = conn.cursor()
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         username TEXT,
+        name TEXT,
         password TEXT
     )
 ''')
 
 # Iterate over the rows of the DataFrame and insert data into the database
 for _, row in df.iterrows():
-    username = row['USERNAME']
-    password = row['PASSWORD']
-    cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
+    username = row['username']
+    name= row['name']
+    password = row['password']
+
+    cursor.execute('INSERT INTO users (username,name , password) VALUES (?, ?, ?)', (username, name ,password))
 
 # Commit the changes and close the connection
 conn.commit()
