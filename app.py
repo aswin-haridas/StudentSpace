@@ -54,6 +54,21 @@ def login():
     return render_template('login.html',admin=admin,faculty=faculty,student=student)
 
 
+@app.route('/student-home/<name>', endpoint='student_home')
+def student_home(name):
+    return render_template('student-home.html', name=name)
+
+@app.route('/faculty-home/<name>', endpoint='faculty_home')
+def faculty_home(name):
+    return render_template('faculty-home.html', name=name)
+
+@app.route('/admin-home/<name>', endpoint='admin_home')
+def admin_home(name):
+    return render_template('admin-home.html', name=name)
+
+
+
+
 @app.route("/upload")
 def upload():
     return render_template("upload.html")
