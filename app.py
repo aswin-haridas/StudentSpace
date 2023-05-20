@@ -47,7 +47,27 @@ def login():
         if result is not None:
             return render_template("index.html",name=name)
 
-    return render_template("login.html",admin=admin,student=student,faculty=faculty)
+        # Credentials are incorrect, show an error message
+        error_message = "Invalid username or password"
+        return render_template('login.html', error=error_message)
+
+    return render_template('login.html',admin=admin,faculty=faculty,student=student)
+
+
+@app.route('/student-home/<name>', endpoint='student_home')
+def student_home(name):
+    return render_template('student-home.html', name=name)
+
+@app.route('/faculty-home/<name>', endpoint='faculty_home')
+def faculty_home(name):
+    return render_template('faculty-home.html', name=name)
+
+@app.route('/admin-home/<name>', endpoint='admin_home')
+def admin_home(name):
+    return render_template('admin-home.html', name=name)
+
+
+
 
 @app.route("/upload")
 def upload():
