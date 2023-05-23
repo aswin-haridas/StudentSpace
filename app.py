@@ -2,7 +2,6 @@
 
 # uploadil ninn aanu vannenki vaayicho
 
-
 # aadhyam namk korch saathanangal import chyyam
 # import chyaneth namma pip install vech install chytha items aaanu
 
@@ -24,7 +23,7 @@ app = Flask(__name__)
 # app route / set aakial namma ee code run chyyumba kanikkanda homepage aanu
 # ee homepageum nammada homepageum ayit yaathoru benthom illa
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     admin='/static/assets/admin.png'
     student='/static/assets/student.png'
