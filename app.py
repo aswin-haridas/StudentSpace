@@ -23,7 +23,7 @@ app = Flask(__name__)
 # app route / set aakial namma ee code run chyyumba kanikkanda homepage aanu
 # ee homepageum nammada homepageum ayit yaathoru benthom illa
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     admin='/static/assets/admin.png'
     student='/static/assets/student.png'
@@ -34,12 +34,11 @@ def login():
         user_type = request.form.get('user-type')
         username = request.form.get('username')
         password = request.form.get('password')
-        
         # Verify the credentials and redirect to appropriate page
         conn = sqlite3.connect('database.db')
-        cursor = conn.cursor
+        cursor = conn.cursor()
 
-        cursor.execute('SELECT name FROM users WHERE username=? AND password=?',
+        cursor.execute('SELECT name FROM studentlist WHERE username=? AND password=?',
                        (username, password))
         result = cursor.fetchone()
         cursor.close()
@@ -71,8 +70,6 @@ def faculty_home(name):
 @app.route('/admin-home/<name>', endpoint='admin_home')
 def admin_home(name):
     return render_template('admin-home.html', name=name)
-
-
 
 
 @app.route("/upload")

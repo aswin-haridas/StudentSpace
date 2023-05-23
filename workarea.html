@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>StudentSpace</title>
+  <link rel="stylesheet" href="workarea.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+  <script src="todo.js"></script>
+</head>
+<body>
+  <div class="StudentSpace">
+    <div class="header">
+      <div class="left-section">StudentSpace</div>
+      <div class="middle-section">
+        <input class="search-bar" type="text" placeholder="Search">
+        <img class="search-icon" src="assets/search.png">
+      </div>
+      <div class="right-section">
+        <div class="name">
+          <a href="" class="name">Hii {{name}}</a>
+        </div>
+        <div class="notification-icon">
+          <img class="rs-notification" src="assets/notification.png">
+        </div>
+        <div class="settings-icon">
+          <img class="rs-settings" src="assets/settings.png">
+        </div>
+      </div>
+    </div>
+    <div class="sidebar">
+      <a href="profile.html">My Profile</a>
+      <a href="courses.html">Courses</a>
+      <a href="templates/perfomance.html">Performance</a>
+      <a href="attendance.html">Attendance</a>
+      <a href="notes.html">Notes</a>
+    </div>
+    <div class="main-section">
+      <div class="chart-canvas">
+        <canvas id="myChart"></canvas>
+      </div>
+      <div id="todo-container">
+        <h1>Todo List</h1>
+        <form>
+          <input type="text" id="todo-input" placeholder="Add new todo">
+          <button type="button" id="add-button" onclick="addTodo()">Add</button>
+        </form>
+        <ul id="todo-list"></ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

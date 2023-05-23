@@ -10,7 +10,7 @@ cursor = conn.cursor()
 
 # Create a table to store the usernames and passwords
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE IF NOT EXISTS studentlist (
         username TEXT,
         name TEXT,
         password TEXT
@@ -23,7 +23,7 @@ for _, row in df.iterrows():
     name= row['name']
     password = row['password']
 
-    cursor.execute('INSERT INTO users (username,name , password) VALUES (?, ?, ?)', (username, name ,password))
+    cursor.execute('INSERT INTO studentlist (username,name, password) VALUES (?, ?, ?)', (username, name ,password))
 
 # Commit the changes and close the connection
 conn.commit()

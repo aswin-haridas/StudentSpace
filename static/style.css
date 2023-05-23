@@ -73,8 +73,7 @@ body {
   box-shadow: inset 1px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.search-bar::placeholder {
-}
+
 
 .search-icon {
   width: 20px;
@@ -83,13 +82,12 @@ body {
   right: 40px;
 }
 
-/* sidebar */
 
 .sidebar {
   position: fixed;
   top: 92px;
-  left: 0;
-  bottom: 0;
+  left: 15px;
+  bottom: 15px;
   width: 200px;
   display: flex;
   flex-direction: column;
