@@ -59,17 +59,17 @@ def login():
     return render_template('login.html',admin=admin,faculty=faculty,student=student)
 
 
-@app.route('/student-home/<name>', endpoint='student_home')
+@app.route('/home/<name>', endpoint='student_home')
 def student_home(name):
-    return render_template('student-home.html', name=name)
+    return render_template('home-student.html', name=name)
 
-@app.route('/faculty-home/<name>', endpoint='faculty_home')
+@app.route('/home/<name>', endpoint='faculty_home')
 def faculty_home(name):
-    return render_template('faculty-home.html', name=name)
+    return render_template('home-faculty.html', name=name)
 
-@app.route('/admin-home/<name>', endpoint='admin_home')
+@app.route('/home/<name>', endpoint='admin_home')
 def admin_home(name):
-    return render_template('admin-home.html', name=name)
+    return render_template('home-admin.html', name=name)
 
 
 @app.route("/upload")

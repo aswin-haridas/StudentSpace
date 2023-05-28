@@ -1,31 +1,31 @@
 .course-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.course-list li {
-  background-color: #f7f7f7;
-  height: 80px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  padding: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.course-list li:hover {
-  background-color: #e7e7e7;
-}
-
-.course-list li:active {
-  background-color: #d7d7d7;
-}
-
-.course-list li:first-child {
-  margin-top: 10px;
-}
-
-.course-list li:last-child {
-  margin-bottom: 0;
-}
+  list-style:none;
+  padding:0;
+  margin:0
+  }
+  
+  .course-list li {
+  background-color:#f7f7f7;
+  height:80px;
+  border-radius:10px;
+  margin-bottom:10px;
+  padding:10px;
+  cursor:pointer;
+  transition:all .2s ease-in-out
+  }
+  
+  .course-list li:hover {
+  background-color:#e7e7e7
+  }
+  
+  .course-list li:active {
+  background-color:#d7d7d7
+  }
+  
+  .course-list li:first-child {
+  margin-top:10px
+  }
+  
+  .course-list li:last-child {
+  margin-bottom:0
+  }

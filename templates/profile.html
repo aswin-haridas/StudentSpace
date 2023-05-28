@@ -2,43 +2,70 @@
 <html>
   <head>
     <title>StudentSpace</title>
-    <link rel="stylesheet" href="../styles/style.css" />
-    <link rel="stylesheet" href="../styles/courses-style.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='home-style.css') }}"
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
       rel="stylesheet"
     />
+    <!--font keteeth aanu-->
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- aa ith oru pradhana petta item aanu. matte graph ille ith run chyyumba bannath athinte files njan online vazhi link chythath aan melithe line -->
     <script src="../scripts/todo.js"></script>
   </head>
+
   <body>
     <div class="StudentSpace">
-
-      <!-- dhe chechi pinneem -->
-
+      <!-- logoum search barum olla oru strip ille athaan ee header  -->
       <div class="header">
         <div class="left-section">StudentSpace.</div>
+        <!-- logo -->
         <div class="middle-section">
+          <!-- searchbar -->
           <input class="search-bar" type="text" placeholder="Search" />
-          <img class="search-icon" src="../assets/search.png" />
+          <img
+            class="search-icon"
+            src="../assets/search.png"
+            style="width: 20px; height: 20px; position: relative; right: 40px"
+          />
         </div>
         <div class="right-section">
-          <div class="notification-icon">
-            <img class="rs-notification" src="../assets/notification.png" />
+          <!-- notification , settings button -->
+          <div class="name">
+            <a href class="name">Hii {{name}}</a>
           </div>
-          <div class="settings-icon">
-            <img class="rs-settings" src="../assets/settings.png" />
+          <div class="notification-icon" style="margin-left: 24px">
+            <img
+              class="rs-notification"
+              src="../assets/notification.png"
+              style="width: 24px; height: 24px"
+            />
+          </div>
+          <div class="settings-icon" style="margin-left: 24px">
+            <img
+              class="rs-settings"
+              src="../assets/settings.png"
+              style="width: 24px; height: 24px"
+            />
           </div>
         </div>
       </div>
 
-      <!-- same stuff -->
-
+      <!-- sidebar mansilayile left ile oro page ilekkum pona bar aanu sidebar -->
       <div class="sidebar">
         <div class="sidebar-tabs"><a href="profile.html">My Profile</a></div>
-        <div class="sidebar-tabs"><a href="courses.html">Courses</a></div>
+        <div class="sidebar-tabs"><a href="courses.html"> Courses</a></div>
+
         <div class="sidebar-tabs">
           <a href="templates/perfomance.html">Perfomance</a>
         </div>
@@ -48,25 +75,17 @@
         <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
       </div>
 
-      <!-- ith full aakeet ila ..vinni kk patto ith finish chyyan eh eh  -->
+      <!-- ini aan main  -->
 
-      <div class="main-section">
-        <div class="profile">
-          <div class="profile-pic">
-            <img src="C:/Users/Aswin/Pictures/Saved Pictures/Maggie.jpeg" alt="Profile Picture" />
-          </div>
-          <div class="profile-info">
-            <h2>John Doe</h2>
-            <p><strong>Roll Number:</strong> 12345</p>
-            <p><strong>Class:</strong> 10th Standard</p>
-            <p><strong>Address:</strong> 123, Main Street, City</p>
-            <p><strong>Contact Number:</strong> 1234567890</p>
-            <p><strong>Email:</strong> john.doe@example.com</p>
-          </div>
+      <div class="main">
+        <div class="main1">
+          <div class="graph"></div>
+          <div class="attendance"></div>
         </div>
+        <div class="main2"><div class="tasks"></div></div>
       </div>
-    </div>
 
-    <!-- upload.html edk ini -->
+      <!-- ithrem ollu ini courses.html edk ath athikam paryan ila -->
+    </div>
   </body>
 </html>
