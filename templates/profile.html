@@ -2,36 +2,22 @@
 <html>
   <head>
     <title>StudentSpace</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='home-style.css') }}"
-    />
-
+    <link rel="stylesheet" href="static/style.css" />
+    <link rel="stylesheet" href="static/profile-style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
       rel="stylesheet"
     />
-    <!--font keteeth aanu-->
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- aa ith oru pradhana petta item aanu. matte graph ille ith run chyyumba bannath athinte files njan online vazhi link chythath aan melithe line -->
     <script src="../scripts/todo.js"></script>
   </head>
-
   <body>
     <div class="StudentSpace">
-      <!-- logoum search barum olla oru strip ille athaan ee header  -->
       <div class="header">
         <div class="left-section">StudentSpace.</div>
-        <!-- logo -->
         <div class="middle-section">
-          <!-- searchbar -->
           <input class="search-bar" type="text" placeholder="Search" />
           <img
             class="search-icon"
@@ -40,10 +26,7 @@
           />
         </div>
         <div class="right-section">
-          <!-- notification , settings button -->
-          <div class="name">
-            <a href class="name">Hii {{name}}</a>
-          </div>
+          <div class="name"><a href class="name">Hi {{name}}</a></div>
           <div class="notification-icon" style="margin-left: 24px">
             <img
               class="rs-notification"
@@ -60,32 +43,35 @@
           </div>
         </div>
       </div>
-
-      <!-- sidebar mansilayile left ile oro page ilekkum pona bar aanu sidebar -->
       <div class="sidebar">
         <div class="sidebar-tabs"><a href="profile.html">My Profile</a></div>
-        <div class="sidebar-tabs"><a href="courses.html"> Courses</a></div>
-
+        <div class="sidebar-tabs"><a href="courses.html">Courses</a></div>
         <div class="sidebar-tabs">
           <a href="templates/perfomance.html">Perfomance</a>
         </div>
-        <div class="sidebar-tabs">
-          <a href="attendance.html">Attendance</a>
-        </div>
+        <div class="sidebar-tabs"><a href="attendance.html">Attendance</a></div>
         <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
       </div>
 
-      <!-- ini aan main  -->
-
       <div class="main">
         <div class="main1">
-          <div class="graph"></div>
-          <div class="attendance"></div>
+          <div class="student-profile">
+            <h2>Student Profile</h2>
+            <p>Name: Gayathri Krishna</p>
+            <p>Roll Number: CS05</p>
+            <p>Branch: Computer Science</p>
+            <p>
+              Address: 123, Malabar Lane Thiruvananthapuram Kerala - 695001
+              India
+            </p>
+            <p>Email: gayathrik@example.com</p>
+            <p>Phone: +91 98765 43210</p>
+          </div>
+          <div class="profile-photo">
+            <img src="static/assets/student.png" alt="Profile Photo" />
+          </div>
         </div>
-        <div class="main2"><div class="tasks"></div></div>
       </div>
-
-      <!-- ithrem ollu ini courses.html edk ath athikam paryan ila -->
     </div>
   </body>
 </html>
