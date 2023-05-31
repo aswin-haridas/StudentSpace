@@ -136,7 +136,7 @@ def process():
     # ee message aan njan paranje %% oke kanum enn %% ittale html il ee pass chytha sambavam varullu
 
 
-@app.route("/attendance")
+@app.route("/attendance") 
 def attendance():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
