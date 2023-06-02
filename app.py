@@ -8,10 +8,18 @@
 from flask import Flask, render_template, request, redirect, url_for
 import openpyxl
 import sqlite3
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import (
+    UserMixin,
+    login_user,
+    LoginManager,
+    login_required,
+    logout_user,
+    current_user,
+)
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
+
 # ini flask enna application initialize chyaam
 
 app = Flask(__name__)
@@ -23,58 +31,83 @@ app = Flask(__name__)
 # app route / set aakial namma ee code run chyyumba kanikkanda homepage aanu
 # ee homepageum nammada homepageum ayit yaathoru benthom illa
 
-@app.route('/', methods=['GET', 'POST'])
-def login():
-    admin='/static/assets/admin.png'
-    student='/static/assets/student.png'
-    faculty='/static/assets/faculty.png'
 
-    if request.method == 'POST':
+@app.route("/", methods=["GET", "POST"])
+def login():
+    admin = "/static/assets/admin.png"
+    student = "/static/assets/student.png"
+    faculty = "/static/assets/faculty.png"
+
+    if request.method == "POST":
         # Perform login verification here
-        user_type = request.form.get('user-type')
-        username = request.form.get('username')
-        password = request.form.get('password')
+        user_type = request.form.get("user-type")
+        username = request.form.get("username")
+        password = request.form.get("password")
         # Verify the credentials and redirect to appropriate page
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect("database.db")
         cursor = conn.cursor()
 
-        cursor.execute('SELECT name FROM studentlist WHERE username=? AND password=?',
-                       (username, password))
+        cursor.execute(
+            "SELECT name FROM studentlist WHERE username=? AND password=?",
+            (username, password),
+        )
         result = cursor.fetchone()
-        cursor.close() #hello
+        cursor.close()  # hello
         conn.close()
         if result is not None:
             name = result[0]
-            if user_type == 'student':
-                return redirect(url_for('student_home', name=name))
-            elif user_type == 'faculty':
-                return redirect(url_for('faculty_home', name=name))
-            elif user_type == 'admin':
-                return redirect(url_for('admin_home', name=name))
+            if user_type == "student":
+                return redirect(url_for("student_home", name=name))
+            elif user_type == "faculty":
+                return redirect(url_for("faculty_home", name=name))
+            elif user_type == "admin":
+                return redirect(url_for("admin_home", name=name))
 
         # Credentials are incorrect, show an error message
         error_message = "Invalid username or password"
-        return render_template('login.html', error=error_message)
+        return render_template("login.html", error=error_message)
 
-    return render_template('login.html',admin=admin,faculty=faculty,student=student)
+    return render_template("login.html", admin=admin, faculty=faculty, student=student)
 
 
-@app.route('/home/<name>', endpoint='student_home')
+@app.route("/home/<name>", endpoint="student_home")
 def student_home(name):
-    return render_template('home-student.html', name=name)
+    return render_template("home-student.html", name=name)
 
-@app.route('/home/<name>', endpoint='faculty_home')
+
+@app.route("/home/<name>", endpoint="faculty_home")
 def faculty_home(name):
-    return render_template('home-faculty.html', name=name)
+    return render_template("home-faculty.html", name=name)
 
-@app.route('/home/<name>', endpoint='admin_home')
+
+@app.route("/home/<name>", endpoint="admin_home")
 def admin_home(name):
-    return render_template('home-admin.html', name=name)
+    return render_template("home-admin.html", name=name)
 
 
 @app.route("/upload")
 def upload():
     return render_template("upload.html")
+
+
+@app.route("/profile")
+def profile():
+    return render_template("profile.html")
+
+
+@app.route("/courses")
+def courses():
+    return render_template("courses.html")
+
+
+@app.route("/course_details")
+def course_details():
+    return render_template("course_details.html")
+
+
+@app.route("/grades")
+def grades():
+    return render_template("grades.html")
 
 
 # ivide render template upload anu kodthekkane, sherikinum login aanu varande.(for the moment ingana aan)
@@ -138,12 +171,20 @@ def process():
 
 @app.route("/attendance")
 def attendance():
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM attendance")
+
+    # Execute the SQL query to retrieve attendance for the given date
+    query = "SELECT * FROM attendance WHERE date = ?"
+    date = '01/01/2022'
+    cursor.execute(query, (date,))
     attendance_data = cursor.fetchall()
+
+    # Close the database connection
     conn.close()
-    return render_template("attendance.html", attendance_data=attendance_data)
+
+    # Pass the attendance data to the HTML template for rendering
+    return render_template('attendance.html', attendance=attendance_data)
 
 
 # ee function enthinanen vecha database il poi attendance ile ella recordum select chythit attendance.html ilek pass chyyum
