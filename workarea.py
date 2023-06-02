@@ -1,57 +1,65 @@
-# import random
-# import pandas as pd
-# from datetime import datetime, timedelta
-# import os.path
-
-# Generate random attendance data for the month of May
-
+# import random, pandas as pd, datetime, timedelta, os
 
 # attendance_status = [0, 1]
-
 # start_date = datetime(2023, 5, 1)
 # end_date = datetime(2023, 5, 31)
 # dates = [start_date + timedelta(days=i) for i in range((end_date - start_date).days + 1)]
 
 # data = {
 #     'student_id': ['CS10'] * len(dates),
-#     'date': [date.strftime('%Y-%m-%d') for date in dates],
+#     'date': dates,
 #     'attendance_status': random.choices(attendance_status, k=len(dates))
 # }
 # df = pd.DataFrame(data)
 
-# # Check if the Excel file already exists
-# excel_file = 'attendance_data.xlsx'
-# if os.path.isfile(excel_file):
-#     # Read the existing data from the Excel file
-#     existing_df = pd.read_excel(excel_file, engine='openpyxl')
+# if os.path.isfile('attendance_data.xlsx'):
+#     existing_df = pd.read_excel('attendance_data.xlsx', engine='openpyxl')
+#     df = pd.concat([existing_df, df], ignore_index=True)
 
-#     # Append the new data to the existing data
-#     updated_df = pd.concat([existing_df, df], ignore_index=True)
-# else:
-#     # Create a new DataFrame with the data
-#     updated_df = df
+# df.to_excel('attendance_data.xlsx', index=False)
 
-# # Save the updated DataFrame to the Excel file
-# updated_df.to_excel(excel_file, index=False)
+# import pandas as pd
+# import sqlite3
+
+# excel_file = 'facultylist.xlsx'
+# sheet_name = 'Sheet1'
+# df = pd.read_excel(excel_file, sheet_name)
+
+# db_file = 'database.db'
+# conn = sqlite3.connect(db_file)
+# df.to_sql('facultylist', conn, if_exists='replace', index=False)
+
+# conn.close()
 
 
-# python code to add an excell sheet to database.db as table
-
-import pandas as pd
 import sqlite3
 
-# Read Excel sheet into a pandas DataFrame
-excel_file = 'studentlist.xlsx'  # Replace with your Excel file path
-sheet_name = 'Sheet1'     # Replace with the name of the sheet containing the data
-df = pd.read_excel(excel_file, sheet_name)
-
 # Establish a connection to the SQLite database
-db_file = 'database.db'   # Replace with your SQLite database file path
-conn = sqlite3.connect(db_file)
+conn = sqlite3.connect('database.db')
 
-# Transfer DataFrame data to the database table
-table_name = 'studentlist'   # Replace with your table name
-df.to_sql(table_name, conn, if_exists='replace', index=False)
+# Create a cursor object to execute SQL commands
+cursor = conn.cursor()
 
-# Close the database connection
+# Create the "courses" table
+cursor.execute('''CREATE TABLE courses (
+                    course_id INTEGER PRIMARY KEY,
+                    course_name TEXT,
+                    instructor TEXT,
+                    credits INTEGER
+                )''')
+
+# Sample data for computer science courses
+course_data = [
+    (1, 'Introduction to Programming', 'John Smith', 4),
+    (2, 'Data Structures', 'Jane Doe', 3),
+    (3, 'Database Management', 'Robert Johnson', 3),
+    (4, 'Algorithms', 'Sarah Thompson', 4),
+    (5, 'Operating Systems', 'Michael Brown', 3)
+]
+
+# Insert the sample data into the "courses" table
+cursor.executemany('INSERT INTO courses VALUES (?, ?, ?, ?)', course_data)
+
+# Commit the changes and close the connection
+conn.commit()
 conn.close()
