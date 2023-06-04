@@ -4,6 +4,9 @@ import sqlite3
 
 app = Flask(__name__)
 
+import sqlite3
+
+
 @app.route("/", methods=["GET", "POST"])
 def login():
     admin = "/static/assets/admin.png"
@@ -16,37 +19,99 @@ def login():
         password = request.form.get("password")
         conn = sqlite3.connect("database.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT name FROM studentlist WHERE username=? AND password=?", (username, password))
+        cursor.execute(
+            "SELECT id FROM users WHERE username=? AND password=?", (username, password)
+        )
         result = cursor.fetchone()
+        if result is not None:
+            user_id = result[0]
+            if user_type == "student":
+                cursor.execute(
+                    "SELECT firstname, lastname FROM studentlist WHERE id=?", (user_id,)
+                )
+                user_info = cursor.fetchone()
+                if user_info is not None:
+                    firstname, lastname = user_info
+                    return redirect(
+                        url_for(
+                            "student_home",
+                            username=username,
+                            firstname=firstname,
+                            lastname=lastname,
+                        )
+                    )
+            elif user_type == "faculty":
+                cursor.execute(
+                    "SELECT firstname, lastname FROM facultylist WHERE id=?", (user_id,)
+                )
+                user_info = cursor.fetchone()
+                if user_info is not None:
+                    firstname, lastname = user_info
+                    return redirect(
+                        url_for(
+                            "faculty_home",
+                            username=username,
+                            firstname=firstname,
+                            lastname=lastname,
+                        )
+                    )
+                pass
+            elif user_type == "admin":
+                cursor.execute(
+                    "SELECT firstname, lastname FROM facultylist WHERE id=?", (user_id,)
+                )
+                user_info = cursor.fetchone()
+                if user_info is not None:
+                    firstname, lastname = user_info
+                    return redirect(
+                        url_for(
+                            "admin_home",
+                            username=username,
+                            firstname=firstname,
+                            lastname=lastname,
+                        )
+                    )
+                pass
         cursor.close()
         conn.close()
-        if result is not None:
-            name = result[0]
-            if user_type == "student":
-                return redirect(url_for("student_home", name=name))
-            elif user_type == "faculty":
-                return redirect(url_for("faculty_home", name=name))
-            elif user_type == "admin":
-                return redirect(url_for("admin_home", name=name))
         error_message = "Invalid username or password"
         return render_template("login.html", error=error_message)
     return render_template("login.html", admin=admin, faculty=faculty, student=student)
 
-@app.route("/home/<name>", endpoint="student_home")
-def student_home(name):
-    return render_template("home-student.html", name=name)
 
-@app.route("/home/<name>", endpoint="faculty_home")
-def faculty_home(name):
-    return render_template("home-faculty.html", name=name)
+@app.route("/home/student/<username>/<firstname>/<lastname>", endpoint="student_home")
+def student_home(username, firstname, lastname):
+    return render_template(
+        "home-student.html", username=username, firstname=firstname, lastname=lastname
+    )
 
-@app.route("/home/<name>", endpoint="admin_home")
-def admin_home(name):
-    return render_template("home-admin.html", name=name)
+
+@app.route("/home/faculty/<username>/<firstname>/<lastname>", endpoint="faculty_home")
+def faculty_home(username, firstname, lastname):
+    return render_template(
+        "home-faculty.html", username=username, firstname=firstname, lastname=lastname
+    )
+
+
+@app.route("/home/admin/<username>/<firstname>/<lastname>", endpoint="admin_home")
+def admin_home(username, firstname, lastname):
+    return render_template(
+        "home-admin.html", username=username, firstname=firstname, lastname=lastname
+    )
+
+@app.route("/profile")
+def profile():
+ return render_template("profile.html")
+
+@app.route("/grades")
+def grades():
+ return render_template("grades.html")
+
 
 @app.route("/upload")
-def upload():
+def upload(): 
     return render_template("upload.html")
+
 
 @app.route("/process", methods=["POST"])
 def process():
@@ -55,20 +120,26 @@ def process():
     sheet = wb.active
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute("""
+    cursor.execute(
+        """
         CREATE TABLE IF NOT EXISTS attendance (
             date,
             student_id,
             attendance_status
         )
-    """)
+    """
+    )
     for row in sheet.iter_rows(min_row=2):
         date, student_id, attendance_status = row
-        cursor.execute("INSERT INTO attendance VALUES (?, ?, ?)", (date, student_id, attendance_status))
+        cursor.execute(
+            "INSERT INTO attendance VALUES (?, ?, ?)",
+            (date, student_id, attendance_status),
+        )
     conn.commit()
     conn.close()
     message = "File uploaded successfully!"
     return render_template("upload.html", message=message)
+
 
 @app.route("/attendance")
 def attendance():
@@ -81,15 +152,16 @@ def attendance():
     conn.close()
     return render_template("attendance.html", attendance=attendance_data)
 
-@app.route('/courses')
+
+@app.route("/courses")
 def courses():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM courses')
+    cursor.execute("SELECT * FROM courses")
     courses = cursor.fetchall()
     conn.close()
 
-    return render_template('courses.html', courses=courses)
+    return render_template("courses.html", courses=courses)
 
 
 if __name__ == "__main__":
