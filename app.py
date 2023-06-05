@@ -143,24 +143,31 @@ def process():
     return render_template("upload.html", message=message)
 
 
-@app.route("/attendance")
+@app.route("/attendance", methods=['GET', 'POST'])
 def attendance():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT date, student_id, attendance_status FROM attendance_table")
+    
+    selected_day = request.args.get('day')
+    if selected_day is None:
+        selected_day = "1" 
+    
+    cursor.execute("SELECT DISTINCT date FROM attendance")
+    dates = cursor.fetchall()
+    days = [str(date[0]) for date in dates]
+
+    cursor.execute("SELECT studentid, attendance_status FROM attendance WHERE date=?", (selected_day,))
     rows = cursor.fetchall()
+    
     attendance_data = {}
     for row in rows:
-        date = row[0]
-        student_id = row[1]
-        attendance_status = row[2]
+        student_id = row[0]
+        attendance_status = row[1]
 
-        if date not in attendance_data:
-            attendance_data[date] = {}
+        attendance_data[student_id] = attendance_status
 
-        attendance_data[date][student_id] = attendance_status
     conn.close()
-    return render_template("attendance.html", attendance_data=attendance_data)
+    return render_template("attendance.html", attendance_data=attendance_data, days=days, selected_day=selected_day)
 
 
 @app.route("/courses")
