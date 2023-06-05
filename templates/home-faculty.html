@@ -16,27 +16,20 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
       rel="stylesheet"
     />
-    
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <script src="../scripts/todo.js"></script>
   </head>
   <body>
     <div class="StudentSpace">
-      
       <div class="header">
         <div class="left-section">StudentSpace.</div>
-        
         <div class="middle-section">
-          
           <input class="search-bar" type="text" placeholder="Search" />
           <img class="search-icon" src="../assets/search.png" />
         </div>
         <div class="right-section">
-          
           <div class="name">
-            <a href="" class="name">Hii {{firstname}} {{lastname}}</a>
+            <a href="" class="name">Hii {{ firstname }} {{ lastname }}</a>
           </div>
           <div class="notification-icon">
             <img class="rs-notification" src="../assets/notification.png" />
@@ -46,8 +39,6 @@
           </div>
         </div>
       </div>
-
-      
       <div class="sidebar">
         <div class="sidebar-tabs">
           <a href="{{ url_for('profile') }}">My Profile</a>
@@ -56,32 +47,26 @@
           <a href="{{ url_for('courses') }}"> Courses</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('grades') }}">Perfomance</a>
+          <a href="{{ url_for('grades') }}">Performance</a>
         </div>
         <div class="sidebar-tabs">
           <a href="{{ url_for('attendance') }}">Class Attendance</a>
         </div>
         <div class="sidebar-tabs"><a href="#">Notes</a></div>
       </div>
-      </div>
-      
       <div class="main-section">
         <div class="chart-canvas">
-          
           <canvas id="myChart"></canvas>
-          
         </div>
-
-        
         <div class="main">
           <div class="main1">
             <div class="graph"></div>
             <div class="attendance"></div>
           </div>
-          <div class="main2"><div class="tasks"></div></div>
+          <div class="main2">
+            <div class="tasks"></div>
+          </div>
         </div>
-
-        
       </div>
     </div>
   </body>

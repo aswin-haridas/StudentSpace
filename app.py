@@ -144,16 +144,20 @@ def process():
 @app.route("/attendance")
 def attendance():
     date = request.args.get("date")
-    attendance_data = get_attendance_data(date)
-    return render_template("attendance.html", attendance_data=attendance_data)
-
-def get_attendance_data(date):
     connection = sqlite3.connect("database.db")
     cursor = connection.cursor()
     cursor.execute("SELECT date, student_id, attendance_status FROM attendance WHERE date = ?", (date,))
     attendance_data = cursor.fetchall()
     connection.close()
-    return attendance_data
+    return render_template("attendance.html", attendance_data=attendance_data)
+
+# def get_attendance_data(date):
+#     connection = sqlite3.connect("database.db")
+#     cursor = connection.cursor()
+#     cursor.execute("SELECT date, student_id, attendance_status FROM attendance WHERE date = ?", (date,))
+#     attendance_data = cursor.fetchall()
+#     connection.close()
+#     return attendance_data
 
 @app.route("/courses")
 def courses():
