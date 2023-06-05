@@ -143,14 +143,21 @@ def process():
 
 @app.route("/attendance")
 def attendance():
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    query = "SELECT * FROM attendance WHERE date = ?"
-    date = "01/01/2022"
-    cursor.execute(query, (date,))
+    connection = sqlite3.connect("database.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT date, student_id, attendance_status FROM attendance")
     attendance_data = cursor.fetchall()
-    conn.close()
-    return render_template("attendance.html", attendance=attendance_data)
+    connection.close()
+
+    dates = []
+    for row in attendance_data:
+        dates.append(row[0])
+
+    selected_date = request.args.get("date")
+    if selected_date is None:
+        selected_date = dates[0]
+
+    return render_template("index.html", attendance_data=attendance_data, dates=dates, selected_date=selected_date)
 
 
 @app.route("/courses")
