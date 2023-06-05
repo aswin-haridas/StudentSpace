@@ -157,7 +157,7 @@ def attendance():
     if selected_date is None:
         selected_date = dates[0]
 
-    return render_template("index.html", attendance_data=attendance_data, dates=dates, selected_date=selected_date)
+    return render_template("attendance.html", attendance_data=attendance_data, dates=dates, selected_date=selected_date)
 
 
 @app.route("/courses")
