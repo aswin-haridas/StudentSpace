@@ -142,7 +142,7 @@ def process():
     message = "File uploaded successfully!"
     return render_template("upload.html", message=message)
 
-
+ 
 @app.route("/attendance", methods=['GET', 'POST'])
 def attendance():
     conn = sqlite3.connect("database.db")
