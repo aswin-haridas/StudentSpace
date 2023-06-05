@@ -1,89 +1,97 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>StudentSpace</title>
+    <link rel="stylesheet" href="static/style.css" />
+    <link rel="stylesheet" href="static/profile-style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
 
-<head>
-  <title>StudentSpace</title>
-  <link rel="stylesheet" href="static/style.css" />
-  <link rel="stylesheet" href="static/profile-style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <script src="../scripts/todo.js"></script>
+  </head>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <body>
+    <div class="StudentSpace">
+      <div class="header">
+        <div class="left-section">StudentSpace.</div>
 
-  <script src="../scripts/todo.js"></script>
-</head>
-
-<body>
-  <div class="StudentSpace">
-
-    <div class="header">
-      <div class="left-section">StudentSpace.</div>
-
-      <div class="middle-section">
-
-        <input class="search-bar" type="text" placeholder="Search" />
-        <img class="search-icon" src="../assets/search.png"
-          style="width: 20px; height: 20px; position: relative; right: 40px" />
-      </div>
-      <div class="right-section">
-
-        <div class="name">
-          <a href class="name">Hii {{name}}</a>
+        <div class="middle-section">
+          <input class="search-bar" type="text" placeholder="Search" />
+          <img
+            class="search-icon"
+            src="../assets/search.png"
+            style="width: 20px; height: 20px; position: relative; right: 40px"
+          />
         </div>
-        <div class="notification-icon" style="margin-left: 24px">
-          <img class="rs-notification" src="../assets/notification.png" style="width: 24px; height: 24px" />
+        <div class="right-section">
+          <div class="name">
+            <a href class="name">Hii {{name}}</a>
+          </div>
+          <div class="notification-icon" style="margin-left: 24px">
+            <img
+              class="rs-notification"
+              src="../assets/notification.png"
+              style="width: 24px; height: 24px"
+            />
+          </div>
+          <div class="settings-icon" style="margin-left: 24px">
+            <img
+              class="rs-settings"
+              src="../assets/settings.png"
+              style="width: 24px; height: 24px"
+            />
+          </div>
         </div>
-        <div class="settings-icon" style="margin-left: 24px">
-          <img class="rs-settings" src="../assets/settings.png" style="width: 24px; height: 24px" />
+      </div>
+
+      <div class="sidebar">
+        <div class="sidebar-tabs"><a href="profile.html">My Profile</a></div>
+        <div class="sidebar-tabs"><a href="courses.html"> Courses</a></div>
+        <div class="sidebar-tabs">
+          <a href="templates/perfomance.html">Perfomance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="attendance.html">Attendance</a>
+        </div>
+        <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
+      </div>
+
+      <div class="main">
+        {% if attendance_data %}
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Student ID</th>
+              <th>Attendance Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in attendance_data %}
+            <tr>
+              <td>{{ row[0] }}</td>
+              <td>{{ row[1] }}</td>
+              <td>{{ row[2] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+
+        <div class="main">
+          <form action="/" method="GET">
+            <input type="date" name="date" placeholder="Date" />
+            <input type="submit" value="Submit" />
+          </form>
         </div>
       </div>
+      
     </div>
-
-    <div class="sidebar">
-      <div class="sidebar-tabs"><a href="profile.html">My Profile</a></div>
-      <div class="sidebar-tabs"><a href="courses.html"> Courses</a></div>
-      <div class="sidebar-tabs">
-        <a href="templates/perfomance.html">Perfomance</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="attendance.html">Attendance</a>
-      </div>
-      <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
-    </div>
-
-    <div class="main">
-      <form action="/" method="GET">
-        <input type="text" name="date" placeholder="Date">
-        <input type="submit" value="Submit">
-      </form>
-
-      {% if attendance_data %}
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Student ID</th>
-            <th>Attendance Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in attendance_data %}
-          <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% endif %}
-
-    </div>
-
-
-  </div>
-</body>
-
+  </body>
 </html>
