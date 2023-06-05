@@ -64,18 +64,12 @@
 
       <div class="main">
         <form action="/" method="GET">
-          <select id="dateSelector" name="date">
-            <option value="">Select a date</option>
-            <option value="2023-06-01">June 1, 2023</option>
-            <option value="2023-06-02">June 2, 2023</option>
-            <option value="2023-06-03">June 3, 2023</option>
-            <!-- Add more options as needed -->
-          </select>
+          <input type="text" name="date" placeholder="Date" />
           <input type="submit" value="Submit" />
         </form>
 
         {% if attendance_data %}
-        <table id="attendanceTable">
+        <table>
           <thead>
             <tr>
               <th>Date</th>
@@ -95,26 +89,7 @@
         </table>
         {% endif %}
       </div>
-
-      <script>
-        document
-          .getElementById("dateSelector")
-          .addEventListener("change", function () {
-            var selectedDate = this.value;
-            var url = "/" + encodeURIComponent(selectedDate);
-            fetch(url)
-              .then((response) => response.text())
-              .then((data) => {
-                var table = document.getElementById("attendanceTable");
-                var newTable = document.createElement("table");
-                newTable.innerHTML = data;
-                table.parentNode.replaceChild(newTable, table);
-              })
-              .catch((error) => {
-                console.error("Error:", error);
-              });
-          });
-      </script>
+      
     </div>
   </body>
 </html>
