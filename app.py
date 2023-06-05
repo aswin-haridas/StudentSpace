@@ -99,17 +99,19 @@ def admin_home(username, firstname, lastname):
         "home-admin.html", username=username, firstname=firstname, lastname=lastname
     )
 
+
 @app.route("/profile")
 def profile():
- return render_template("profile.html")
+    return render_template("profile.html")
+
 
 @app.route("/grades")
 def grades():
- return render_template("grades.html")
+    return render_template("grades.html")
 
 
 @app.route("/upload")
-def upload(): 
+def upload():
     return render_template("upload.html")
 
 
@@ -143,17 +145,23 @@ def process():
 
 @app.route("/attendance")
 def attendance():
-    date = request.args.get("date")
-    attendance_data = get_attendance_data(date)
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT date, student_id, attendance_status FROM attendance_table")
+    rows = cursor.fetchall()
+    attendance_data = {}
+    for row in rows:
+        date = row[0]
+        student_id = row[1]
+        attendance_status = row[2]
+
+        if date not in attendance_data:
+            attendance_data[date] = {}
+
+        attendance_data[date][student_id] = attendance_status
+    conn.close()
     return render_template("attendance.html", attendance_data=attendance_data)
 
-def get_attendance_data(date):
-    connection = sqlite3.connect("database.db")
-    cursor = connection.cursor()
-    cursor.execute("SELECT date, student_id, attendance_status FROM attendance WHERE date = ?", (date,))
-    attendance_data = cursor.fetchall()
-    connection.close()
-    return attendance_data
 
 @app.route("/courses")
 def courses():
