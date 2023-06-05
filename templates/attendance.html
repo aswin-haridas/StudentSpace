@@ -2,22 +2,22 @@
 <html>
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Attendance</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='attendance-style.css') }}" />
+  <title>StudentSpace</title>
+  <link rel="stylesheet" href="static/style.css" />
+  <link rel="stylesheet" href="static/profile-style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
-    rel="stylesheet" />
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="../scripts/todo.js"></script>
 </head>
 
 <body>
   <div class="StudentSpace">
+
     <div class="header">
       <div class="left-section">StudentSpace.</div>
 
@@ -40,26 +40,26 @@
         </div>
       </div>
     </div>
+
     <div class="sidebar">
+      <div class="sidebar-tabs"><a href="profile.html">My Profile</a></div>
+      <div class="sidebar-tabs"><a href="courses.html"> Courses</a></div>
       <div class="sidebar-tabs">
-        <a href="{{ url_for('profile') }}">My Profile</a>
+        <a href="templates/perfomance.html">Perfomance</a>
       </div>
       <div class="sidebar-tabs">
-        <a href="{{ url_for('courses') }}"> Courses</a>
+        <a href="attendance.html">Attendance</a>
       </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('grades') }}">Perfomance</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('attendance') }}">Attendance</a>
-      </div>
-      <div class="sidebar-tabs"><a href="#">Notes</a></div>
+      <div class="sidebar-tabs"><a href="notes.html">Notes</a></div>
     </div>
+
     <div class="main">
       <form action="/" method="GET">
-        <input type="date" name="date" value="{{ selected_date }}">
+        <input type="text" name="date" placeholder="Date">
         <input type="submit" value="Submit">
       </form>
+
+      {% if attendance_data %}
       <table>
         <thead>
           <tr>
@@ -78,6 +78,12 @@
           {% endfor %}
         </tbody>
       </table>
+      {% endif %}
+
     </div>
+
+
+  </div>
 </body>
+
 </html>
