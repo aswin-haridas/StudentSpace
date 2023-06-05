@@ -17,10 +17,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
       rel="stylesheet"
     />
-    
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <script src="../scripts/todo.js"></script>
   </head>
 
@@ -42,7 +39,7 @@
         <div class="right-section">
           
           <div class="name">
-            <a href class="name">Hii {{firstname}} {{lastname}}</a>
+            <a href class="name">Hii {{ firstname }} {{ lastname }}</a>
           </div>
           <div class="notification-icon" style="margin-left: 24px">
             <img
@@ -73,7 +70,7 @@
           <a href="{{ url_for('courses') }}"> Courses</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('grades') }}">Perfomance</a>
+          <a href="{{ url_for('grades') }}">Performance</a>
         </div>
         <div class="sidebar-tabs">
           <a href="{{ url_for('attendance') }}"> Class Attendance</a>
