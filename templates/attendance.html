@@ -1,59 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Attendance</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='attendance-style.css') }}"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="StudentSpace">
-      <div class="header">
-        <div class="left-section">StudentSpace.</div>
-        
-        <div class="middle-section">
-          
-          <input class="search-bar" type="text" placeholder="Search" />
-          <img
-            class="search-icon"
-            src="../assets/search.png"
-            style="width: 20px; height: 20px; position: relative; right: 40px"
-          />
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Attendance</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='attendance-style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="StudentSpace">
+    <div class="header">
+      <div class="left-section">StudentSpace.</div>
+
+      <div class="middle-section">
+
+        <input class="search-bar" type="text" placeholder="Search" />
+        <img class="search-icon" src="../assets/search.png"
+          style="width: 20px; height: 20px; position: relative; right: 40px" />
+      </div>
+      <div class="right-section">
+
+        <div class="name">
+          <a href class="name">Hii {{name}}</a>
         </div>
-        <div class="right-section">
-          
-          <div class="name">
-            <a href class="name">Hii {{name}}</a>
-          </div>
-          <div class="notification-icon" style="margin-left: 24px">
-            <img
-              class="rs-notification"
-              src="../assets/notification.png"
-              style="width: 24px; height: 24px"
-            />
-          </div>
-          <div class="settings-icon" style="margin-left: 24px">
-            <img
-              class="rs-settings"
-              src="../assets/settings.png"
-              style="width: 24px; height: 24px"
-            />
-          </div>
+        <div class="notification-icon" style="margin-left: 24px">
+          <img class="rs-notification" src="../assets/notification.png" style="width: 24px; height: 24px" />
+        </div>
+        <div class="settings-icon" style="margin-left: 24px">
+          <img class="rs-settings" src="../assets/settings.png" style="width: 24px; height: 24px" />
         </div>
       </div>
+    </div>
     <div class="sidebar">
       <div class="sidebar-tabs">
         <a href="{{ url_for('profile') }}">My Profile</a>
@@ -70,35 +56,28 @@
       <div class="sidebar-tabs"><a href="#">Notes</a></div>
     </div>
     <div class="main">
-      <div class="main1">
-        <div class="box1">
-          <table>
-            <thead>
-                <tr>
-                    <th>Attendance ID</th>
-                    <th>Course ID</th>
-                    <th>Date</th>
-                    <th>Student ID</th>
-                    <th>Attendance Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in attendance %}
-                <tr>
-                    <td>{{ record[0] }}</td>
-                    <td>{{ record[1] }}</td>
-                    <td>{{ record[2] }}</td>
-                    <td>{{ record[3] }}</td>
-                    <td>{{ record[4] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        </div>
-        <div class="box2"></div>
-      </div>
-      <div class="box3"></div>
+      <form action="/" method="GET">
+        <input type="date" name="date" value="{{ selected_date }}">
+        <input type="submit" value="Submit">
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Student ID</th>
+            <th>Attendance Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in attendance_data %}
+          <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-      
-  </body>
+</body>
 </html>
