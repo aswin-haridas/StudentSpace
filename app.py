@@ -96,7 +96,33 @@ def grades(id):
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html")
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
+    student_info = cursor.fetchone()
+    conn.close()
+
+    if student_info is not None:
+        id = student_info[0]
+        name = student_info[1]
+        dob = student_info[2]
+        email = student_info[3]
+        course = student_info[4]
+        contact = student_info[5]
+        address = student_info[6]
+
+        return render_template(
+            "profile.html",
+            id=id,
+            name=name,
+            dob=dob,
+            email=email,
+            course=course,
+            contact=contact,
+            address=address,
+        )
+
+    return "Student not found"
 
 
 
