@@ -98,11 +98,7 @@ def grades(id):
 def profile():
     return render_template("profile.html")
 
-@app.route("/dashboard")
-def dashboard():
-    labels = ["January", "February", "March", "April", "May", "June"]
-    values = [10, 20, 30, 40, 50, 60]
-    return render_template("home.html")
+
 
 
 @app.route("/grades")
