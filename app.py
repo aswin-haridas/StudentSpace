@@ -82,7 +82,6 @@ def home(username, name, user_type):
         fullname=fullname,
     )
 
-
 @app.route("/grades")
 def grades(id):
     conn = sqlite3.connect("database.db")
@@ -123,8 +122,6 @@ def profile():
         )
 
     return "Student not found"
-
-
 
 
 @app.route("/upload")
