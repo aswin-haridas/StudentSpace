@@ -16,29 +16,51 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
       rel="stylesheet"
     />
+
     <script>
-      const ctx = document.getElementById("myChart");
-      new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"],
-          datasets: [
-            {
-              label: "# of Votes",
-              data: [10, 6.5, 7.6, 7.9, 8.6, 8.5],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-    </script>
+      fetch('/grades')
+          .then(response => response.json())
+          .then(data => {
+              const studentIDs = data.map(row => row[0]);
+              const grades = data.map(row => [row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]]);
+
+              const ctx = document.getElementById('gradeChart').getContext('2d');
+              new Chart(ctx, {
+                  type: 'line',
+                  data: {
+                      labels: ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8'],
+                      datasets: studentIDs.map((id, index) => ({
+                          label: `Student ${id}`,
+                          data: grades[index],
+                          fill: false,
+                          borderColor: getRandomColor(),
+                          tension: 0.4
+                      }))
+                  },
+                  options: {
+                      indexAxis: 'y', // Interchange x and y-axis
+                      scales: {
+                          x: {
+                              beginAtZero: true,
+                              max: 10
+                          }
+                      }
+                  }
+              });
+          });
+
+      // Function to generate random colors
+      function getRandomColor() {
+          const letters = '0123456789ABCDEF';
+          let color = '#';
+          for (let i = 0; i < 6; i++) {
+              color += letters[Math.floor(Math.random() * 16)];
+          }
+          return color;
+      }
+  </script>
+
+
   </head>
   <body>
     <div class="StudentSpace">
@@ -63,7 +85,7 @@
       <div class="sidebar">
         {% if username %}
         <div class="sidebar-tabs">
-          <a href="{{ url_for('profile') }}">My Profile</a>
+          <a href="{{ url_for('profile') }}">Profile</a>
         </div>
 
         {% if user_type == 'student' %}
@@ -71,10 +93,10 @@
           <a href="{{ url_for('courses') }}">Courses</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('grades') }}">View class Grades</a>
+          <a href="{{ url_for('grades') }}">Performance</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('attendance') }}">Class Attendance</a>
+          <a href="{{ url_for('attendance') }}">Attendance</a>
         </div>
         <div class="sidebar-tabs">
           <a href="#">Notes</a>
@@ -84,10 +106,10 @@
           <a href="{{ url_for('courses') }}">Courses</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('grades') }}">Performance</a>
+          <a href="{{ url_for('grades') }}">Class grades</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('attendance') }}">My Attendance</a>
+          <a href="{{ url_for('attendance') }}">Class Attendance</a>
         </div>
         <div class="sidebar-tabs">
           <a href="#">Notes</a>
@@ -114,7 +136,9 @@
         </div>
         <div class="main">
           <div class="main1">
-            <div class="graph"></div>
+            <div class="graph">
+              <canvas id="gradeChart"></canvas>
+            </div>
             <div class="attendance"></div>
           </div>
           <div class="main2">
