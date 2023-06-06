@@ -60,7 +60,6 @@ def login():
         return render_template(
             "error.html",
             error=error_message,
-
         )
 
     return render_template("login.html")
@@ -89,7 +88,6 @@ def home(username, name, user_type):
         name=name,
         user_type=user_type,
         fullname=fullname,
-
     )
 
 
