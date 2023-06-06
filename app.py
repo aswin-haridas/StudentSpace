@@ -7,123 +7,41 @@ app = Flask(__name__)
 import sqlite3
 
 
+import sqlite3
+from flask import Flask, render_template, request, redirect, url_for
+
+app = Flask(__name__)
+
+
 @app.route("/", methods=["GET", "POST"])
 def login():
     admin = "/static/assets/admin.png"
     student = "/static/assets/student.png"
     faculty = "/static/assets/faculty.png"
-
     if request.method == "POST":
         user_type = request.form.get("user-type")
-        username = request.form.get("username")
-        password = request.form.get("password")
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-        cursor.execute(
-            "SELECT id FROM users WHERE username=? AND password=?", (username, password)
-        )
-        result = cursor.fetchone()
-        if result is not None:
-            user_id = result[0]
-            if user_type == "student":
-                cursor.execute(
-                    "SELECT firstname, lastname FROM studentlist WHERE id=?", (user_id,)
-                )
-                user_info = cursor.fetchone()
-                if user_info is not None:
-                    firstname, lastname = user_info
-                    fullname = (
-                        f"{firstname} {lastname}"  # Merge first name and last name
-                    )
-                    return redirect(
-                        url_for(
-                            "student_home",
-                            username=username,
-                            fullname=fullname,
-                        )
-                    )
-            elif user_type == "faculty":
-                cursor.execute(
-                    "SELECT firstname, lastname FROM facultylist WHERE id=?", (user_id,)
-                )
-                user_info = cursor.fetchone()
-                if user_info is not None:
-                    firstname, lastname = user_info
-                    fullname = (
-                        f"{firstname} {lastname}"  # Merge first name and last name
-                    )
-                    return redirect(
-                        url_for(
-                            "faculty_home",
-                            username=username,
-                            fullname=fullname,
-                        )
-                    )
-            elif user_type == "admin":
-                cursor.execute(
-                    "SELECT firstname, lastname FROM facultylist WHERE id=?", (user_id,)
-                )
-                user_info = cursor.fetchone()
-                if user_info is not None:
-                    firstname, lastname = user_info
-                    fullname = (
-                        f"{firstname} {lastname}"  # Merge first name and last name
-                    )
-                    return redirect(
-                        url_for(
-                            "admin_home",
-                            username=username,
-                            fullname=fullname,
-                        )
-                    )
-        cursor.close()
-        conn.close()
-        error_message = "Invalid username or password"
-        return render_template("login.html", error=error_message)
+        # ... your existing code ...
+
+        if user_type == "student":
+            return redirect(url_for("student_home", username=username))
+        elif user_type == "faculty":
+            return redirect(url_for("faculty_home", username=username))
+        elif user_type == "admin":
+            return redirect(url_for("admin_home", username=username))
+
     return render_template("login.html", admin=admin, faculty=faculty, student=student)
-
-
-@app.route("/home/student/<username>", endpoint="student_home")
-def student_home(username):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT firstname, lastname, email, address FROM studentlist WHERE id=?",
-        (username,),
-    )
-    user_info = cursor.fetchone()
-    if user_info is not None:
-        firstname, lastname, email, address = user_info
-        fullname = f"{firstname} {lastname}"
-        return render_template(
-            "home-student.html",
-            username=username,
-            fullname=fullname,
-            email=email,
-            address=address,
-        )
-    cursor.close()
-    conn.close()
-    return "User not found"
-
-
-@app.route("/home/faculty/<username>/<fullname>", endpoint="faculty_home")
-def faculty_home(username, fullname):
-    return render_template("home-faculty.html", username=username, fullname=fullname)
-
-
-@app.route("/home/admin/<username>/<fullname>", endpoint="admin_home")
-def admin_home(username, fullname):
-    return render_template("home-admin.html", username=username, fullname=fullname)
 
 
 @app.route("/profile")
 def profile():
     return render_template("profile.html")
 
+
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    labels = ["January", "February", "March", "April", "May", "June"]
+    values = [10, 20, 30, 40, 50, 60]
+    return render_template("home.html")
 
 
 @app.route("/grades")
