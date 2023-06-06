@@ -130,6 +130,13 @@ body {
   background-color: rgb(202, 173, 230);
 }
 
-.style{
+.style {
   text-decoration: none;
+}
+
+.search-icon,
+.notification-icon,
+.settings-icon {
+  width: 20px;
+  height: 20px;
 }

@@ -56,6 +56,13 @@ def login():
 
 @app.route("/home/<username>/<name>/<user_type>", endpoint="home")
 def home(username, name, user_type):
+
+
+    search = "/static/assets/search.png"
+    notification = "/static/assets/notification.png"
+    settings = "/static/assets/settings.png"
+
+
     id = request.args.get("id")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
@@ -76,6 +83,9 @@ def home(username, name, user_type):
         name=name,
         user_type=user_type,
         fullname=fullname,
+        search=search,
+        notification=notification,
+        settings=settings
     )
 
 
