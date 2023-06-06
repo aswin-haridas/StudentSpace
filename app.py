@@ -3,8 +3,7 @@ from openpyxl import load_workbook
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
-
+app.secret_key = "your_secret_key_here"
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -58,15 +57,12 @@ def login():
 @app.route("/home/<username>/<name>/<user_type>", endpoint="home")
 def home(username, name, user_type):
     id = request.args.get("id")
-    fullname = ""
-
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-
     if user_type == "student":
-        cursor.execute("SELECT name FROM studentlist WHERE id=?", (id,))
+        cursor.execute("SELECT name FROM studentlist WHERE id=?", (id))
     elif user_type == "faculty":
-        cursor.execute("SELECT name FROM facultylist WHERE id=?", (id,))
+        cursor.execute("SELECT name FROM facultylist WHERE id=?", (id))
 
     result = cursor.fetchone()
     if result is not None:
@@ -82,15 +78,35 @@ def home(username, name, user_type):
         fullname=fullname,
     )
 
+
 @app.route("/grades")
 def grades(id):
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
-    c.execute("SELECT * FROM grades WHERE id=?", (id,))
+    c.execute("SELECT * FROM grades WHERE id=?", (id))
     data = c.fetchall()
     conn.close()
     data = [[item if item is not None else None for item in row] for row in data]
     return jsonify(data)
+
+
+@app.route("/perfomance")
+def perfomance(username, id):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT s1, s2, s3, s4, s5, s6, s7, s8 FROM grades WHERE id=?", (id,)
+    )
+    result = cursor.fetchone()
+
+    if result is not None:
+        s1, s2, s3, s4, s5, s6, s7, s8 = result
+        # Process the grades data as needed
+
+        return render_template("grades.html", username=username, id=id, grades=result)
+
+    error_message = "Grades not found"
+    return render_template("grades.html", username=username, id=id, error=error_message)
 
 
 @app.route("/profile")
