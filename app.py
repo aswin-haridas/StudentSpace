@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+from flask import Flask, render_template, request, redirect, url_for, session,jsonify
 from openpyxl import load_workbook
 import sqlite3
 
@@ -89,6 +89,15 @@ def home(username, name, user_type):
     )
 
 
+@app.route('/grades/<int:id>')
+def get_student_grades(id):
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM grades WHERE id = ?", (id,))
+    data = c.fetchall()
+    conn.close()
+    return jsonify(data)
+
 
 @app.route("/perfomance")
 def perfomance():
@@ -98,11 +107,8 @@ def perfomance():
     results = cursor.fetchall()
 
     if results:
-        # Create a dictionary to store the data
         data = {}
         subjects = ["ip", "ds", "dbms", "algo", "os"]
-
-        # Iterate over the results and populate the data dictionary
         for row in results:
             id, *marks = row
             data[id] = dict(zip(subjects, marks))
@@ -224,5 +230,14 @@ def courses():
     conn.close()
     return render_template("courses.html", courses=courses_data)
 
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
+

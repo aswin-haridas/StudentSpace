@@ -13,11 +13,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
-
-    <!-- <script>
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
       fetch("/grades")
         .then((response) => response.json())
         .then((data) => {
@@ -47,7 +46,6 @@
               })),
             },
             options: {
-              indexAxis: "y", // Interchange x and y-axis
               scales: {
                 x: {
                   beginAtZero: true,
@@ -67,7 +65,7 @@
         }
         return color;
       }
-    </script> -->
+    </script>
   </head>
   <body>
     <div class="StudentSpace">
@@ -75,17 +73,17 @@
         <div class="left-section">StudentSpace.</div>
         <div class="middle-section">
           <input class="search-bar" type="text" placeholder="Search" />
-          <img id="icon" src="{{search}}" />
+          <img class="search-icon" src="{{search}}" />
         </div>
         <div class="right-section">
           <div class="name">
             <a href="" class="name">Hii {{fullname}} </a>
           </div>
           <div class="notification-icon">
-            <img id="icon" src="{{notification}}" />
+            <img class="notification-icon" src="{{notification}}" />
           </div>
           <div class="settings-icon">
-            <img id="icon" src="{{settings}}" />
+            <img class="settings-icon" src="{{settings}}" />
           </div>
         </div>
       </div>
@@ -138,8 +136,8 @@
       </div>
 
       <div class="main-section">
-        <div class="chart-canvas">
-          <canvas id="myChart"></canvas>
+        <div class="main" style="background-color: rgb(125, 196, 199)">
+          <canvas id="gradeChart"></canvas>
         </div>
       </div>
     </div>
