@@ -82,7 +82,6 @@ def home(username, name, user_type):
         fullname=fullname,
     )
 
-
 @app.route("/grades")
 def grades(id):
     conn = sqlite3.connect("database.db")
@@ -97,8 +96,6 @@ def grades(id):
 @app.route("/profile")
 def profile():
     return render_template("profile.html")
-
-
 
 
 @app.route("/upload")
