@@ -121,6 +121,10 @@ def admin_home(username, fullname):
 def profile():
     return render_template("profile.html")
 
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
 
 @app.route("/grades")
 def grades():
