@@ -18,18 +18,30 @@ def login():
     admin = "/static/assets/admin.png"
     student = "/static/assets/student.png"
     faculty = "/static/assets/faculty.png"
+
     if request.method == "POST":
         user_type = request.form.get("user-type")
-        # ... your existing code ...
+        username = request.form.get("username")
+        password = request.form.get("password")
 
-        if user_type == "student":
-            return redirect(url_for("student_home", username=username))
-        elif user_type == "faculty":
-            return redirect(url_for("faculty_home", username=username))
-        elif user_type == "admin":
-            return redirect(url_for("admin_home", username=username))
+        conn = sqlite3.connect("database.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT usertype, name FROM users WHERE username=? AND password=?", (username, password))
+        result = cursor.fetchone()
+        if result is not None:
+            fetched_user_type, fetched_name = result
+            if user_type == fetched_user_type:
+                return redirect(url_for("home", username=username, name=fetched_name, user_type=fetched_user_type))
+        error_message = "Invalid username or password"
+        return render_template("login.html", error=error_message, admin=admin, faculty=faculty, student=student)
 
     return render_template("login.html", admin=admin, faculty=faculty, student=student)
+
+
+@app.route("/home/<username>/<name>/<user_type>", endpoint="home")
+def home(username, name, user_type):
+    return render_template("home.html", username=username, name=name, user_type=user_type)
+
 
 
 @app.route("/profile")
