@@ -108,13 +108,15 @@ def perfomance(username, id):
     error_message = "Grades not found"
     return render_template("grades.html", username=username, id=id, error=error_message)
 
-
 @app.route("/profile")
 def profile():
-    id = request.args.get("id")  # Retrieve the 'id' parameter from the request
+    user_id = session.get("user_id")  # Retrieve the user_id from the session
+    if user_id is None:
+        return "User ID not found"
+
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM studentlist WHERE id=?", (id))
+    cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
     student_info = cursor.fetchone()
     conn.close()
 
@@ -139,6 +141,8 @@ def profile():
         )
 
     return "Student not found"
+
+
 
 @app.route("/upload")
 def upload():
