@@ -95,9 +95,10 @@ def grades(id):
 
 @app.route("/profile")
 def profile():
+    id = request.args.get("id")  # Retrieve the 'id' parameter from the request
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
+    cursor.execute("SELECT * FROM studentlist WHERE id=?", (id))
     student_info = cursor.fetchone()
     conn.close()
 
@@ -122,7 +123,6 @@ def profile():
         )
 
     return "Student not found"
-
 
 @app.route("/upload")
 def upload():
