@@ -67,9 +67,9 @@ def home(username, name, user_type):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     if user_type == "student":
-        cursor.execute("SELECT name FROM studentlist WHERE id=?", (id))
+        cursor.execute("SELECT name FROM studentlist WHERE id=?", (id,))
     elif user_type == "faculty":
-        cursor.execute("SELECT name FROM facultylist WHERE id=?", (id))
+        cursor.execute("SELECT name FROM facultylist WHERE id=?", (id,))
 
     result = cursor.fetchone()
     if result is not None:
@@ -93,7 +93,7 @@ def home(username, name, user_type):
 def grades(id):
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
-    c.execute("SELECT * FROM grades WHERE id=?", (id))
+    c.execute("SELECT * FROM grades WHERE id=?", (id,))
     data = c.fetchall()
     conn.close()
     data = [[item if item is not None else None for item in row] for row in data]
@@ -102,6 +102,7 @@ def grades(id):
 
 @app.route("/perfomance")
 def perfomance():
+    render_template("performance.html")
 
 
 @app.route("/profile")
