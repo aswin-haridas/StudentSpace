@@ -2,8 +2,14 @@
 <html>
   <head>
     <title>StudentSpace</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='profile-style.css') }}" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='profile-style.css') }}"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,12 +24,10 @@
 
   <body>
     <div class="StudentSpace">
-
       <div class="header">
         <div class="left-section">StudentSpace.</div>
 
         <div class="middle-section">
-
           <input class="search-bar" type="text" placeholder="Search" />
           <img
             class="search-icon"
@@ -32,7 +36,6 @@
           />
         </div>
         <div class="right-section">
-
           <div class="name">
             <a href="#" class="name">Hii {{fullname}} </a>
           </div>
@@ -54,15 +57,21 @@
       </div>
 
       <div class="sidebar">
-        <div class="sidebar-tabs"><a href="{{ url_for('profile') }}">My Profile</a></div>
-        <div class="sidebar-tabs"><a href="{{ url_for('courses') }}">Courses</a></div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('profile') }}">My Profile</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </div>
         <div class="sidebar-tabs">
           <a href="{{ url_for('perfomance') }}">Perfomance</a>
         </div>
         <div class="sidebar-tabs">
           <a href="{{ url_for('attendance') }}">Attendance</a>
         </div>
-        <div class="sidebar-tabs"><a href="{{ url_for('notes') }}">Notes</a></div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('notes') }}">Notes</a>
+        </div>
       </div>
 
       <div class="main">
@@ -72,8 +81,6 @@
         </div>
         <div class="box3"></div>
       </div>
-
-
     </div>
   </body>
 </html>

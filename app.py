@@ -32,7 +32,9 @@ def login():
                 user_info = cursor.fetchone()
                 if user_info is not None:
                     firstname, lastname = user_info
-                    fullname = f"{firstname} {lastname}"  # Merge first name and last name
+                    fullname = (
+                        f"{firstname} {lastname}"  # Merge first name and last name
+                    )
                     return redirect(
                         url_for(
                             "student_home",
@@ -47,7 +49,9 @@ def login():
                 user_info = cursor.fetchone()
                 if user_info is not None:
                     firstname, lastname = user_info
-                    fullname = f"{firstname} {lastname}"  # Merge first name and last name
+                    fullname = (
+                        f"{firstname} {lastname}"  # Merge first name and last name
+                    )
                     return redirect(
                         url_for(
                             "faculty_home",
@@ -62,7 +66,9 @@ def login():
                 user_info = cursor.fetchone()
                 if user_info is not None:
                     firstname, lastname = user_info
-                    fullname = f"{firstname} {lastname}"  # Merge first name and last name
+                    fullname = (
+                        f"{firstname} {lastname}"  # Merge first name and last name
+                    )
                     return redirect(
                         url_for(
                             "admin_home",
@@ -77,25 +83,38 @@ def login():
     return render_template("login.html", admin=admin, faculty=faculty, student=student)
 
 
-@app.route("/home/student/<username>/<fullname>", endpoint="student_home")
-def student_home(username, fullname):
-    return render_template(
-        "home-student.html", username=username, fullname=fullname
+@app.route("/home/student/<username>", endpoint="student_home")
+def student_home(username):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT firstname, lastname, email, address FROM studentlist WHERE id=?",
+        (username,),
     )
+    user_info = cursor.fetchone()
+    if user_info is not None:
+        firstname, lastname, email, address = user_info
+        fullname = f"{firstname} {lastname}"
+        return render_template(
+            "home-student.html",
+            username=username,
+            fullname=fullname,
+            email=email,
+            address=address,
+        )
+    cursor.close()
+    conn.close()
+    return "User not found"
 
 
 @app.route("/home/faculty/<username>/<fullname>", endpoint="faculty_home")
 def faculty_home(username, fullname):
-    return render_template(
-        "home-faculty.html", username=username, fullname=fullname
-    )
+    return render_template("home-faculty.html", username=username, fullname=fullname)
 
 
 @app.route("/home/admin/<username>/<fullname>", endpoint="admin_home")
 def admin_home(username, fullname):
-    return render_template(
-        "home-admin.html", username=username, fullname=fullname
-    )
+    return render_template("home-admin.html", username=username, fullname=fullname)
 
 
 @app.route("/profile")
@@ -140,23 +159,26 @@ def process():
     message = "File uploaded successfully!"
     return render_template("upload.html", message=message)
 
- 
-@app.route("/attendance", methods=['GET', 'POST'])
+
+@app.route("/attendance", methods=["GET", "POST"])
 def attendance():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    
-    selected_day = request.args.get('day')
+
+    selected_day = request.args.get("day")
     if selected_day is None:
-        selected_day = "1" 
-    
+        selected_day = "1"
+
     cursor.execute("SELECT DISTINCT date FROM attendance")
     dates = cursor.fetchall()
     days = [str(date[0]) for date in dates]
 
-    cursor.execute("SELECT studentid, attendance_status FROM attendance WHERE date=?", (selected_day,))
+    cursor.execute(
+        "SELECT studentid, attendance_status FROM attendance WHERE date=?",
+        (selected_day,),
+    )
     rows = cursor.fetchall()
-    
+
     attendance_data = {}
     for row in rows:
         student_id = row[0]
@@ -165,7 +187,12 @@ def attendance():
         attendance_data[student_id] = attendance_status
 
     conn.close()
-    return render_template("attendance.html", attendance_data=attendance_data, days=days, selected_day=selected_day)
+    return render_template(
+        "attendance.html",
+        attendance_data=attendance_data,
+        days=days,
+        selected_day=selected_day,
+    )
 
 
 @app.route("/courses")
