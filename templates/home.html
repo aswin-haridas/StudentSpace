@@ -13,10 +13,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
       rel="stylesheet"
     />
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       fetch("/grades")
         .then((response) => response.json())
@@ -47,7 +47,6 @@
               })),
             },
             options: {
-              indexAxis: "y", // Interchange x and y-axis
               scales: {
                 x: {
                   beginAtZero: true,
@@ -100,7 +99,7 @@
           <a href="{{ url_for('courses') }}">Courses</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('grades') }}">Performance</a>
+          <a href="{{ url_for('perfomance') }}">Performance</a>
         </div>
         <div class="sidebar-tabs">
           <a href="{{ url_for('attendance') }}">Attendance</a>
@@ -113,7 +112,7 @@
           <a href="{{ url_for('courses') }}">Courses</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('grades') }}">Class grades</a>
+          <a href="{{ url_for('perfomance') }}">Class grades</a>
         </div>
         <div class="sidebar-tabs">
           <a href="{{ url_for('attendance') }}">Class Attendance</a>
@@ -138,8 +137,8 @@
       </div>
 
       <div class="main-section">
-        <div class="chart-canvas">
-          <canvas id="myChart"></canvas>
+        <div class="main" style="background-color: rgb(125, 196, 199)">
+          <canvas id="gradeChart"></canvas>
         </div>
       </div>
     </div>
