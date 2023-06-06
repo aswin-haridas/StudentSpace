@@ -26,7 +26,7 @@ def login():
 
         conn = sqlite3.connect("database.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT usertype, name FROM users WHERE username=? AND password=?", (username, password))
+        cursor.execute("SELECT role, name FROM users WHERE username=? AND password=?", (username, password))
         result = cursor.fetchone()
         if result is not None:
             fetched_user_type, fetched_name = result
