@@ -98,6 +98,26 @@ def grades(id):
 def profile():
     return render_template("profile.html")
 
+    if student_info is not None:
+        id = student_info[0]
+        name = student_info[1]
+        dob = student_info[2]
+        email = student_info[3]
+        course = student_info[4]
+        contact = student_info[5]
+        address = student_info[6]
+
+@app.route("/dashboard")
+def dashboard():
+    labels = ["January", "February", "March", "April", "May", "June"]
+    values = [10, 20, 30, 40, 50, 60]
+    return render_template("home.html")
+
+
+@app.route("/grades")
+def grades():
+    return render_template("grades.html")
+
 
 @app.route("/upload")
 def upload():
