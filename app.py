@@ -89,20 +89,28 @@ def home(username, name, user_type):
     )
 
 
-@app.route("/grades")
-def grades(id):
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-    c.execute("SELECT * FROM grades WHERE id=?", (id,))
-    data = c.fetchall()
-    conn.close()
-    data = [[item if item is not None else None for item in row] for row in data]
-    return jsonify(data)
-
 
 @app.route("/perfomance")
 def perfomance():
-    render_template("performance.html")
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, ip, ds, dbms, algo, os FROM grade")
+    results = cursor.fetchall()
+
+    if results:
+        # Create a dictionary to store the data
+        data = {}
+        subjects = ["ip", "ds", "dbms", "algo", "os"]
+
+        # Iterate over the results and populate the data dictionary
+        for row in results:
+            id, *marks = row
+            data[id] = dict(zip(subjects, marks))
+
+        return render_template("perfomance.html", data=data)
+
+    error_message = "No data found"
+    return render_template("perfomance.html", error=error_message)
 
 
 @app.route("/profile")
