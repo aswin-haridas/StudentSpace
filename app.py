@@ -99,9 +99,6 @@ def profile():
     return render_template("profile.html")
 
 
-@app.route("/grades")
-def grades():
-    return render_template("grades.html")
 
 
 @app.route("/upload")
