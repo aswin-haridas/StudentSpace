@@ -1,69 +1,89 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Attendance</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='attendance-style.css') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
+        rel="stylesheet" />
 </head>
+
 <body>
-  <div class="StudentSpace">
-    <div class="header">
-      <!-- Header content goes here -->
+    <div class="StudentSpace">
+        <div class="header">
+            <div class="left-section">StudentSpace.</div>
+            <div class="middle-section">
+                <input class="search-bar" type="text" placeholder="Search" />
+                <img class="search-icon" src="{{search}}" />
+            </div>
+            <div class="right-section">
+                <div class="name">
+                    <a href="" class="name">Hii {{fullname}} </a>
+                </div>
+                <div class="notification-icon">
+                    <img class="notification-icon" src="{{notification}}" />
+                </div>
+                <div class="settings-icon">
+                    <img class="settings-icon" src="{{settings}}" />
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-tabs">
+                <a href="{{ url_for('home', username=username, name=name, user_type=user_type) }}">Dashboard</a>
+            </div>
+            <div class="sidebar-tabs">
+                <a href="{{ url_for('profile') }}">My Profile</a>
+            </div>
+            <div class="sidebar-tabs">
+                <a href="{{ url_for('courses') }}">Courses</a>
+            </div>
+            <div class="sidebar-tabs">
+                <a href="{{ url_for('perfomance') }}">Performance</a>
+            </div>
+            <div class="sidebar-tabs">
+                <a href="{{ url_for('attendance') }}">Attendance</a>
+            </div>
+            <div class="sidebar-tabs">
+                <a href="#">Notes</a>
+            </div>
+        </div>
+        <div class="main">
+            <h1>Day-wise Attendance</h1>
+            <div>
+                <form method="GET" action="/attendance">
+                    <select name="day" id="day">
+                        {% for day in days %}
+                        <option value="{{ day }}" {% if day==selected_day %} selected="selected" {% endif %}>{{ day }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Go">
+                </form>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Student ID</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student_id, attendance_status in attendance_data.items() %}
+                    <tr>
+                        <td>{{ selected_day }}</td>
+                        <td>{{ student_id }}</td>
+                        <td>{{ attendance_status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="sidebar">
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('home', username=username, name=name, user_type=user_type) }}">Dashboard</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('profile') }}">My Profile</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('courses') }}">Courses</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('perfomance') }}">Performance</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('attendance') }}">Attendance</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="#">Notes</a>
-      </div>
-    </div>
-    <div class="main">
-      <h1>Day-wise Attendance</h1>
-      <div>
-        <form method="GET" action="/attendance">
-          <select name="day" id="day">
-            {% for day in days %}
-            <option value="{{ day }}" {% if day == selected_day %} selected="selected" {% endif %}>{{ day }}</option>
-            {% endfor %}
-          </select>
-          <input type="submit" value="Go">
-        </form>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Student ID</th>
-            <th>Attendance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for student_id, attendance_status in attendance_data.items() %}
-          <tr>
-            <td>{{ selected_day }}</td>
-            <td>{{ student_id }}</td>
-            <td>{{ attendance_status }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
 </body>
+
 </html>
