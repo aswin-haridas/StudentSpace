@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session,jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from openpyxl import load_workbook
 import sqlite3
 
@@ -6,12 +6,26 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
 
 
-@app.route("/", methods=["GET", "POST"])
-def login():
+@app.context_processor
+def common_icons():
     admin = "/static/assets/admin.png"
     student = "/static/assets/student.png"
     faculty = "/static/assets/faculty.png"
+    search = "/static/assets/search.png"
+    notification = "/static/assets/notification.png"
+    settings = "/static/assets/settings.png"
+    return dict(
+        search=search,
+        notification=notification,
+        settings=settings,
+        admin=admin,
+        faculty=faculty,
+        student=student,
+    )
 
+
+@app.route("/", methods=["GET", "POST"])
+def login():
     if request.method == "POST":
         user_type = request.form.get("user-type")
         username = request.form.get("username")
@@ -44,25 +58,16 @@ def login():
 
         error_message = "Invalid username or password"
         return render_template(
-            "login.html",
+            "error.html",
             error=error_message,
-            admin=admin,
-            faculty=faculty,
-            student=student,
+
         )
 
-    return render_template("login.html", admin=admin, faculty=faculty, student=student)
+    return render_template("login.html")
 
 
 @app.route("/home/<username>/<name>/<user_type>", endpoint="home")
 def home(username, name, user_type):
-
-
-    search = "/static/assets/search.png"
-    notification = "/static/assets/notification.png"
-    settings = "/static/assets/settings.png"
-
-
     id = request.args.get("id")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
@@ -72,6 +77,7 @@ def home(username, name, user_type):
         cursor.execute("SELECT name FROM facultylist WHERE id=?", (id,))
 
     result = cursor.fetchone()
+    fullname = None
     if result is not None:
         fullname = result[0]
 
@@ -83,17 +89,16 @@ def home(username, name, user_type):
         name=name,
         user_type=user_type,
         fullname=fullname,
-        search=search,
-        notification=notification,
-        settings=settings
+
     )
 
 
-@app.route('/grades/<int:id>')
-def get_student_grades(id):
-    conn = sqlite3.connect('database.db')
+@app.route("/grades")
+def get_student_grades():
+    user_id = session.get("user_id")
+    conn = sqlite3.connect("database.db")
     c = conn.cursor()
-    c.execute("SELECT * FROM grades WHERE id = ?", (id,))
+    c.execute("SELECT * FROM grades WHERE id = ?", (user_id,))
     data = c.fetchall()
     conn.close()
     return jsonify(data)
@@ -101,22 +106,12 @@ def get_student_grades(id):
 
 @app.route("/perfomance")
 def perfomance():
+    user_id = session.get("user_id")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT id, ip, ds, dbms, algo, os FROM grade")
-    results = cursor.fetchall()
-
-    if results:
-        data = {}
-        subjects = ["ip", "ds", "dbms", "algo", "os"]
-        for row in results:
-            id, *marks = row
-            data[id] = dict(zip(subjects, marks))
-
-        return render_template("perfomance.html", data=data)
-
-    error_message = "No data found"
-    return render_template("perfomance.html", error=error_message)
+    cursor.execute("SELECT * FROM grade WHERE id = ?", (user_id,))
+    marks = cursor.fetchone()  # Extracting the marks from the query result
+    return render_template("perfomance.html", marks=marks)
 
 
 @app.route("/profile")
@@ -152,6 +147,7 @@ def profile():
         )
 
     return "Student not found"
+
 
 @app.route("/upload")
 def upload():
@@ -231,13 +227,5 @@ def courses():
     return render_template("courses.html", courses=courses_data)
 
 
-
-
-
-
-
-
-
 if __name__ == "__main__":
     app.run(debug=True)
-

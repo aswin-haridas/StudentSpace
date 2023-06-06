@@ -41,7 +41,10 @@ body {
   align-items: center;
   flex-direction: row;
 }
-
+.name{
+  color: #000;
+  text-decoration: none;
+}
 .search-bar {
   flex: 1;
   height: 36px;
@@ -50,7 +53,6 @@ body {
   border-style: solid;
   border-color: #444;
   border-radius: 48px;
-  box-shadow: 0px 0px 10px 0px rgba(126, 126, 126, 0.32);
 }
 
 .sidebar {
@@ -138,6 +140,7 @@ body {
 .settings-icon {
   width: 20px;
   height: 20px;
+  margin-left: 10px;
 }
 
 

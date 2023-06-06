@@ -2,16 +2,20 @@
 <html>
   <head>
     <title>StudentSpace</title>
-    <link rel="stylesheet" href="../static/style.css" />
-    <link rel="stylesheet" href="../static/profile-style.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='profile-style.css') }}"
+  />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
     rel="stylesheet"
   />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../scripts/todo.js"></script>
   </head>
   <body>
     <div class="StudentSpace">
@@ -21,7 +25,7 @@
           <input class="search-bar" type="text" placeholder="Search" />
           <img
             class="search-icon"
-            src="../assets/search.png"
+            src="{{search}}"
             style="width: 20px; height: 20px; position: relative; right: 40px"
           />
         </div>
@@ -30,14 +34,14 @@
           <div class="notification-icon" style="margin-left: 24px">
             <img
               class="rs-notification"
-              src="../assets/notification.png"
+              src="{{notification}}"
               style="width: 24px; height: 24px"
             />
           </div>
           <div class="settings-icon" style="margin-left: 24px">
             <img
               class="rs-settings"
-              src="../assets/settings.png"
+              src="{{settings}}"
               style="width: 24px; height: 24px"
             />
           </div>
@@ -73,9 +77,8 @@
                 </ul>
             </div>
           
-          
           <div class="profile-photo">
-            <img src="../static/assets/student.png" alt="Profile Photo" />
+            <img src="{{student}}" alt="Profile Photo" />
           </div>
         </div>
       </div>

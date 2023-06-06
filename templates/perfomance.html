@@ -7,15 +7,16 @@
       href="{{ url_for('static', filename='style.css') }}"
     />
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='grades-style.css') }}"
-    />
+    rel="stylesheet"
+    href="{{ url_for('static', filename='perfomance-style.css') }}"
+  />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="StudentSpace">
@@ -25,42 +26,76 @@
           <input class="search-bar" type="text" placeholder="Search" />
           <img
             class="search-icon"
-            src="{{ url_for('static', filename='assets/search.png') }}"
+            src="{{search}}"
+            style="width: 20px; height: 20px; position: relative; right: 40px"
           />
         </div>
         <div class="right-section">
-          <div class="notification-icon">
+          <div class="name"><a href class="name">Hi {{fullname}} </a></div>
+          <div class="notification-icon" style="margin-left: 24px">
             <img
               class="rs-notification"
-              src="{{ url_for('static', filename='assets/notification.png') }}"
+              src="{{notification}}"
+              style="width: 24px; height: 24px"
             />
           </div>
-          <div class="settings-icon">
+          <div class="settings-icon" style="margin-left: 24px">
             <img
               class="rs-settings"
-              src="{{ url_for('static', filename='assets/settings.png') }}"
+              src="{{settings}}"
+              style="width: 24px; height: 24px"
             />
           </div>
         </div>
       </div>
+      <div class="sidebar">
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('profile') }}">My Profile</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}"> Courses</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('perfomance') }}">Perfomance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('attendance') }}">Attendance</a>
+        </div>
+        <div class="sidebar-tabs"><a href="#">Notes</a></div>
+      </div>
+
+      <div class="main-section">
+        <div class="main">
+            <div class="main1">
+              <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Mark</th>
+                </tr>
+                <tr>
+                    <td>Programming</td>
+                    <td>{{ marks[1] }}</td>
+                </tr>
+                <tr>
+                    <td>Data Structures</td>
+                    <td>{{ marks[2] }}</td>
+                </tr>
+                <tr>
+                    <td>Database Management</td>
+                    <td>{{ marks[3] }}</td>
+                </tr>
+                <tr>
+                    <td>Algorithms</td>
+                    <td>{{ marks[4] }}</td>
+                </tr>
+                <tr>
+                    <td>Operating Systems</td>
+                    <td>{{ marks[5] }}</td>
+                </tr>
+            </table>
+            </div>
+        </div>
     </div>
-    <div class="sidebar">
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('profile') }}">My Profile</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('courses') }}"> Courses</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('perfomance') }}">Performance</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('attendance') }}">Attendance</a>
-      </div>
-      <div class="sidebar-tabs"><a href="#">Notes</a></div>
-    </div>
-    <div class="main">
-      
     </div>
   </body>
 </html>

@@ -17,56 +17,6 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      fetch("/grades")
-        .then((response) => response.json())
-        .then((data) => {
-          const studentIDs = data.map((row) => row[0]);
-          const grades = data.map((row) => [
-            row[1],
-            row[2],
-            row[3],
-            row[4],
-            row[5],
-            row[6],
-            row[7],
-            row[8],
-          ]);
-
-          const ctx = document.getElementById("gradeChart").getContext("2d");
-          new Chart(ctx, {
-            type: "line",
-            data: {
-              labels: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"],
-              datasets: studentIDs.map((id, index) => ({
-                label: `Student ${id}`,
-                data: grades[index],
-                fill: false,
-                borderColor: getRandomColor(),
-                tension: 0.4,
-              })),
-            },
-            options: {
-              scales: {
-                x: {
-                  beginAtZero: true,
-                  max: 10,
-                },
-              },
-            },
-          });
-        });
-
-      // Function to generate random colors
-      function getRandomColor() {
-        const letters = "0123456789ABCDEF";
-        let color = "#";
-        for (let i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-      }
-    </script>
   </head>
   <body>
     <div class="StudentSpace">
@@ -90,6 +40,12 @@
       </div>
       <div class="sidebar">
         {% if username %}
+        <div class="sidebar-tabs">
+          <a
+            href="{{ url_for('home', username=username, name=name, user_type=user_type) }}"
+            >Dashboard</a
+          >
+        </div>
         <div class="sidebar-tabs">
           <a href="{{ url_for('profile') }}">Profile</a>
         </div>
@@ -137,10 +93,66 @@
       </div>
 
       <div class="main-section">
-        <div class="main" style="background-color: rgb(125, 196, 199)">
-          <canvas id="gradeChart"></canvas>
+        <div class="main">
+          <div id="gradeChartContainer">
+            <canvas id="gradeChart"></canvas>
+          </div>
         </div>
       </div>
     </div>
+    <script>
+      fetch("/grades")
+        .then((response) => response.json())
+        .then((data) => {
+          const studentIDs = data.map((row) => row[0]);
+          const grades = data.map((row) => [
+            row[1],
+            row[2],
+            row[3],
+            row[4],
+            row[5],
+            row[6],
+            row[7],
+            row[8],
+          ]);
+
+          const ctx = document.getElementById("gradeChart").getContext("2d");
+          new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"],
+              datasets: studentIDs.map((id, index) => ({
+                label: `Student ${id}`,
+                data: grades[index],
+                fill: false,
+                borderColor: getRandomColor(),
+                tension: 0.4,
+              })),
+            },
+            options: {
+              scales: {
+                x: {
+                  beginAtZero: true,
+                  max: 10,
+                },
+                y: {
+                  beginAtZero: true,
+                  max: 10,
+                },
+              },
+            },
+          });
+        });
+
+      // Function to generate random colors
+      function getRandomColor() {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+    </script>
   </body>
 </html>

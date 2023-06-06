@@ -1,7 +1,6 @@
 .student-profile {
   padding: 15px;
-  border: #000 solid 1px;
-width: 80%;
+  width: 80%;
 }
 
 .profile-photo {
@@ -19,14 +18,14 @@ width: 80%;
   object-fit: cover;
 }
 
-li{
-  background-color:#f7f7f7;
-  height:50px;
-  border-radius:10px;
-  margin-bottom:10px;
-  padding:10px;
-  cursor:pointer;
-  transition:all .2s ease-in-out
+li {
+  background-color: #f7f7f7;
+  height: 50px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 .student_details {
   list-style-type: none;
