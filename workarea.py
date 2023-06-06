@@ -1,21 +1,33 @@
-import csv
 import sqlite3
+import csv
 
 # Connect to the SQLite database
 conn = sqlite3.connect('database.db')
-c = conn.cursor()
+cursor = conn.cursor()
 
-# Create a table called "students"
-c.execute('''CREATE TABLE IF NOT EXISTS facultylist
-             (id INTEGER, name TEXT, dob TEXT, email TEXT, course TEXT, contact TEXT, address TEXT)''')
+# Create the "grade" table if it doesn't exist
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS grade (
+        id INTEGER PRIMARY KEY,
+        ip INTEGER,
+        ds INTEGER,
+        dbms INTEGER,
+        algo INTEGER,
+        os INTEGER
+    )
+''')
 
-# Read the CSV file and insert the data into the table
-with open('students.csv', 'r') as csvfile:
-    reader = csv.reader(csvfile)
-    next(reader)  # Skip the header row
+# Read the CSV file and insert data into the "grade" table
+with open('student.csv', 'r') as file:
+    csv_data = csv.reader(file)
+    next(csv_data)  # Skip the header row
 
-    for row in reader:
-        c.execute("INSERT INTO facultylist VALUES (?, ?, ?, ?, ?, ?, ?)", row)
+    for row in csv_data:
+        id, ip, ds, dbms, algo, os = row
+        cursor.execute('''
+            INSERT INTO grade (id, ip, ds, dbms, algo, os)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (id, ip, ds, dbms, algo, os))
 
 # Commit the changes and close the connection
 conn.commit()
