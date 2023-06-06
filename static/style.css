@@ -98,7 +98,6 @@ body {
   flex-direction: column;
   width: calc(100% - 250px);
   height: calc(100% - 48px);
-  border: #000 solid 1px;
   border-radius: 12px;
 }
 .main1 {

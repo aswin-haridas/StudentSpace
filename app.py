@@ -101,22 +101,8 @@ def grades(id):
 
 
 @app.route("/perfomance")
-def perfomance(username, id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT s1, s2, s3, s4, s5, s6, s7, s8 FROM grades WHERE id=?", (id,)
-    )
-    result = cursor.fetchone()
+def perfomance():
 
-    if result is not None:
-        s1, s2, s3, s4, s5, s6, s7, s8 = result
-        # Process the grades data as needed
-
-        return render_template("grades.html", username=username, id=id, grades=result)
-
-    error_message = "Grades not found"
-    return render_template("grades.html", username=username, id=id, error=error_message)
 
 @app.route("/profile")
 def profile():
@@ -151,8 +137,6 @@ def profile():
         )
 
     return "Student not found"
-
-
 
 @app.route("/upload")
 def upload():
@@ -227,11 +211,9 @@ def courses():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM courses")
-    courses = cursor.fetchall()
+    courses_data = cursor.fetchall()
     conn.close()
-
-    return render_template("courses.html", courses=courses)
-
+    return render_template("courses.html", courses=courses_data)
 
 if __name__ == "__main__":
     app.run(debug=True)

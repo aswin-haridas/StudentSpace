@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>StudentSpace</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='courses-style.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .course {
+        background-color: #f7f7f7;
+        height: 80px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .course:hover {
+        background-color: #e7e7e7;
+      }
+
+      .course:active {
+        background-color: #d7d7d7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="StudentSpace">
+      <div class="header">
+        <div class="left-section">StudentSpace.</div>
+        <div class="middle-section">
+          <input class="search-bar" type="text" placeholder="Search" />
+          <img class="search-icon" src="{{search}}" />
+        </div>
+        <div class="right-section">
+          <div class="name">
+            <a href="" class="name">Hii {{fullname}} </a>
+          </div>
+          <div class="notification-icon">
+            <img class="notification-icon" src="{{notification}}" />
+          </div>
+          <div class="settings-icon">
+            <img class="settings-icon" src="{{settings}}" />
+          </div>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('profile') }}">Profile</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('perfomance') }}">Performance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('attendance') }}">Attendance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="#">Notes</a>
+        </div>
+      </div>
+      <div class="main-section">
+        <div class="main">
+          {% for course in courses %}
+          <div class="course">
+            <p>{{ course[0] }}. {{ course[1] }} {{ course[1] }}</p>
+            <p>{{ course[2] }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
