@@ -16,8 +16,29 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../scripts/todo.js"></script>
+    <script>
+      const ctx = document.getElementById("myChart");
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"],
+          datasets: [
+            {
+              label: "# of Votes",
+              data: [10, 6.5, 7.6, 7.9, 8.6, 8.5],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    </script>
   </head>
   <body>
     <div class="StudentSpace">
@@ -40,9 +61,12 @@
         </div>
       </div>
       <div class="sidebar">
+        {% if username %}
         <div class="sidebar-tabs">
           <a href="{{ url_for('profile') }}">My Profile</a>
         </div>
+
+        {% if user_type == 'student' %}
         <div class="sidebar-tabs">
           <a href="{{ url_for('courses') }}">Courses</a>
         </div>
@@ -52,8 +76,38 @@
         <div class="sidebar-tabs">
           <a href="{{ url_for('attendance') }}">Class Attendance</a>
         </div>
-        <div class="sidebar-tabs"><a href="#">Notes</a></div>
+        <div class="sidebar-tabs">
+          <a href="#">Notes</a>
+        </div>
+        {% elif user_type == 'faculty' %}
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('grades') }}">Performance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('attendance') }}">My Attendance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="#">Notes</a>
+        </div>
+        {% elif user_type == 'admin' %}
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </div>
+        <div class="sidebat-tabs">
+          <a href="#">User management</a>
+        </div>
+        <div class="sidebat-tabs">
+          <a href="#">Role management</a>
+        </div>
+        <div class="sidebat-tabs">
+          <a href="#">Permission management</a>
+        </div>
+        {% endif %} {% endif %}
       </div>
+
       <div class="main-section">
         <div class="chart-canvas">
           <canvas id="myChart"></canvas>
