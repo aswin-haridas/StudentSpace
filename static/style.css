@@ -131,3 +131,7 @@ body {
   height: 100%;
   background-color: rgb(202, 173, 230);
 }
+
+.style{
+  text-decoration: none;
+}

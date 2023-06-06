@@ -32,12 +32,12 @@ def login():
                 user_info = cursor.fetchone()
                 if user_info is not None:
                     firstname, lastname = user_info
+                    fullname = f"{firstname} {lastname}"  # Merge first name and last name
                     return redirect(
                         url_for(
                             "student_home",
                             username=username,
-                            firstname=firstname,
-                            lastname=lastname,
+                            fullname=fullname,
                         )
                     )
             elif user_type == "faculty":
@@ -47,15 +47,14 @@ def login():
                 user_info = cursor.fetchone()
                 if user_info is not None:
                     firstname, lastname = user_info
+                    fullname = f"{firstname} {lastname}"  # Merge first name and last name
                     return redirect(
                         url_for(
                             "faculty_home",
                             username=username,
-                            firstname=firstname,
-                            lastname=lastname,
+                            fullname=fullname,
                         )
                     )
-                pass
             elif user_type == "admin":
                 cursor.execute(
                     "SELECT firstname, lastname FROM facultylist WHERE id=?", (user_id,)
@@ -63,15 +62,14 @@ def login():
                 user_info = cursor.fetchone()
                 if user_info is not None:
                     firstname, lastname = user_info
+                    fullname = f"{firstname} {lastname}"  # Merge first name and last name
                     return redirect(
                         url_for(
                             "admin_home",
                             username=username,
-                            firstname=firstname,
-                            lastname=lastname,
+                            fullname=fullname,
                         )
                     )
-                pass
         cursor.close()
         conn.close()
         error_message = "Invalid username or password"
@@ -79,24 +77,24 @@ def login():
     return render_template("login.html", admin=admin, faculty=faculty, student=student)
 
 
-@app.route("/home/student/<username>/<firstname>/<lastname>", endpoint="student_home")
-def student_home(username, firstname, lastname):
+@app.route("/home/student/<username>/<fullname>", endpoint="student_home")
+def student_home(username, fullname):
     return render_template(
-        "home-student.html", username=username, firstname=firstname, lastname=lastname
+        "home-student.html", username=username, fullname=fullname
     )
 
 
-@app.route("/home/faculty/<username>/<firstname>/<lastname>", endpoint="faculty_home")
-def faculty_home(username, firstname, lastname):
+@app.route("/home/faculty/<username>/<fullname>", endpoint="faculty_home")
+def faculty_home(username, fullname):
     return render_template(
-        "home-faculty.html", username=username, firstname=firstname, lastname=lastname
+        "home-faculty.html", username=username, fullname=fullname
     )
 
 
-@app.route("/home/admin/<username>/<firstname>/<lastname>", endpoint="admin_home")
-def admin_home(username, firstname, lastname):
+@app.route("/home/admin/<username>/<fullname>", endpoint="admin_home")
+def admin_home(username, fullname):
     return render_template(
-        "home-admin.html", username=username, firstname=firstname, lastname=lastname
+        "home-admin.html", username=username, fullname=fullname
     )
 
 
