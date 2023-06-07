@@ -27,7 +27,7 @@ def common_icons():
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        user_type = request.form.get("user-type")
+        user_type_form = request.form.get("user-type")
         username = request.form.get("username")
         password = request.form.get("password")
 
@@ -42,22 +42,14 @@ def login():
         if result is not None:
             user_id, user_type, name = result
             session["user_id"] = user_id
-            session["user_type"] =user_type
+            session["user_type"] = user_type
             session["username"] = username
             session["name"] = name
 
-            if user_type == user_type:
-                return redirect(
-                    url_for(
-                        "home",
-                    )
-                )
-
+            if user_type_form == user_type:
+                return redirect(url_for("home"))
         error_message = "Invalid username or password"
-        return render_template(
-            "error.html",
-            error=error_message,
-        )
+        return render_template("error.html", error=error_message)
 
     return render_template("login.html")
 
@@ -224,6 +216,10 @@ def courses():
     conn.close()
     return render_template("courses.html", courses=courses_data)
 
+@app.route('/logout' )
+def logout():
+    session.clear() 
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(debug=True)
