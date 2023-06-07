@@ -40,20 +40,16 @@ def login():
         result = cursor.fetchone()
 
         if result is not None:
-            user_id, fetched_user_type, name = result
+            user_id, user_type, name = result
             session["user_id"] = user_id
             session["user_type"] =user_type
             session["username"] = username
             session["name"] = name
 
-            if user_type == fetched_user_type:
+            if user_type == user_type:
                 return redirect(
                     url_for(
                         "home",
-                        username=username,
-                        id=user_id,
-                        name=name,
-                        user_type=fetched_user_type,
                     )
                 )
 
@@ -66,7 +62,7 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/home/<username>/<name>/<user_type>", endpoint="home")
+@app.route("/home", endpoint="home")
 def home():
     user_id = session.get("user_id")
     user_type =session.get("user_type")
