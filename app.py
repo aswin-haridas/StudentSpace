@@ -42,6 +42,7 @@ def login():
         if result is not None:
             user_id, fetched_user_type, name = result
             session["user_id"] = user_id
+            session["user_type"] =user_type
             session["username"] = username
             session["name"] = name
 
@@ -66,14 +67,17 @@ def login():
 
 
 @app.route("/home/<username>/<name>/<user_type>", endpoint="home")
-def home(username, name, user_type):
-    id = request.args.get("id")
+def home():
+    user_id = session.get("user_id")
+    user_type =session.get("user_type")
+    username = session.get("username")
+    name = session.get("name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     if user_type == "student":
-        cursor.execute("SELECT name FROM studentlist WHERE id=?", (id,))
+        cursor.execute("SELECT name FROM studentlist WHERE id=?", (user_id,))
     elif user_type == "faculty":
-        cursor.execute("SELECT name FROM facultylist WHERE id=?", (id,))
+        cursor.execute("SELECT name FROM facultylist WHERE id=?", (user_id,))
 
     result = cursor.fetchone()
     fullname = None
