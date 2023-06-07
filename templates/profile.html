@@ -31,44 +31,43 @@
     </div>
     <div class="sidebar">
       <div class="sidebar-tabs">
-
         <a href="{{ url_for('home', username=username, name=name, user_type=user_type) }}">Dashboard</a>
       </div>
-      <div class="sidebar-tabs">
 
-        <a href="{{ url_for('profile') }}">My Profile</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('courses') }}"> Courses</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('perfomance') }}">Perfomance</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('attendance') }}">Attendance</a>
-      </div>
-      <div class="sidebar-tabs"><a href="#">Notes</a></div>
+
+      <a href="{{ url_for('profile') }}">My Profile</a>
     </div>
+    <div class="sidebar-tabs">
+      <a href="{{ url_for('courses') }}"> Courses</a>
+    </div>
+    <div class="sidebar-tabs">
+      <a href="{{ url_for('perfomance') }}">Perfomance</a>
+    </div>
+    <div class="sidebar-tabs">
+      <a href="{{ url_for('attendance') }}">Attendance</a>
+    </div>
+    <div class="sidebar-tabs"><a href="#">Notes</a></div>
+  </div>
 
-    <div class="main">
-      <div class="main1">
-        <div class="student-profile">
-          <h2>Student Profile</h2>
-          <ul class="student_details">
-            <li>Name: {{ name }}</li>
-            <li>Date of Birth: {{ dob }}</li>
-            <li>Email: {{ email }}</li>
-            <li>Course: {{ course }}</li>
-            <li>Contact: {{ contact }}</li>
-            <li>Address: {{ address }}</li>
-          </ul>
-        </div>
+  <div class="main">
+    <div class="main1">
+      <div class="student-profile">
+        <h2>Student Profile</h2>
+        <ul class="student_details">
+          <li>Name: {{ name }}</li>
+          <li>Date of Birth: {{ dob }}</li>
+          <li>Email: {{ email }}</li>
+          <li>Course: {{ course }}</li>
+          <li>Contact: {{ contact }}</li>
+          <li>Address: {{ address }}</li>
+        </ul>
+      </div>
 
-        <div class="profile-photo">
-          <img src="{{student}}" alt="Profile Photo" />
-        </div>
+      <div class="profile-photo">
+        <img src="{{student}}" alt="Profile Photo" />
       </div>
     </div>
+  </div>
   </div>
 
 </body>
