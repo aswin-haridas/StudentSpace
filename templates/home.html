@@ -1,157 +1,143 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>StudentSpace</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='home-style.css') }}"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-  <body>
-    <div class="StudentSpace">
-      <div class="header">
-        <div class="left-section">StudentSpace.</div>
-        <div class="middle-section">
-          <input class="search-bar" type="text" placeholder="Search" />
-          <img class="search-icon" src="{{search}}" />
-        </div>
-        <div class="right-section">
-          <div class="name">
-            <a href="" class="name">Hii {{fullname}} </a>
-          </div>
-          <div class="notification-icon">
-            <img class="notification-icon" src="{{notification}}" />
-          </div>
-          <div class="settings-icon">
-            <a href="{{ url_for('logout') }}"><img class="settings-icon" src="{{settings}}" /></a>
-          </div>
-        </div>
-      </div>
-      <div class="sidebar">
-        <div class="sidebar-tabs">
-          <a
-            href="{{ url_for('home', username=username, name=name, user_type=user_type) }}"
-            >Dashboard</a
-          >
-        </div>
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('profile') }}">My Profile</a>
-        </div>
 
-        {% if user_type == 'student' %}
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('courses') }}">Courses</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('perfomance') }}">Performance</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('attendance') }}">Attendance</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="#">Notes</a>
-        </div>
-        {% elif user_type == 'faculty' %}
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('courses') }}">Courses</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('perfomance') }}">Class grades</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('attendance') }}">Class Attendance</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="#">Notes</a>
-        </div>
-        {% elif user_type == 'admin' %}
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('courses') }}">Courses</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="#">User management</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="#">Role management</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="#">Permission management</a>
-        </div>
-        {% endif %}
-      </div>
+<head>
+  <title>StudentSpace</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='home-style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
 
-      <div class="main-section">
-        <div class="main">
-          <div id="gradeChartContainer">
-            <canvas id="gradeChart"></canvas>
-          </div>
+<body>
+  <div class="StudentSpace">
+    <div class="header">
+      <div class="left-section">StudentSpace.</div>
+      <div class="middle-section">
+        <input class="search-bar" type="text" placeholder="Search" />
+        <img class="search-icon" src="{{search}}" />
+      </div>
+      <div class="right-section">
+        <div class="name">
+          <a href="" class="name">Hii {{fullname}} </a>
+        </div>
+        <div class="notification-icon">
+          <img class="notification-icon" src="{{notification}}" />
+        </div>
+        <div class="settings-icon">
+          <a href="{{ url_for('logout') }}"><img class="settings-icon" src="{{settings}}" /></a>
         </div>
       </div>
     </div>
-    <script>
-      fetch("/grades")
-        .then((response) => response.json())
-        .then((data) => {
-          const studentIDs = data.map((row) => row[0]);
-          const grades = data.map((row) => [
-            row[1],
-            row[2],
-            row[3],
-            row[4],
-            row[5],
-            row[6],
-            row[7],
-            row[8],
-          ]);
+    <div class="sidebar">
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('home', username=username, name=name, user_type=user_type) }}">Dashboard</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('profile') }}">My Profile</a>
+      </div>
 
-          const ctx = document.getElementById("gradeChart").getContext("2d");
-          new Chart(ctx, {
-            type: "line",
-            data: {
-              labels: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"],
-              datasets: studentIDs.map((id, index) => ({
-                label: `Student ${id}`,
-                data: grades[index],
-                fill: false,
-                borderColor: getRandomColor(),
-                tension: 0.4,
-              })),
+      {% if user_type == 'student' %}
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('courses') }}">Courses</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('perfomance') }}">Performance</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('attendance') }}">Attendance</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="#">Notes</a>
+      </div>
+      {% elif user_type == 'faculty' %}
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('courses') }}">Courses</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('perfomance') }}">Class grades</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('attendance') }}">Class Attendance</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="#">Notes</a>
+      </div>
+      {% elif user_type == 'admin' %}
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('courses') }}">Courses</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="#">User management</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="#">Role management</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="#">Permission management</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="main-section">
+      <div class="main">
+        <div id="gradeChartContainer">
+          <canvas id="gradeChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    fetch("/grades")
+      .then((response) => response.json())
+      .then((data) => {
+        const studentIDs = data.map((row) => row[0]);
+        const grades = data.map((row) => [
+          row[1],
+          row[2],
+          row[3],
+          row[4],
+          row[5],
+          row[6],
+          row[7],
+          row[8],
+        ]);
+
+        const ctx = document.getElementById("gradeChart").getContext("2d");
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"],
+            datasets: studentIDs.map((id, index) => ({
+              label: `Student ${id}`,
+              data: grades[index],
+              fill: false,
+              borderColor: '#c3c3c3',
+              tension: 0.4,
+            })),
+          },
+          options: {
+            title: {
+              display: false,
             },
-            options: {
-              scales: {
-                x: {
-                  beginAtZero: true,
-                  max: 10,
-                },
-                y: {
-                  beginAtZero: true,
-                  max: 10,
-                },
+            scales: {
+              x: {
+                beginAtZero: true,
+                max: 10,
+              },
+              y: {
+                beginAtZero: true,
+                max: 10,
               },
             },
-          });
+          },
         });
+      });
+</script>
 
-      // Function to generate random colors
-      function getRandomColor() {
-        const letters = "0123456789ABCDEF";
-        let color = "#";
-        for (let i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-      }
-    </script>
-  </body>
+</body>
+
 </html>
