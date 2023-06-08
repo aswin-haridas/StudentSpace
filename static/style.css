@@ -71,7 +71,6 @@ body {
   height: 46px;
   width: 152px;
   border-radius: 48px;
-  transition: background-color 0.3s ease-in-out;
   box-sizing: border-box;
   text-align: center;
   display: flex;
@@ -79,6 +78,7 @@ body {
   align-items: center;
   line-height: 40px;
   margin: 8px;
+  transition: box-shadow 0.3s ease;
 }
 
 .sidebar-tabs a {
@@ -87,8 +87,10 @@ body {
 }
 
 .sidebar-tabs:hover {
-  background-color: #c2e4d7;
+  box-shadow: 0 0 10px rgba(51, 69, 53, 0.2);
 }
+
+
 
 .main {
   margin-left: 250px;
