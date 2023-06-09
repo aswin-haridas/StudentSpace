@@ -39,12 +39,8 @@
               style="width: 24px; height: 24px"
             />
           </div>
-          <div class="settings-icon" style="margin-left: 24px">
-            <img
-              class="rs-settings"
-              src="{{settings}}"
-              style="width: 24px; height: 24px"
-            />
+          <div class="settings-icon">
+            <a href="{{ url_for('logout') }}"><img class="settings-icon" src="{{settings}}" /></a>
           </div>
         </div>
       </div>
