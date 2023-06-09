@@ -198,13 +198,11 @@ def attendance():
         attendance_date = row[0].strftime("%d-%m-%Y")
         student_id = row[1]
         attendance_status = row[2]
-
         attendance_data[attendance_date] = (student_id, attendance_status)
 
     conn.close()
     return render_template(
         "attendance.html",
-        user_id=user_id,
         attendance_data=attendance_data,
         month_labels=month_labels,
         selected_month=selected_month,
@@ -239,7 +237,7 @@ def attendance():
 
     conn.close()
     return render_template(
-        "attendance.html",
+        "attendance.html", 
         attendance_data=attendance_data,
         days=days,
         selected_day=selected_day,
