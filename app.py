@@ -186,7 +186,7 @@ def attendance():
     days = [str(date[0]) for date in dates]
 
     cursor.execute(
-        "SELECT studentid, attendance_status FROM attendance WHERE date=?",
+        "SELECT id, attendance_status FROM attendance WHERE date=?",
         (selected_day,),
     )
     rows = cursor.fetchall()
