@@ -38,24 +38,21 @@
             <div class="sidebar-tabs">
                 <a href="{{ url_for('profile') }}">My Profile</a>
             </div>
-
-            {% if user_type == 'student' %}
             <div class="sidebar-tabs">
                 <a href="{{ url_for('courses') }}">Courses</a>
             </div>
+
+            {% if user_type == 'student' %}
+
             <div class="sidebar-tabs">
                 <a href="{{ url_for('perfomance') }}">Performance</a>
             </div>
             <div class="sidebar-tabs">
                 <a href="{{ url_for('attendance') }}">Attendance</a>
             </div>
-            <div class="sidebar-tabs">
-                <a href="#">Notes</a>
-            </div>
+
             {% elif user_type == 'faculty' %}
-            <div class="sidebar-tabs">
-                <a href="{{ url_for('courses') }}">Courses</a>
-            </div>
+
             <div class="sidebar-tabs">
                 <a href="{{ url_for('perfomance') }}">Class grades</a>
             </div>
@@ -63,11 +60,24 @@
                 <a href="{{ url_for('classAttendance') }}">Class Attendance</a>
             </div>
             <div class="sidebar-tabs">
-                <a href="#">Notes</a>
+                <a href="#">Upload notes</a>
+            </div>
+
+            {% elif user_type == 'admin' %}
+            <div class="sidebar-tabs">
+                <a href="#">User management</a>
+            </div>
+            <div class="sidebar-tabs">
+                <a href="#">Role management</a>
+            </div>
+            <div class="sidebar-tabs">
+                <a href="#">Permission management</a>
             </div>
             {% endif %}
+            <div class="sidebar-tabs">
+                <a href="#">Notes</a>
+            </div>
         </div>
-        {% if user_type == 'student' %}
         <div class="main">
             <h1>Day-wise Attendance</h1>
             <div>
@@ -101,41 +111,6 @@
                 </tbody>
             </table>
         </div>
-        {% elif user_type == 'faculty' %}
-        <div class="main">
-            <h1>Attendance</h1>
-            <div>
-                <form method="GET" action="/classAttendance">
-                    <select name="month" id="month">
-                        {% for month in month_labels %}
-                        <option value="{{ month }}" {% if month==selected_month %} selected="selected" {% endif %}>{{
-                            month }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Go">
-                </form>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Student ID</th>
-                        <th>Attendance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for attendance_date, (student_id, attendance_status) in attendance_data.items() %}
-                    <tr>
-                        <td>{{ attendance_date }}</td>
-                        <td>{{ student_id }}</td>
-                        <td>{{ attendance_status }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% endif %}
     </div>
 </body>
 

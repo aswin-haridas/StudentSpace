@@ -106,7 +106,9 @@ def perfomance():
 
 @app.route("/profile")
 def profile():
-    user_id = session.get("user_id")  # Retrieve the user_id from the session
+    user_id = session.get("user_id")
+    user_type = session.get("user_type")
+
     if user_id is None:
         return "User ID not found"
 
@@ -128,6 +130,7 @@ def profile():
         return render_template(
             "profile.html",
             id=id,
+            user_type=user_type,
             name=name,
             dob=dob,
             email=email,
