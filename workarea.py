@@ -1,14 +1,23 @@
-import pandas as pd
 import sqlite3
+from datetime import datetime
 
-# Read the Excel file into a pandas DataFrame
-df = pd.read_excel('attendance.xlsx')
-
-# Establish a connection to the database
+# Connect to the SQLite database
 conn = sqlite3.connect('database.db')
+cursor = conn.cursor()
 
-# Write the DataFrame to a database table
-df.to_sql('attendance', conn, if_exists='replace', index=False)
+# Retrieve the date from the database
+cursor.execute("SELECT date FROM attendance")
+rows = cursor.fetchall()
 
-# Close the database connection
+# Iterate over the retrieved rows and update the date format
+for row in rows:
+    old_date_str = row[0]
+    old_date = datetime.strptime(old_date_str, "%Y-%m-%d %H:%M:%S")
+    new_date_str = old_date.strftime("%d-%m-%y")
+    
+    # Update the date in the database
+    cursor.execute("UPDATE attendance SET date = ? WHERE date = ?", (new_date_str, old_date_str))
+
+# Commit the changes and close the connection
+conn.commit()
 conn.close()
