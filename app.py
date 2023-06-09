@@ -210,7 +210,7 @@ def attendance():
 
 
 @app.route("/classAttendance", methods=["GET", "POST"])
-def attendance():
+def class_attendance():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
