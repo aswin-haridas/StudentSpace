@@ -177,6 +177,45 @@ def attendance():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
+    user_id = session.get("user_id")
+
+    selected_month = request.args.get("month")
+    if selected_month is None:
+        selected_month = "1"  # Default to the first month
+
+    cursor.execute("SELECT DISTINCT strftime('%Y-%m', date) FROM attendance")
+    months = cursor.fetchall()
+    month_labels = [str(month[0]) for month in months]
+
+    cursor.execute(
+        "SELECT date, id, status FROM attendance WHERE strftime('%Y-%m', date) = ? AND id = ?",
+        (selected_month, user_id),
+    )
+    rows = cursor.fetchall()
+
+    attendance_data = {}
+    for row in rows:
+        attendance_date = row[0].strftime("%d-%m-%Y")
+        student_id = row[1]
+        attendance_status = row[2]
+
+        attendance_data[attendance_date] = (student_id, attendance_status)
+
+    conn.close()
+    return render_template(
+        "attendance.html",
+        user_id=user_id,
+        attendance_data=attendance_data,
+        month_labels=month_labels,
+        selected_month=selected_month,
+    )
+
+
+@app.route("/classAttendance", methods=["GET", "POST"])
+def attendance():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
     selected_day = request.args.get("day")
     if selected_day is None:
         selected_day = "1"
