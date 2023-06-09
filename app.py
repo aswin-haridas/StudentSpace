@@ -215,7 +215,7 @@ def attendance():
 
 
 @app.route("/classAttendance", methods=["GET", "POST"])
-def class_attendance():
+def classAttendance():
     user_type = session.get("user_type")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
@@ -249,7 +249,6 @@ def class_attendance():
         days=days,
         selected_day=selected_day,
     )
-
 
 @app.route("/courses")
 def courses():

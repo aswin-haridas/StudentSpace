@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Attendance</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
@@ -10,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
         rel="stylesheet" />
 </head>
-
 <body>
     <div class="StudentSpace">
         <div class="header">
@@ -79,39 +77,68 @@
             </div>
         </div>
         <div class="main">
-            <h1>Day-wise Attendance</h1>
-            <div>
-                <form method="GET" action="/attendance">
-                    <select name="day" id="day">
-                        {% for day in days %}
-                        <option value="{{ day }}" {% if day=="selected_day" %} selected="selected" {% endif %}>
-                            {{ day }}
-                        </option>
+            {% if user_type == 'student' %}
+                <h1>My Attendance</h1>
+                <div>
+                    <form method="GET" action="/attendance">
+                        <select name="month" id="month">
+                            {% for month_label in month_labels %}
+                            <option value="{{ month_label }}" {% if month_label == selected_month %}selected="selected"{% endif %}>
+                                {{ month_label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Go" />
+                    </form>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Attendance Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attendance_date, (student_id, attendance_status) in attendance_data.items() %}
+                        <tr>
+                            <td>{{ attendance_date }}</td>
+                            <td>{{ attendance_status }}</td>
+                        </tr>
                         {% endfor %}
-                    </select>
-                    <input type="submit" value="Go" />
-                </form>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Student ID</th>
-                        <th>Attendance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student_id, attendance_status in attendance_data.items() %}
-                    <tr>
-                        <td>{{ selected_day }}</td>
-                        <td>{{ student_id }}</td>
-                        <td>{{ attendance_status }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            {% elif user_type == 'faculty' %}
+                <h1>Class Attendance</h1>
+                <div>
+                    <form method="GET" action="/classAttendance">
+                        <select name="day" id="day">
+                            {% for day in days %}
+                            <option value="{{ day }}" {% if day == selected_day %}selected="selected"{% endif %}>
+                                {{ day }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Go" />
+                    </form>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Attendance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student_id, attendance_status in attendance_data.items() %}
+                        <tr>
+                            <td>{{ student_id }}</td>
+                            <td>{{ attendance_status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </div>
 </body>
-
 </html>
