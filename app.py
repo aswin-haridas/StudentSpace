@@ -57,7 +57,7 @@ def login():
 @app.route("/home", endpoint="home")
 def home():
     user_id = session.get("user_id")
-    user_type =session.get("user_type")
+    user_type = session.get("user_type")
     username = session.get("username")
     name = session.get("name")
     conn = sqlite3.connect("database.db")
@@ -82,7 +82,6 @@ def home():
         fullname=fullname,
     )
 
-
 @app.route("/grades")
 def get_student_grades():
     user_id = session.get("user_id")
@@ -97,11 +96,12 @@ def get_student_grades():
 @app.route("/perfomance")
 def perfomance():
     user_id = session.get("user_id")
+    user_type = session.get("user_type")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM grade WHERE id = ?", (user_id,))
     marks = cursor.fetchone()  # Extracting the marks from the query result
-    return render_template("perfomance.html", marks=marks)
+    return render_template("perfomance.html",user_type=user_type, marks=marks)
 
 
 @app.route("/profile")
@@ -141,7 +141,7 @@ def profile():
 
 @app.route("/upload")
 def upload():
-    return render_template("upload.html")
+    return render_template("upload-faculty.html")
 
 
 @app.route("/process", methods=["POST"])
@@ -178,6 +178,7 @@ def attendance():
     cursor = conn.cursor()
 
     user_id = session.get("user_id")
+    user_type = session.get("user_type")
 
     selected_month = request.args.get("month")
     if selected_month is None:
@@ -203,6 +204,7 @@ def attendance():
     conn.close()
     return render_template(
         "attendance.html",
+        user_type=user_type,
         attendance_data=attendance_data,
         month_labels=month_labels,
         selected_month=selected_month,
@@ -211,6 +213,7 @@ def attendance():
 
 @app.route("/classAttendance", methods=["GET", "POST"])
 def class_attendance():
+    user_type = session.get("user_type")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
@@ -237,7 +240,8 @@ def class_attendance():
 
     conn.close()
     return render_template(
-        "attendance.html", 
+        "attendance.html",
+        user_type=user_type,
         attendance_data=attendance_data,
         days=days,
         selected_day=selected_day,
@@ -246,18 +250,20 @@ def class_attendance():
 
 @app.route("/courses")
 def courses():
+    user_type = session.get("user_type")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM courses")
     courses_data = cursor.fetchall()
     conn.close()
-    return render_template("courses.html", courses=courses_data)
+    return render_template("courses.html", courses=courses_data,user_type=user_type)
 
-@app.route('/logout' )
+
+@app.route("/logout")
 def logout():
-    session.clear() 
-    return redirect(url_for('login'))
+    session.clear()
+    return redirect(url_for("login"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
- 
