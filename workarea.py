@@ -8,7 +8,7 @@ df = pd.read_excel('attendance.xlsx')
 conn = sqlite3.connect('database.db')
 
 # Write the DataFrame to a database table
-df.to_sql('your_table_name', conn, if_exists='replace', index=False)
+df.to_sql('attendance', conn, if_exists='replace', index=False)
 
 # Close the database connection
 conn.close()
