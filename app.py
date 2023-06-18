@@ -83,6 +83,16 @@ def home():
         fullname=fullname,
     )
 
+@app.route("/studentlist")
+def get_student_list():
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+    c.execute("SELECT id, name ,email FROM studentlist")
+    student_list = c.fetchall()
+    conn.close()
+    return jsonify(student_list)
+
+
 
 @app.route("/grades")
 def get_student_grades():
@@ -99,11 +109,12 @@ def get_student_grades():
             "s3": data[2],
             "s4": data[3],
             "s5": data[4],
-            "s6": data[5]
+            "s6": data[5],
         }
         return jsonify(grade_data)
     else:
         return jsonify({})
+
 
 @app.route("/tasks")
 def get_tasks():
@@ -115,11 +126,7 @@ def get_tasks():
 
     tasks = []
     for task in data:
-        task_dict = {
-            "name": task[0],
-            "due": task[1],
-            "status": task[2]
-        }
+        task_dict = {"name": task[0], "due": task[1], "status": task[2]}
         tasks.append(task_dict)
 
     return jsonify(tasks)
@@ -146,32 +153,60 @@ def profile():
 
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
-    student_info = cursor.fetchone()
-    conn.close()
+    
+    if user_type == "student":
+        cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
+        student_info = cursor.fetchone()
+        conn.close()
 
-    if student_info is not None:
-        id = student_info[0]
-        name = student_info[1]
-        dob = student_info[2]
-        email = student_info[3]
-        course = student_info[4]
-        contact = student_info[5]
-        address = student_info[6]
+        if student_info is not None:
+            id = student_info[0]
+            name = student_info[1]
+            dob = student_info[2]
+            email = student_info[3]
+            course = student_info[4]
+            contact = student_info[5]
+            address = student_info[6]
 
-        return render_template(
-            "profile.html",
-            id=id,
-            user_type=user_type,
-            name=name,
-            dob=dob,
-            email=email,
-            course=course,
-            contact=contact,
-            address=address,
-        )
+            return render_template(
+                "profile.html",
+                id=id,
+                user_type=user_type,
+                name=name,
+                dob=dob,
+                email=email,
+                course=course,
+                contact=contact,
+                address=address,
+            )
 
-    return "Student not found"
+    elif user_type == "faculty":
+        cursor.execute("SELECT * FROM facultylist WHERE id=?", (user_id,))
+        faculty_info = cursor.fetchone()
+        conn.close()
+
+        if faculty_info is not None:
+            id = faculty_info[0]
+            name = faculty_info[1]
+            dob = faculty_info[2]
+            email = faculty_info[3]
+            department=faculty_info[4]
+            contact = faculty_info[5]
+            address = faculty_info[6]
+
+            return render_template(
+                "profile.html",
+                id=id,
+                user_type=user_type,
+                dob=dob,
+                course=department,
+                name=name,
+                email=email,
+                contact=contact,
+                address=address,
+            )
+
+    return "User not found"
 
 
 @app.route("/upload")
@@ -212,7 +247,6 @@ def attendance():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
 
-
     if request.method == "POST":
         selected_month = request.form["month"]
     else:
@@ -242,7 +276,7 @@ def attendance():
 
 @app.route("/classAttendance", methods=["GET", "POST"])
 def classAttendance():
-    user_type = session.get("user_type")  
+    user_type = session.get("user_type")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 

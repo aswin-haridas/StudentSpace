@@ -1,36 +1,63 @@
 .tasks {
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    padding: 20px;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
-  
-  .tasks table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .tasks th,
-  .tasks td {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  .tasks th {
-    font-weight: 600;
-  }
-  
-  .tasks tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .tasks tbody tr:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .tasks tbody td:last-child {
-    text-transform: capitalize;
-  }
-  
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.tasks table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tasks th,
+.tasks td {
+  padding: 10px;
+  text-align: left;
+}
+
+.tasks th {
+  font-weight: 600;
+}
+
+.tasks tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.tasks tbody tr:hover {
+  background-color: #e0e0e0;
+}
+
+.tasks tbody td:last-child {
+  text-transform: capitalize;
+}
+
+.student-list {
+  margin: 20px;
+}
+
+#studentTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+
+#studentTable th,
+#studentTable td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#studentTable th {
+  background-color: #f2f2f2;
+}
+
+p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  margin: 10px;
+}
