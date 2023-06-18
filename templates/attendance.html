@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Attendance</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
@@ -9,6 +10,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
         rel="stylesheet" />
 </head>
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+        width: 400px;
+        margin-left: 20px;
+
+    }
+
+    .grid-item {
+        border: 2px solid rgb(0, 0, 0);
+        border-radius: 4px;
+        padding: 10px;
+        text-align: center;
+    }
+    .present{
+        color: green;
+    }
+    .absent {
+        color: red;
+    }
+</style>
 <body>
     <div class="StudentSpace">
         <div class="header">
@@ -26,7 +50,7 @@
                 </div>
                 <div class="settings-icon">
                     <a href="{{ url_for('logout') }}"><img class="settings-icon" src="{{settings}}" /></a>
-                  </div>
+                </div>
             </div>
         </div>
         <div class="sidebar">
@@ -78,42 +102,50 @@
         </div>
         <div class="main">
             {% if user_type == 'student' %}
-                <h1>My Attendance</h1>
-                <div>
-                    <form method="GET" action="/attendance">
-                        <select name="month" id="month">
-                            {% for month_label in month_labels %}
-                            <option value="{{ month_label }}" {% if month_label == selected_month %}selected="selected"{% endif %}>
-                                {{ month_label }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                        <input type="submit" value="Go" />
-                    </form>
+            <h1>My Attendance</h1>
+            <div>
+                <form method="post">
+                    <label for="month">Select Month:</label>
+                    <select name="month" id="month">
+                        <option value="January" {% if selected_month=='January' or not selected_month %}selected{% endif
+                            %}>January</option>
+                        <option value="February" {% if selected_month=='February' %}selected{% endif %}>February
+                        </option>
+                        <option value="March" {% if selected_month=='March' %}selected{% endif %}>March</option>
+                        <option value="April" {% if selected_month=='April' %}selected{% endif %}>April</option>
+                        <option value="May" {% if selected_month=='May' %}selected{% endif %}>May</option>
+                        <option value="June" {% if selected_month=='June' %}selected{% endif %}>June</option>
+                        <option value="July" {% if selected_month=='July' %}selected{% endif %}>July</option>
+                        <option value="August" {% if selected_month=='August' %}selected{% endif %}>August</option>
+                        <option value="September" {% if selected_month=='September' %}selected{% endif %}>September
+                        </option>
+                        <option value="October" {% if selected_month=='October' %}selected{% endif %}>October</option>
+                        <option value="November" {% if selected_month=='November' %}selected{% endif %}>November
+                        </option>
+                        <option value="December" {% if selected_month=='December' %}selected{% endif %}>December
+                        </option>
+                    </select>
+
+                    <input type="submit" value="Show Attendance">
+                </form>
+                
+
+                <div class="grid-container">
+                    {% for day in range(1, 32) %}
+                    <div class="grid-item{% if attendance_records[day-1][0] == 0 %} absent{% elif attendance_records[day-1][0] == 1 %} present{% endif %}">
+                        {{ day }}
+                    </div>
+                    {% endfor %}
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Attendance Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for attendance_date, (student_id, attendance_status) in attendance_data.items() %}
-                        <tr>
-                            <td>{{ attendance_date }}</td>
-                            <td>{{ attendance_status }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% elif user_type == 'faculty' %}
+
+
+                {% elif user_type == 'faculty' %}
                 <h1>Class Attendance</h1>
                 <div>
                     <form method="GET" action="/classAttendance">
                         <select name="day" id="day">
                             {% for day in days %}
-                            <option value="{{ day }}" {% if day == selected_day %}selected="selected"{% endif %}>
+                            <option value="{{ day }}" {% if day==selected_day %}selected="selected" {% endif %}>
                                 {{ day }}
                             </option>
                             {% endfor %}
@@ -137,8 +169,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
-    </div>
 </body>
+
 </html>

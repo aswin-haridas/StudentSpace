@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); /* 7 columns for each day of the week */
+            gap: 10px; /* Gap between grid items */
+            width: 400px; /* Adjust the width as needed */
+        }
+    
+        .grid-item {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+    
+    <div class="grid-container">
+        {% for day in range(1, 32) %}
+        <div class="grid-item">
+            {{ day }}
+        </div>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>

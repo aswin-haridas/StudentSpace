@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from openpyxl import load_workbook
 import sqlite3
+import datetime
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
@@ -82,6 +83,7 @@ def home():
         fullname=fullname,
     )
 
+
 @app.route("/grades")
 def get_student_grades():
     user_id = session.get("user_id")
@@ -101,7 +103,7 @@ def perfomance():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM grade WHERE id = ?", (user_id,))
     marks = cursor.fetchone()  # Extracting the marks from the query result
-    return render_template("perfomance.html",user_type=user_type, marks=marks)
+    return render_template("perfomance.html", user_type=user_type, marks=marks)
 
 
 @app.route("/profile")
@@ -177,46 +179,40 @@ def process():
 
 @app.route("/attendance", methods=["GET", "POST"])
 def attendance():
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-
     user_id = session.get("user_id")
     user_type = session.get("user_type")
 
-    selected_month = request.args.get("month")
-    if selected_month is None:
-        selected_month = "1"  # Default to the first month
 
-    cursor.execute("SELECT DISTINCT strftime('%Y-%m', date) FROM attendance")
-    months = cursor.fetchall()
-    month_labels = [str(month[0]) for month in months]
+    if request.method == "POST":
+        selected_month = request.form["month"]
+    else:
+        selected_month = "January"  # Default month
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT date, id, status FROM attendance WHERE strftime('%Y-%m', date) = ? AND id = ?",
-        (selected_month, user_id),
+        "SELECT status FROM attendance WHERE id=? AND month=?",
+        (user_id, selected_month),
     )
-    rows = cursor.fetchall()
-
-    attendance_data = {}
-    for row in rows:
-        attendance_date = row[0].strftime("%d-%m-%Y")
-        student_id = row[1]
-        attendance_status = row[2]
-        attendance_data[attendance_date] = (student_id, attendance_status)
+    attendance_records = cursor.fetchall()
 
     conn.close()
+
+    if len(attendance_records) == 0:
+        return f"No attendance records found for user ID {user_id} in {selected_month}."
+
     return render_template(
         "attendance.html",
         user_type=user_type,
-        attendance_data=attendance_data,
-        month_labels=month_labels,
+        attendance_records=attendance_records,
         selected_month=selected_month,
     )
 
 
 @app.route("/classAttendance", methods=["GET", "POST"])
 def classAttendance():
-    user_type = session.get("user_type")
+    user_type = session.get("user_type")  
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
@@ -250,6 +246,7 @@ def classAttendance():
         selected_day=selected_day,
     )
 
+
 @app.route("/courses")
 def courses():
     user_type = session.get("user_type")
@@ -258,7 +255,7 @@ def courses():
     cursor.execute("SELECT * FROM courses")
     courses_data = cursor.fetchall()
     conn.close()
-    return render_template("courses.html", courses=courses_data,user_type=user_type)
+    return render_template("courses.html", courses=courses_data, user_type=user_type)
 
 
 @app.route("/logout")
