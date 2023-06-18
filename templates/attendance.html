@@ -16,7 +16,7 @@
         grid-template-columns: repeat(7, 1fr);
         gap: 10px;
         width: 400px;
-        margin-left: 20px;
+        margin: 20px;
 
     }
 
@@ -100,11 +100,10 @@
                 <a href="#">Notes</a>
             </div>
         </div>
-        <div class="main">
+        <div class="main-section">
             {% if user_type == 'student' %}
-            <h1>My Attendance</h1>
-            <div>
-                <form method="post">
+            <div class="main">
+                <form class="form" method="post">
                     <label for="month">Select Month:</label>
                     <select name="month" id="month">
                         <option value="January" {% if selected_month=='January' or not selected_month %}selected{% endif
@@ -140,7 +139,7 @@
 
 
                 {% elif user_type == 'faculty' %}
-                <h1>Class Attendance</h1>
+                <p>Class Attendance</p>
                 <div>
                     <form method="GET" action="/classAttendance">
                         <select name="day" id="day">

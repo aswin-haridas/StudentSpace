@@ -89,10 +89,40 @@ def get_student_grades():
     user_id = session.get("user_id")
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
-    c.execute("SELECT * FROM grades WHERE id = ?", (user_id,))
+    c.execute("SELECT s1, s2, s3, s4, s5, s6 FROM grades WHERE id = ?", (user_id,))
+    data = c.fetchone()
+    conn.close()
+    if data:
+        grade_data = {
+            "s1": data[0],
+            "s2": data[1],
+            "s3": data[2],
+            "s4": data[3],
+            "s5": data[4],
+            "s6": data[5]
+        }
+        return jsonify(grade_data)
+    else:
+        return jsonify({})
+
+@app.route("/tasks")
+def get_tasks():
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+    c.execute("SELECT name, due, status FROM tasks")
     data = c.fetchall()
     conn.close()
-    return jsonify(data)
+
+    tasks = []
+    for task in data:
+        task_dict = {
+            "name": task[0],
+            "due": task[1],
+            "status": task[2]
+        }
+        tasks.append(task_dict)
+
+    return jsonify(tasks)
 
 
 @app.route("/perfomance")

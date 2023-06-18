@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
     rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body>
@@ -42,7 +42,7 @@
       <div class="sidebar-tabs">
         <a href="{{ url_for('courses') }}">Courses</a>
       </div>
-   
+
       {% if user_type == 'student' %}
 
       <div class="sidebar-tabs">
@@ -62,7 +62,7 @@
       </div>
       <div class="sidebar-tabs">
         <a href="#">Upload notes</a>
-      </div>   
+      </div>
 
       {% elif user_type == 'admin' %}
       <div class="sidebar-tabs">
@@ -83,59 +83,80 @@
     <div class="main-section">
       <div class="main">
         {% if user_type == 'student' %}
-        <div id="gradeChartContainer">
-          <canvas id="gradeChart"></canvas>
+        <div id="gradeChartContainer"></div>
         {% endif %}
+        <div class="tasks">
+          <div id="taskList">
+            <table>
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>due</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Task rows will be dynamically inserted here -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <script>
-    fetch("/grades")
-      .then((response) => response.json())
-      .then((data) => {
-        const studentIDs = data.map((row) => row[0]);
-        const grades = data.map((row) => [
-          row[1],
-          row[2],
-          row[3],
-          row[4],
-          row[5],
-          row[6],
-          row[7],
-          row[8],
-        ]);
+    <script>
+      fetch("/grades")
+        .then((response) => response.json())
+        .then((data) => {
+          const grades = Object.values(data);
+          const subjects = Object.keys(data);
 
-        const ctx = document.getElementById("gradeChart").getContext("2d");
-        new Chart(ctx, {
-          type: "line",
-          data: {
-            labels: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"],
-            datasets: studentIDs.map((id, index) => ({
-              label: `Student ${id}`,
-              data: grades[index],
-              fill: false,
-              borderColor: '#c3c3c3',
-              tension: 0.4,
-            })),
-          },
-          options: {
-            title: {
-              display: false,
+          const chartOptions = {
+            chart: {
+              type: 'line',
+              height: 350,
             },
-            scales: {
-              x: {
-                beginAtZero: true,
-                max: 10,
+            series: [
+              {
+                name: 'Grades',
+                data: grades,
               },
-              y: {
-                beginAtZero: true,
-                max: 10,
-              },
+            ],
+            xaxis: {
+              categories: subjects,
+            }, yaxis: {
+              min: 0, // Set minimum y-axis value
+              max: 10, // Set maximum y-axis value
             },
-          },
+          };
+
+          const chart = new ApexCharts(document.querySelector("#gradeChartContainer"), chartOptions);
+          chart.render();
         });
-      });
-</script>
+
+      fetch("/tasks")
+        .then((response) => response.json())
+        .then((data) => {
+          const taskList = document.getElementById("taskList");
+
+          data.forEach((task) => {
+            const row = document.createElement("tr");
+
+            const taskName = document.createElement("td");
+            taskName.textContent = task.name;
+            row.appendChild(taskName);
+
+            const due = document.createElement("td");
+            due.textContent = task.due;
+            row.appendChild(due);
+
+            const status = document.createElement("td");
+            status.textContent = task.status;
+            row.appendChild(status);
+
+            taskList.querySelector("tbody").appendChild(row);
+          });
+        });
+    </script>
 </body>
+
 </html>
