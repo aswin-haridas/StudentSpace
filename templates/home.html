@@ -84,10 +84,13 @@
     <div class="main-section">
       <div class="main">
         {% if user_type == 'student' %}
-        <div id="gradeChartContainer"></div>
+        <div class="chart-container">
+          <div id="gradeChartContainer" class="chart"></div>
+          <div id="attendanceChart" class="chart"></div>
+        </div>
         {% elif user_type == 'faculty' %}
-        
-        <div  class="student-list">
+
+        <div class="student-list">
           <p>Student List</p>
           <table id="studentTable">
             <thead>
@@ -122,6 +125,7 @@
 
       </div>
     </div>
+
     <script>
       fetch("/grades")
         .then((response) => response.json())
@@ -142,7 +146,8 @@
             ],
             xaxis: {
               categories: subjects,
-            }, yaxis: {
+            },
+            yaxis: {
               min: 0, // Set minimum y-axis value
               max: 10, // Set maximum y-axis value
             },
@@ -175,6 +180,7 @@
             taskList.querySelector("tbody").appendChild(row);
           });
         });
+
       fetch("/studentlist")
         .then((response) => response.json())
         .then((data) => {
@@ -199,6 +205,26 @@
           });
         });
 
+        fetch('/attendancepercentage')
+            .then(response => response.json())
+            .then(data => {
+                // Create the donut chart
+                const chart = new ApexCharts(document.querySelector('#attendanceChart'), {
+                    series: [data, 100 - data], // Data for attendance and remaining percentage
+                    labels: ['Present', 'Absent'],
+                    colors: ['#008FFB', '#E5E5E5'], // Customize the colors as desired
+                    chart: {
+                        type: 'donut',
+                        height: 360,
+                    },
+                });
+
+                // Render the chart
+                chart.render();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
 
     </script>
 </body>

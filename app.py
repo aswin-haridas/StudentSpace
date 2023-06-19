@@ -73,6 +73,16 @@ def home():
     if result is not None:
         fullname = result[0]
 
+    cursor.execute("SELECT status FROM attendance WHERE id=?", (user_id,))
+    attendance_data = [status[0] for status in cursor.fetchall()]
+
+    total_attendance = len(attendance_data)
+    present_attendance = sum(1 for status in attendance_data if status == "Present")
+
+    attendance_percentage = 0
+    if total_attendance != 0:
+        attendance_percentage = (present_attendance / total_attendance) * 100
+
     conn.close()
 
     return render_template(
@@ -81,7 +91,9 @@ def home():
         name=name,
         user_type=user_type,
         fullname=fullname,
+        attendance_percentage=attendance_percentage,
     )
+
 
 @app.route("/studentlist")
 def get_student_list():
@@ -92,6 +104,26 @@ def get_student_list():
     conn.close()
     return jsonify(student_list)
 
+
+@app.route("/attendancepercentage")
+def attendancepercentage():
+    user_id = session.get("user_id")
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT SUM(status) FROM attendance WHERE id=?", (user_id,))
+    sum_status = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM attendance WHERE id=?", (user_id,))
+    num_rows = cursor.fetchone()[0]
+
+    attendance_percentage = (sum_status / num_rows) * 100 if num_rows > 0 else 0
+    attendance_percentage = round(attendance_percentage, 1)
+
+    cursor.close()
+    conn.close()
+
+    return jsonify(attendance_percentage)
 
 
 @app.route("/grades")
@@ -139,8 +171,12 @@ def perfomance():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM grade WHERE id = ?", (user_id,))
-    marks = cursor.fetchone()  # Extracting the marks from the query result
-    return render_template("perfomance.html", user_type=user_type, marks=marks)
+    marks = cursor.fetchone()
+    
+    cursor.execute("SELECT * FROM grades")
+    grades = cursor.fetchall()
+    conn.close()
+    return render_template("perfomance.html", user_type=user_type, marks=marks,grades=grades)
 
 
 @app.route("/profile")
@@ -153,7 +189,7 @@ def profile():
 
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    
+
     if user_type == "student":
         cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
         student_info = cursor.fetchone()
@@ -190,7 +226,7 @@ def profile():
             name = faculty_info[1]
             dob = faculty_info[2]
             email = faculty_info[3]
-            department=faculty_info[4]
+            department = faculty_info[4]
             contact = faculty_info[5]
             address = faculty_info[6]
 

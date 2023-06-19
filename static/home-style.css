@@ -61,3 +61,15 @@ p {
   margin-bottom: 1rem;
   margin: 10px;
 }
+
+.chart-container {
+  display: flex;
+
+}
+.chart {
+  flex: 5;
+  margin-right: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  background-color: white;
+}
