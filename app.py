@@ -73,6 +73,7 @@ def home():
     if result is not None:
         fullname = result[0]
 
+    session["fullname"] = fullname
     cursor.execute("SELECT status FROM attendance WHERE id=?", (user_id,))
     attendance_data = [status[0] for status in cursor.fetchall()]
 
@@ -183,6 +184,7 @@ def perfomance():
 def profile():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
+    fullname = session.get("fullname")
 
     if user_id is None:
         return "User ID not found"
@@ -194,6 +196,7 @@ def profile():
         cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
         student_info = cursor.fetchone()
         conn.close()
+        
 
         if student_info is not None:
             id = student_info[0]
@@ -211,6 +214,7 @@ def profile():
                 name=name,
                 dob=dob,
                 email=email,
+                fullname=fullname,
                 course=course,
                 contact=contact,
                 address=address,
@@ -240,6 +244,7 @@ def profile():
                 email=email,
                 contact=contact,
                 address=address,
+                fullname=fullname,
             )
 
     return "User not found"
@@ -350,12 +355,13 @@ def classAttendance():
 @app.route("/courses")
 def courses():
     user_type = session.get("user_type")
+    fullname = session.get("fullname")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM courses")
     courses_data = cursor.fetchall()
     conn.close()
-    return render_template("courses.html", courses=courses_data, user_type=user_type)
+    return render_template("courses.html", courses=courses_data, user_type=user_type,fullname=fullname,)
 
 
 @app.route("/logout")

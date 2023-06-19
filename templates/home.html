@@ -16,14 +16,16 @@
 <body>
   <div class="StudentSpace">
     <div class="header">
-      <div class="left-section">StudentSpace.</div>
+      <div class="left-section">
+        StudentSpace.
+      </div>
       <div class="middle-section">
         <input class="search-bar" type="text" placeholder="Search" />
         <img class="search-icon" src="{{search}}" />
       </div>
       <div class="right-section">
         <div class="name">
-          <a href="" class="name">Hii {{fullname}} </a>
+          <a href="{{ url_for('profile') }}" class="name">Hii {{fullname}} </a>
         </div>
         <div class="notification-icon">
           <img class="notification-icon" src="{{notification}}" />
@@ -84,7 +86,9 @@
     <div class="main-section">
       <div class="main">
         {% if user_type == 'student' %}
+        <p>Progress</p> 
         <div class="chart-container">
+          
           <div id="gradeChartContainer" class="chart"></div>
           <div id="attendanceChart" class="chart"></div>
         </div>

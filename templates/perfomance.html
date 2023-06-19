@@ -112,29 +112,25 @@
         <table>
           <tr>
             <th>Student ID</th>
-            <th>{{grades[0]}}</th>
+            <th>Programming</th>
+            <th>Data Structures</th>
+            <th>Database Management</th>
+            <th>Algorithms</th>
+            <th>Operating Systems</th>
           </tr>
+          {% for row in grades %}
           <tr>
-            <td>Programming</td>
-            <td>{{ marks }}</td>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
           </tr>
-          <tr>
-            <td>Data Structures</td>
-            <td>{{ marks[2] }}</td>
-          </tr>
-          <tr>
-            <td>Database Management</td>
-            <td>{{ marks[3] }}</td>
-          </tr>
-          <tr>
-            <td>Algorithms</td>
-            <td>{{ marks[4] }}</td>
-          </tr>
-          <tr>
-            <td>Operating Systems</td>
-            <td>{{ marks[5] }}</td>
-          </tr>
+          {% endfor %}
         </table>
+
+
         {% endif %}
       </div>
     </div>
