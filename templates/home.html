@@ -54,6 +54,10 @@
       <div class="sidebar-tabs">
         <a href="{{ url_for('attendance') }}">Attendance</a>
       </div>
+      
+      <div class="sidebar-tabs">
+        <a href="#">Notes</a>
+      </div>
 
       {% elif user_type == 'faculty' %}
 
@@ -78,9 +82,6 @@
         <a href="#">Permission management</a>
       </div>
       {% endif %}
-      <div class="sidebar-tabs">
-        <a href="#">Notes</a>
-      </div>
     </div>
 
     <div class="main-section">
