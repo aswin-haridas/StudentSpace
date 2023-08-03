@@ -69,11 +69,11 @@ def home():
         cursor.execute("SELECT name FROM facultylist WHERE id=?", (user_id,))
 
     result = cursor.fetchone()
-    fullname = None
+    name = None
     if result is not None:
-        fullname = result[0]
+        name = result[0]
 
-    session["fullname"] = fullname
+    session["name"] = name
     cursor.execute("SELECT status FROM attendance WHERE id=?", (user_id,))
     attendance_data = [status[0] for status in cursor.fetchall()]
 
@@ -91,7 +91,7 @@ def home():
         username=username,
         name=name,
         user_type=user_type,
-        fullname=fullname,
+        name=name,
         attendance_percentage=attendance_percentage,
     )
 
@@ -174,7 +174,6 @@ def perfomance():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM grade WHERE id = ?", (user_id,))
     marks = cursor.fetchone()
-    
     cursor.execute("SELECT * FROM grades")
     grades = cursor.fetchall()
     conn.close()
@@ -185,7 +184,7 @@ def perfomance():
 def profile():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
-    fullname = session.get("fullname")
+    name = session.get("name")
 
     if user_id is None:
         return "User ID not found"
@@ -215,7 +214,7 @@ def profile():
                 name=name,
                 dob=dob,
                 email=email,
-                fullname=fullname,
+                name=name,
                 course=course,
                 contact=contact,
                 address=address,
@@ -245,7 +244,7 @@ def profile():
                 email=email,
                 contact=contact,
                 address=address,
-                fullname=fullname,
+                name=name,
             )
 
     return "User not found"
@@ -288,7 +287,7 @@ def process():
 def attendance():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
-    full_name = session.get("fullname")
+    full_name = session.get("name")
     if request.method == "POST":
         selected_month = request.form["month"]
     else:
@@ -320,7 +319,7 @@ def attendance():
 @app.route("/classAttendance", methods=["GET", "POST"])
 def classAttendance():
     user_type = session.get("user_type")
-    fullname = session.get("name")
+    name = session.get("name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
@@ -349,7 +348,7 @@ def classAttendance():
         "attendance.html",
         user_type=user_type,
         attendance_data=attendance_data,
-        fullname=fullname,
+        name=name,
         days=days,
         selected_day=selected_day,
     )
@@ -357,13 +356,13 @@ def classAttendance():
 @app.route("/courses")
 def courses():
     user_type = session.get("user_type")
-    fullname = session.get("fullname")
+    name = session.get("name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM courses")
     courses_data = cursor.fetchall()
     conn.close()
-    return render_template("courses.html", courses=courses_data, user_type=user_type,fullname=fullname,)
+    return render_template("courses.html", courses=courses_data, user_type=user_type,name=name,)
 
 
 @app.route("/logout")
