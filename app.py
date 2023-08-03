@@ -366,7 +366,7 @@ def notes():
         title = request.form.get('title')
         content = request.form.get('content')
         file_url = request.form.get('file_url')
-        uploaded_by = "Faculty"  # You need to determine the uploaded_by value
+        uploaded_by = name  # You need to determine the uploaded_by value
 
         conn = sqlite3.connect("database.db")
         cursor = conn.cursor()
