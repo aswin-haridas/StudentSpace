@@ -378,8 +378,9 @@ def notes():
     name = session.get("name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT title, content, uploaded_by FROM notes")
-    notes = [dict(title=row[0], content=row[1], uploaded_by=row[2]) for row in cursor.fetchall()]
+    cursor.execute("SELECT title, content, uploaded_by, file_url FROM notes")
+    notes = [dict(title=row[0], content=row[1], uploaded_by=row[2], file_url=row[3]) for row in cursor.fetchall()]
+
     conn.close()
     return render_template(
         "notes.html",
