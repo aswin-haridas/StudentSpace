@@ -89,6 +89,7 @@
               <th>Title</th>
               <th>Content</th>
               <th>Uploaded by</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -97,6 +98,9 @@
               <td>{{ note.title }}</td>
               <td>{{ note.content }}</td>
               <td>{{ note.uploaded_by }}</td>
+              <td>
+                <a href="{{ note.file_url }}" class="btn btn-primary">View or Download</a>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -104,11 +108,12 @@
     
         {% if user_type == "faculty" %}
         <div class="faculty-section">
-          <button class="btn btn-primary">Faculty-only Button</button>
+          <button class="btn btn-primary"> Upload Notes</button>
         </div>
         {% endif %}
       </div>
     </div>
+    
     
     
 
