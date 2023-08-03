@@ -360,12 +360,10 @@ def courses():
     conn.close()
     return render_template("courses.html", courses=courses_data, user_type=user_type,name=name,)
 
-
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
-
 
 if __name__ == "__main__":
     app.run(debug=True)
