@@ -169,6 +169,7 @@ def get_tasks():
 def perfomance():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
+    full_name= session.get("full_name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM grade WHERE id = ?", (user_id,))
@@ -287,7 +288,7 @@ def process():
 def attendance():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
-
+    full_name = session.get("fullname")
     if request.method == "POST":
         selected_month = request.form["month"]
     else:
@@ -310,7 +311,7 @@ def attendance():
     return render_template(
         "attendance.html",
         user_type=user_type,
-        
+        full_name=full_name,
         attendance_records=attendance_records,
         selected_month=selected_month,
     )
@@ -352,7 +353,6 @@ def classAttendance():
         days=days,
         selected_day=selected_day,
     )
-
 
 @app.route("/courses")
 def courses():
