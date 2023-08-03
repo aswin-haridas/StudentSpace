@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from openpyxl import load_workbook
 import sqlite3
-import datetime
+import os
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
@@ -15,6 +15,7 @@ def common_icons():
     search = "/static/assets/search.png"
     notification = "/static/assets/notification.png"
     settings = "/static/assets/settings.png"
+    
     return dict(
         search=search,
         notification=notification,
@@ -22,6 +23,7 @@ def common_icons():
         admin=admin,
         faculty=faculty,
         student=student,
+
     )
 
 
@@ -93,11 +95,6 @@ def home():
         user_type=user_type,
         attendance_percentage=attendance_percentage,
     )
-
-
-
-
-
 
 @app.route("/studentlist")
 def get_student_list():
@@ -184,33 +181,21 @@ def perfomance():
         "perfomance.html", user_type=user_type, name=name, marks=marks, grades=grades
     )
 
-
 @app.route("/profile")
 def profile():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
-    name = session.get("name")
-
     if user_id is None:
         return "User ID not found"
-
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-
     if user_type == "student":
         cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
         student_info = cursor.fetchone()
-        conn.close()
-
         if student_info is not None:
-            id = student_info[0]
-            name = student_info[1]
-            dob = student_info[2]
-            email = student_info[3]
-            course = student_info[4]
-            contact = student_info[5]
-            address = student_info[6]
-            pfp="/static/pfp/{name}."
+            id, name, dob, email, course, contact, address = student_info
+            pfp = f'{name}.png'  # Construct the profile picture path
+            conn.close()
             return render_template(
                 "profile.html",
                 id=id,
@@ -223,35 +208,30 @@ def profile():
                 contact=contact,
                 address=address,
             )
-
     elif user_type == "faculty":
         cursor.execute("SELECT * FROM facultylist WHERE id=?", (user_id,))
         faculty_info = cursor.fetchone()
-        conn.close()
 
         if faculty_info is not None:
-            id = faculty_info[0]
-            name = faculty_info[1]
-            dob = faculty_info[2]
-            email = faculty_info[3]
-            department = faculty_info[4]
-            contact = faculty_info[5]
-            address = faculty_info[6]
+            id, name, dob, email, department, contact, address = faculty_info
+            pfp = f'{name}.png'  # Construct the profile picture path
+            conn.close()
 
             return render_template(
                 "profile.html",
                 id=id,
                 user_type=user_type,
-                dob=dob,
-                course=department,
                 name=name,
+                dob=dob,
                 email=email,
+                pfp=pfp,
+                course=department,
                 contact=contact,
                 address=address,
             )
 
+    conn.close()
     return "User not found"
-
 
 @app.route("/upload")
 def upload():

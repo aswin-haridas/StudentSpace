@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
     rel="stylesheet" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -82,10 +83,11 @@
 
     <div class="main">
       <div class="main1">
+        {% if user_type == "student" %}
         <div class="student-profile">
           <h2>Student Profile</h2>
           <ul class="student_details">
-            <li>Admission No : CS0{{id}}</li>
+            <li>Admission No : CS0{{ id }}</li>
             <li>Name: {{ name }}</li>
             <li>Date of Birth: {{ dob }}</li>
             <li>Email: {{ email }}</li>
@@ -94,13 +96,25 @@
             <li>Address: {{ address }}</li>
           </ul>
         </div>
-        <div class="profile-photo">
-          <img src="{{student}}" alt="Profile Photo" />
+        {% elif user_type == "faculty" %}
+        <div class="faculty-profile">
+          <h2>Faculty Details</h2>
+          <ul class="faculty_details">
+            <li>ID: {{ id }}</li>
+            <li>Name: {{ name }}</li>
+            <li>Date of Birth: {{ dob }}</li>
+            <li>Email: {{ email }}</li>
+            <li>Department: {{ course }}</li>
+            <li>Contact: {{ contact }}</li>
+            <li>Address: {{ address }}</li>
+          </ul>
         </div>
+        {% endif %}
+        <div class="profile-photo">
+          <img src="{{ url_for('static', filename='pfp/') }}" alt="User Image" />
+      </div>
       </div>
     </div>
-  </div>
-
 </body>
 
 </html>
