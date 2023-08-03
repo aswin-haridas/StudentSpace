@@ -15,7 +15,7 @@ def common_icons():
     search = "/static/assets/search.png"
     notification = "/static/assets/notification.png"
     settings = "/static/assets/settings.png"
-    
+
     return dict(
         search=search,
         notification=notification,
@@ -23,7 +23,6 @@ def common_icons():
         admin=admin,
         faculty=faculty,
         student=student,
-
     )
 
 
@@ -96,54 +95,65 @@ def home():
         attendance_percentage=attendance_percentage,
     )
 
+def connect_to_database():
+    conn = sqlite3.connect("database.db")
+    return conn
 
 @app.route("/profile")
 def profile():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
+
     if user_id is None:
         return "User ID not found"
-    
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    
-    cursor.execute("SELECT * FROM users WHERE id=?", (user_id,))
-    user_info = cursor.fetchone()
-    
-    if user_info is not None:
-        if user_type == "student":
-            id, name, dob, email, course, contact, address, pfp = user_info
-            conn.close()
-            return render_template(
-                "profile.html",
-                id=id,
-                user_type=user_type,
-                name=name,
-                dob=dob,
-                email=email,
-                pfp=pfp,
-                course=course,
-                contact=contact,
-                address=address,
-            )
-        elif user_type == "faculty":
-            id, name, dob, email, department, contact, address, pfp = user_info
-            conn.close()
-            return render_template(
-                "profile.html",
-                id=id,
-                user_type=user_type,
-                name=name,
-                dob=dob,
-                email=email,
-                pfp=pfp,
-                course=department,
-                contact=contact,
-                address=address,
-            )
-    conn.close()
-    return "User not found"
 
+    conn = connect_to_database()
+    cursor = conn.cursor()
+
+    if user_type == "student":
+        cursor.execute("SELECT id, name, dob, email, course, contact, address, pfp FROM students WHERE id=?", (user_id,))
+        user_info = cursor.fetchone()
+        if user_info is None:
+            conn.close()
+            return "User not found"
+
+        id, name, dob, email, course, contact, address, pfp = user_info
+        conn.close()
+        return render_template(
+            "profile.html",
+            id=id,
+            user_type=user_type,
+            name=name,
+            dob=dob,
+            email=email,
+            pfp=pfp,
+            course=course,
+            contact=contact,
+            address=address,
+        )
+    elif user_type == "faculty":
+        cursor.execute("SELECT id, name, dob, email, department, contact, address, pfp FROM faculty WHERE id=?", (user_id,))
+        user_info = cursor.fetchone()
+        if user_info is None:
+            conn.close()
+            return "User not found"
+
+        id, name, dob, email, department, contact, address, pfp = user_info
+        conn.close()
+        return render_template(
+            "profile.html",
+            id=id,
+            user_type=user_type,
+            name=name,
+            dob=dob,
+            email=email,
+            pfp=pfp,
+            course=department,
+            contact=contact,
+            address=address,
+        )
+
+    return "User not found"
 
 
 @app.route("/studentlist")
@@ -230,7 +240,6 @@ def perfomance():
     return render_template(
         "perfomance.html", user_type=user_type, name=name, marks=marks, grades=grades
     )
-
 
 
 @app.route("/upload")
@@ -353,6 +362,7 @@ def courses():
         name=name,
     )
 
+
 @app.route("/notes")
 def notes():
     user_type = session.get("user_type")
@@ -360,46 +370,19 @@ def notes():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT title, content, uploaded_by, file_url FROM notes")
-    notes = [dict(title=row[0], content=row[1], uploaded_by=row[2], file_url=row[3]) for row in cursor.fetchall()]
+    notes = [
+        dict(title=row[0], content=row[1], uploaded_by=row[2], file_url=row[3])
+        for row in cursor.fetchall()
+    ]
 
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        file_url = request.form.get('file_url')
-        uploaded_by = name  # You need to determine the uploaded_by value
-
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-
-        # Insert the data into the database
-        cursor.execute("INSERT INTO notes (title, content, uploaded_by, file_url) VALUES (?, ?, ?, ?)",
-                       (title, content, uploaded_by, file_url))
-        conn.commit()
-        conn.close()
-
-        # Fetch the last inserted row ID (auto-incremented)
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT last_insert_rowid()")
-        last_id = cursor.fetchone()[0]
-        conn.close()
-
-        # Return the new note details as JSON
-        new_note = {
-            "id": last_id,
-            "title": title,
-            "content": content,
-            "uploaded_by": uploaded_by,
-            "file_url": file_url
-        }
-        return jsonify(new_note)
-
+    conn.close()
     return render_template(
         "notes.html",
         notes=notes,
         user_type=user_type,
         name=name,
-        )
+    )
+
 
 @app.route("/logout")
 def logout():
