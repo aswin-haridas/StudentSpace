@@ -111,10 +111,13 @@
         </div>
         {% endif %}
         <div class="profile-photo">
-          <img src="{{ url_for('static', filename='pfp/') }}" alt="User Image" />
-      </div>
+          <img src="{{ url_for('static', filename='pfp/' + pfp) }}" alt="User Image" />
+      </div>      
       </div>
     </div>
+
+
+    
 </body>
 
 </html>
