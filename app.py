@@ -95,6 +95,20 @@ def home():
     )
 
 
+@app.route("/notes")
+def notes():
+    # Connect to SQLite database
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    # Fetch all notes from the 'notes' table
+    cursor.execute("SELECT title, content, uploaded_by FROM notes")
+    notes = [dict(title=row[0], content=row[1], uploaded_by=row[2]) for row in cursor.fetchall()]
+    conn.close()
+    return render_template("notes.html", notes=notes)
+
+
+
 @app.route("/studentlist")
 def get_student_list():
     conn = sqlite3.connect("database.db")
@@ -147,6 +161,7 @@ def get_student_grades():
     else:
         return jsonify({})
 
+
 @app.route("/tasks")
 def get_tasks():
     conn = sqlite3.connect("database.db")
@@ -167,7 +182,7 @@ def get_tasks():
 def perfomance():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
-    name= session.get("name")
+    name = session.get("name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM grade WHERE id = ?", (user_id,))
@@ -175,7 +190,9 @@ def perfomance():
     cursor.execute("SELECT * FROM grades")
     grades = cursor.fetchall()
     conn.close()
-    return render_template("perfomance.html", user_type=user_type, name=name,marks=marks,grades=grades)
+    return render_template(
+        "perfomance.html", user_type=user_type, name=name, marks=marks, grades=grades
+    )
 
 
 @app.route("/profile")
@@ -194,7 +211,6 @@ def profile():
         cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
         student_info = cursor.fetchone()
         conn.close()
-        
 
         if student_info is not None:
             id = student_info[0]
@@ -204,7 +220,7 @@ def profile():
             course = student_info[4]
             contact = student_info[5]
             address = student_info[6]
-
+            pfp="/static/pfp/{name}."
             return render_template(
                 "profile.html",
                 id=id,
@@ -349,6 +365,7 @@ def classAttendance():
         selected_day=selected_day,
     )
 
+
 @app.route("/courses")
 def courses():
     user_type = session.get("user_type")
@@ -358,12 +375,19 @@ def courses():
     cursor.execute("SELECT * FROM courses")
     courses_data = cursor.fetchall()
     conn.close()
-    return render_template("courses.html", courses=courses_data, user_type=user_type,name=name,)
+    return render_template(
+        "courses.html",
+        courses=courses_data,
+        user_type=user_type,
+        name=name,
+    )
+
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
