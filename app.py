@@ -95,17 +95,7 @@ def home():
     )
 
 
-@app.route("/notes")
-def notes():
-    # Connect to SQLite database
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
 
-    # Fetch all notes from the 'notes' table
-    cursor.execute("SELECT title, content, uploaded_by FROM notes")
-    notes = [dict(title=row[0], content=row[1], uploaded_by=row[2]) for row in cursor.fetchall()]
-    conn.close()
-    return render_template("notes.html", notes=notes)
 
 
 
@@ -382,6 +372,21 @@ def courses():
         name=name,
     )
 
+@app.route("/notes")
+def notes():
+    user_type = session.get("user_type")
+    name = session.get("name")
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT title, content, uploaded_by FROM notes")
+    notes = [dict(title=row[0], content=row[1], uploaded_by=row[2]) for row in cursor.fetchall()]
+    conn.close()
+    return render_template(
+        "notes.html",
+        notes=notes,
+        user_type=user_type,
+        name=name,
+        )
 
 @app.route("/logout")
 def logout():
