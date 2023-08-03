@@ -310,6 +310,7 @@ def attendance():
     return render_template(
         "attendance.html",
         user_type=user_type,
+        
         attendance_records=attendance_records,
         selected_month=selected_month,
     )
@@ -318,6 +319,7 @@ def attendance():
 @app.route("/classAttendance", methods=["GET", "POST"])
 def classAttendance():
     user_type = session.get("user_type")
+    fullname = session.get("fullname")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
@@ -339,7 +341,6 @@ def classAttendance():
     for row in rows:
         student_id = row[0]
         attendance_status = row[1]
-
         attendance_data[student_id] = attendance_status
 
     conn.close()
@@ -347,6 +348,7 @@ def classAttendance():
         "attendance.html",
         user_type=user_type,
         attendance_data=attendance_data,
+        fullname=fullname,
         days=days,
         selected_day=selected_day,
     )
