@@ -91,7 +91,6 @@ def home():
         username=username,
         name=name,
         user_type=user_type,
-        name=name,
         attendance_percentage=attendance_percentage,
     )
 
@@ -147,7 +146,6 @@ def get_student_grades():
         return jsonify(grade_data)
     else:
         return jsonify({})
-
 
 @app.route("/tasks")
 def get_tasks():
@@ -214,7 +212,6 @@ def profile():
                 name=name,
                 dob=dob,
                 email=email,
-                name=name,
                 course=course,
                 contact=contact,
                 address=address,
@@ -244,7 +241,6 @@ def profile():
                 email=email,
                 contact=contact,
                 address=address,
-                name=name,
             )
 
     return "User not found"
@@ -287,7 +283,7 @@ def process():
 def attendance():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
-    full_name = session.get("name")
+    name = session.get("name")
     if request.method == "POST":
         selected_month = request.form["month"]
     else:
@@ -310,7 +306,7 @@ def attendance():
     return render_template(
         "attendance.html",
         user_type=user_type,
-        full_name=full_name,
+        name=name,
         attendance_records=attendance_records,
         selected_month=selected_month,
     )
