@@ -96,6 +96,56 @@ def home():
         attendance_percentage=attendance_percentage,
     )
 
+
+@app.route("/profile")
+def profile():
+    user_id = session.get("user_id")
+    user_type = session.get("user_type")
+    if user_id is None:
+        return "User ID not found"
+    
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM users WHERE id=?", (user_id,))
+    user_info = cursor.fetchone()
+    
+    if user_info is not None:
+        if user_type == "student":
+            id, name, dob, email, course, contact, address, pfp = user_info
+            conn.close()
+            return render_template(
+                "profile.html",
+                id=id,
+                user_type=user_type,
+                name=name,
+                dob=dob,
+                email=email,
+                pfp=pfp,
+                course=course,
+                contact=contact,
+                address=address,
+            )
+        elif user_type == "faculty":
+            id, name, dob, email, department, contact, address, pfp = user_info
+            conn.close()
+            return render_template(
+                "profile.html",
+                id=id,
+                user_type=user_type,
+                name=name,
+                dob=dob,
+                email=email,
+                pfp=pfp,
+                course=department,
+                contact=contact,
+                address=address,
+            )
+    conn.close()
+    return "User not found"
+
+
+
 @app.route("/studentlist")
 def get_student_list():
     conn = sqlite3.connect("database.db")
@@ -181,57 +231,7 @@ def perfomance():
         "perfomance.html", user_type=user_type, name=name, marks=marks, grades=grades
     )
 
-@app.route("/profile")
-def profile():
-    user_id = session.get("user_id")
-    user_type = session.get("user_type")
-    if user_id is None:
-        return "User ID not found"
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    if user_type == "student":
-        cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
-        student_info = cursor.fetchone()
-        if student_info is not None:
-            id, name, dob, email, course, contact, address = student_info
-            pfp = f'{name}.png'  # Construct the profile picture path
-            conn.close()
-            return render_template(
-                "profile.html",
-                id=id,
-                user_type=user_type,
-                name=name,
-                dob=dob,
-                email=email,
-                pfp=pfp,
-                course=course,
-                contact=contact,
-                address=address,
-            )
-    elif user_type == "faculty":
-        cursor.execute("SELECT * FROM facultylist WHERE id=?", (user_id,))
-        faculty_info = cursor.fetchone()
 
-        if faculty_info is not None:
-            id, name, dob, email, department, contact, address = faculty_info
-            pfp = f'{name}.png'  # Construct the profile picture path
-            conn.close()
-
-            return render_template(
-                "profile.html",
-                id=id,
-                user_type=user_type,
-                name=name,
-                dob=dob,
-                email=email,
-                pfp=pfp,
-                course=department,
-                contact=contact,
-                address=address,
-            )
-
-    conn.close()
-    return "User not found"
 
 @app.route("/upload")
 def upload():
@@ -353,7 +353,7 @@ def courses():
         name=name,
     )
 
-@app.route("/notes", methods=['GET', 'POST'])
+@app.route("/notes")
 def notes():
     user_type = session.get("user_type")
     name = session.get("name")
@@ -362,46 +362,13 @@ def notes():
     cursor.execute("SELECT title, content, uploaded_by, file_url FROM notes")
     notes = [dict(title=row[0], content=row[1], uploaded_by=row[2], file_url=row[3]) for row in cursor.fetchall()]
 
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        file_url = request.form.get('file_url')
-        uploaded_by = "Faculty"  # You need to determine the uploaded_by value
-
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-
-        # Insert the data into the database
-        cursor.execute("INSERT INTO notes (title, content, uploaded_by, file_url) VALUES (?, ?, ?, ?)",
-                       (title, content, uploaded_by, file_url))
-        conn.commit()
-        conn.close()
-
-        # Fetch the last inserted row ID (auto-incremented)
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT last_insert_rowid()")
-        last_id = cursor.fetchone()[0]
-        conn.close()
-
-        # Return the new note details as JSON
-        new_note = {
-            "id": last_id,
-            "title": title,
-            "content": content,
-            "uploaded_by": uploaded_by,
-            "file_url": file_url
-        }
-        return jsonify(new_note)
-
+    conn.close()
     return render_template(
         "notes.html",
         notes=notes,
         user_type=user_type,
-        name=name
-    )
-
-
+        name=name,
+        )
 
 @app.route("/logout")
 def logout():
