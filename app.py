@@ -372,7 +372,7 @@ def courses():
         name=name,
     )
 
-@app.route("/notes")
+@app.route("/notes", methods=['GET', 'POST'])
 def notes():
     user_type = session.get("user_type")
     name = session.get("name")
@@ -381,13 +381,46 @@ def notes():
     cursor.execute("SELECT title, content, uploaded_by, file_url FROM notes")
     notes = [dict(title=row[0], content=row[1], uploaded_by=row[2], file_url=row[3]) for row in cursor.fetchall()]
 
-    conn.close()
+    if request.method == 'POST':
+        title = request.form.get('title')
+        content = request.form.get('content')
+        file_url = request.form.get('file_url')
+        uploaded_by = "Faculty"  # You need to determine the uploaded_by value
+
+        conn = sqlite3.connect("database.db")
+        cursor = conn.cursor()
+
+        # Insert the data into the database
+        cursor.execute("INSERT INTO notes (title, content, uploaded_by, file_url) VALUES (?, ?, ?, ?)",
+                       (title, content, uploaded_by, file_url))
+        conn.commit()
+        conn.close()
+
+        # Fetch the last inserted row ID (auto-incremented)
+        conn = sqlite3.connect("database.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT last_insert_rowid()")
+        last_id = cursor.fetchone()[0]
+        conn.close()
+
+        # Return the new note details as JSON
+        new_note = {
+            "id": last_id,
+            "title": title,
+            "content": content,
+            "uploaded_by": uploaded_by,
+            "file_url": file_url
+        }
+        return jsonify(new_note)
+
     return render_template(
         "notes.html",
         notes=notes,
         user_type=user_type,
-        name=name,
-        )
+        name=name
+    )
+
+
 
 @app.route("/logout")
 def logout():
