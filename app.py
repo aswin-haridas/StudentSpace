@@ -218,6 +218,7 @@ def profile():
                 name=name,
                 dob=dob,
                 email=email,
+                pfp=pfp,
                 course=course,
                 contact=contact,
                 address=address,
