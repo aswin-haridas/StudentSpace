@@ -31,7 +31,7 @@
         </div>
         <div class="right-section">
           <div class="name">
-            <a href="" class="name">Hii {{fullname}} </a>
+            <a href="{{ url_for('profile') }}" class="name">Hii {{fullname}} </a>
           </div>
           <div class="notification-icon">
             <img class="notification-icon" src="{{notification}}" />
@@ -66,6 +66,9 @@
         <div class="sidebar-tabs">
           <a href="{{ url_for('attendance') }}">Attendance</a>
         </div>
+        <div class="sidebar-tabs">
+          <a href="#">Notes</a>
+        </div>
         {% elif user_type == 'faculty' %}
 
         <div class="sidebar-tabs">
@@ -89,9 +92,7 @@
           <a href="#">Permission management</a>
         </div>
         {% endif %}
-        <div class="sidebar-tabs">
-          <a href="#">Notes</a>
-        </div>
+
       </div>
       
       <div class="main-section">

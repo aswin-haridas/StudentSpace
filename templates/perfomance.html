@@ -22,7 +22,9 @@
         <img class="search-icon" src="{{search}}" style="width: 20px; height: 20px; position: relative; right: 40px" />
       </div>
       <div class="right-section">
-        <div class="name"></div><a href="" class="name">Hi {{fullname}} </a></div>
+        <div class="name">
+          <a href="{{ url_for('profile') }}" class="name">Hii {{fullname}} </a>
+        </div>  
         <div class="notification-icon" style="margin-left: 24px">
           <img class="rs-notification" src="{{notification}}" style="width: 24px; height: 24px" />
         </div>
