@@ -169,7 +169,7 @@ def get_tasks():
 def perfomance():
     user_id = session.get("user_id")
     user_type = session.get("user_type")
-    full_name= session.get("full_name")
+    name= session.get("name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM grade WHERE id = ?", (user_id,))
@@ -178,7 +178,7 @@ def perfomance():
     cursor.execute("SELECT * FROM grades")
     grades = cursor.fetchall()
     conn.close()
-    return render_template("perfomance.html", user_type=user_type, marks=marks,grades=grades)
+    return render_template("perfomance.html", user_type=user_type, name=name,marks=marks,grades=grades)
 
 
 @app.route("/profile")
@@ -320,7 +320,7 @@ def attendance():
 @app.route("/classAttendance", methods=["GET", "POST"])
 def classAttendance():
     user_type = session.get("user_type")
-    fullname = session.get("fullname")
+    fullname = session.get("name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
