@@ -96,6 +96,56 @@ def home():
         attendance_percentage=attendance_percentage,
     )
 
+
+@app.route("/profile")
+def profile():
+    user_id = session.get("user_id")
+    user_type = session.get("user_type")
+    if user_id is None:
+        return "User ID not found"
+    
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM users WHERE id=?", (user_id,))
+    user_info = cursor.fetchone()
+    
+    if user_info is not None:
+        if user_type == "student":
+            id, name, dob, email, course, contact, address, pfp = user_info
+            conn.close()
+            return render_template(
+                "profile.html",
+                id=id,
+                user_type=user_type,
+                name=name,
+                dob=dob,
+                email=email,
+                pfp=pfp,
+                course=course,
+                contact=contact,
+                address=address,
+            )
+        elif user_type == "faculty":
+            id, name, dob, email, department, contact, address, pfp = user_info
+            conn.close()
+            return render_template(
+                "profile.html",
+                id=id,
+                user_type=user_type,
+                name=name,
+                dob=dob,
+                email=email,
+                pfp=pfp,
+                course=department,
+                contact=contact,
+                address=address,
+            )
+    conn.close()
+    return "User not found"
+
+
+
 @app.route("/studentlist")
 def get_student_list():
     conn = sqlite3.connect("database.db")
@@ -181,57 +231,7 @@ def perfomance():
         "perfomance.html", user_type=user_type, name=name, marks=marks, grades=grades
     )
 
-@app.route("/profile")
-def profile():
-    user_id = session.get("user_id")
-    user_type = session.get("user_type")
-    if user_id is None:
-        return "User ID not found"
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    if user_type == "student":
-        cursor.execute("SELECT * FROM studentlist WHERE id=?", (user_id,))
-        student_info = cursor.fetchone()
-        if student_info is not None:
-            id, name, dob, email, course, contact, address = student_info
-            pfp = f'{name}.png'  # Construct the profile picture path
-            conn.close()
-            return render_template(
-                "profile.html",
-                id=id,
-                user_type=user_type,
-                name=name,
-                dob=dob,
-                email=email,
-                pfp=pfp,
-                course=course,
-                contact=contact,
-                address=address,
-            )
-    elif user_type == "faculty":
-        cursor.execute("SELECT * FROM facultylist WHERE id=?", (user_id,))
-        faculty_info = cursor.fetchone()
 
-        if faculty_info is not None:
-            id, name, dob, email, department, contact, address = faculty_info
-            pfp = f'{name}.png'  # Construct the profile picture path
-            conn.close()
-
-            return render_template(
-                "profile.html",
-                id=id,
-                user_type=user_type,
-                name=name,
-                dob=dob,
-                email=email,
-                pfp=pfp,
-                course=department,
-                contact=contact,
-                address=address,
-            )
-
-    conn.close()
-    return "User not found"
 
 @app.route("/upload")
 def upload():
@@ -353,7 +353,7 @@ def courses():
         name=name,
     )
 
-@app.route("/notes", methods=['GET', 'POST'])
+@app.route("/notes")
 def notes():
     user_type = session.get("user_type")
     name = session.get("name")
@@ -398,10 +398,8 @@ def notes():
         "notes.html",
         notes=notes,
         user_type=user_type,
-        name=name
-    )
-
-
+        name=name,
+        )
 
 @app.route("/logout")
 def logout():
