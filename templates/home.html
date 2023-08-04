@@ -1,252 +1,297 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>StudentSpace</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='home-style.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  </head>
 
-<head>
-  <title>StudentSpace</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='home-style.css') }}" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
-    rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-</head>
-
-<body>
-  <div class="StudentSpace">
-    <div class="header">
-      <div class="left-section">
-        StudentSpace.
-      </div>
-      <div class="middle-section">
-        <input class="search-bar" type="text" placeholder="Search" />
-        <img class="search-icon" src="{{search}}" />
-      </div>
-      <div class="right-section">
-        <div class="name">
-          <a href="{{ url_for('profile') }}" class="name">Hii {{name}} </a>
+  <body>
+    <div class="StudentSpace">
+      <div class="header">
+        <div class="left-section">StudentSpace.</div>
+        <div class="middle-section">
+          <input class="search-bar" type="text" placeholder="Search" />
+          <img class="search-icon" src="{{search}}" />
         </div>
-        <div class="notification-icon">
-          <img class="notification-icon" src="{{notification}}" />
+        <div class="right-section">
+          <div class="name">
+            <a href="{{ url_for('profile') }}" class="name">Hii {{name}} </a>
+          </div>
+          <div class="notification-icon">
+            <img class="notification-icon" src="{{notification}}" />
+          </div>
+          <div class="settings-icon">
+            <a href="{{ url_for('logout') }}"
+              ><img class="settings-icon" src="{{settings}}"
+            /></a>
+          </div>
         </div>
-        <div class="settings-icon">
-          <a href="{{ url_for('logout') }}"><img class="settings-icon" src="{{settings}}" /></a>
+      </div>
+      <div class="sidebar">
+        <div class="sidebar-tabs">
+          <a
+            href="{{ url_for('home', username=username, name=name, user_type=user_type) }}"
+            >Dashboard</a
+          >
         </div>
-      </div>
-    </div>
-    <div class="sidebar">
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('home', username=username, name=name, user_type=user_type) }}">Dashboard</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('profile') }}">My Profile</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('courses') }}">Courses</a>
-      </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('profile') }}">My Profile</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </div>
 
-      {% if user_type == 'student' %}
-
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('perfomance') }}">Performance</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('attendance') }}">Attendance</a>
-      </div>
-      
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('notes') }}">Notes</a>
-      </div>
-
-      {% elif user_type == 'faculty' %}
-
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('perfomance') }}">Class grades</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('classAttendance') }}">Class Attendance</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('notes') }}">Upload notes</a>
-      </div>
-
-      {% elif user_type == 'admin' %}
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('notes') }}">User management</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('notes') }}">Role management</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('notes') }}">Permission management</a>
-      </div>
-      {% endif %}
-    </div>
-
-    <div class="main-section">
-      <div class="main">
         {% if user_type == 'student' %}
-        <p>Progress</p> 
-        <div class="chart-container">
-          
-          <div id="gradeChartContainer" class="chart"></div>
-          <div id="attendanceChart" class="chart"></div>
+
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('perfomance') }}">Performance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('attendance') }}">Attendance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('notes') }}">Notes</a>
         </div>
         {% elif user_type == 'faculty' %}
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('perfomance') }}">Class grades</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('classAttendance') }}">Class Attendance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('notes') }}">Upload notes</a>
+        </div>
+        {% elif user_type == 'admin' %}
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('notes') }}">User management</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('notes') }}">Role management</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('notes') }}">Permission management</a>
+        </div>
+        {% endif %}
+      </div>
 
-        <div class="student-list">
-          <p>Student List</p>
-          <table id="studentTable">
-            <thead>
-              <tr>
-                <th>Student ID</th>
-                <th>First Name</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Student rows will be dynamically inserted here -->
-            </tbody>
-          </table>
-        </div> {% endif %}
-        <div class="tasks">
-          <p>Tasks</p>
-          <div id="taskList">
-            <table>
+      <div class="main-section">
+        <div class="main">
+          {% if user_type == 'student' %}
+          <p>Progress</p>
+          <div class="chart-container">
+            <div id="gradeChartContainer" class="chart"></div>
+            <div id="attendanceChart" class="chart"></div>
+          </div>
+          {% elif user_type == 'faculty' %}
+          <div class="student-list">
+            <p>Student List</p>
+            <table id="studentTable">
               <thead>
                 <tr>
-                  <th>Task</th>
-                  <th>due</th>
-                  <th>Status</th>
+                  <th>Student ID</th>
+                  <th>First Name</th>
+                  <th>Email</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- Task rows will be dynamically inserted here -->
+                <!-- Student rows will be dynamically inserted here -->
               </tbody>
             </table>
           </div>
+          {% endif %}
 
-          {% if user_type == "faculty" %}
-  <div class="faculty-section">
-    <button id="toggleFormButton">Add task</button>
-    <form id="addTaskForm">
-      <label for="taskName">Task Name:</label>
-      <input type="text" id="taskName" name="taskName" required><br>
-  
-      <label for="dueDate">Due Date:</label>
-      <input type="date" id="dueDate" name="dueDate" required><br>
+          <div class="tasks">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+              "
+            >
+              <p>Tasks</p>
+              {% if user_type == "faculty" %}
+              <button
+                class="add-task-button"
+                style="display: inline-block; margin-left: 10px"
+                id="showAddTaskForm"
+              >
+                Add Task
+              </button>
+            </div>
+            {% endif %}
 
-      <button type="submit" id="addTaskButton">Add</button>
-    </form>
-  </div>
-  {% endif %}
+            <div id="taskList">
+              <table>
+                <tr>
+                  <th>ID</th>
+                  <th>Task Name</th>
+                  <th>Due Date</th>
+                  <th>Status</th>
+                </tr>
+                {% for task in tasks %}
+                <tr>
+                  <td>{{ task.id }}</td>
+                  <td>{{ task.task_name }}</td>
+                  <td>{{ task.due_date }}</td>
+                  <td>{{ task.status }}</td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <script>
+              // Get references to the relevant DOM elements
+              const showAddTaskButton = document.getElementById("showAddTaskForm");
+              const formContainer = document.getElementById("formContainer");
+              const addTaskForm = document.getElementById("addTaskForm");
+            
+              // Add click event listener to the "Add Task" button
+              showAddTaskButton.addEventListener("click", () => {
+                formContainer.classList.toggle("hidden"); // Toggle the visibility of the form container
+                addTaskForm.classList.toggle("hidden"); // Toggle the visibility of the form itself
+              });
+            
+              // You can also add code here to handle form submission and updating the task list dynamically
+            </script>
+            
+            
+            <div id="formContainer" class="hidden">
+              <form id="addTaskForm" class="hidden">
+                <input
+                  type="text"
+                  name="task_name"
+                  placeholder="Task Name"
+                  required
+                />
+                <input type="date" name="due_date" required />
+                <input type="text" name="status" required />
+                <button class="add-task-button" type="submit">Done</button>
+              </form>
+            </div>
+          </div>
         </div>
-        
       </div>
-    </div>
 
-    <script>
-      fetch("/grades")
-        .then((response) => response.json())
-        .then((data) => {
-          const grades = Object.values(data);
-          const subjects = Object.keys(data);
+      <script>
 
-          const chartOptions = {
-            chart: {
-              type: 'line',
-              height: 350,
-            },
-            series: [
-              {
-                name: 'Grades',
-                data: grades,
+        fetch("/grades")
+          .then((response) => response.json())
+          .then((data) => {
+            const grades = Object.values(data);
+            const subjects = Object.keys(data);
+
+            const chartOptions = {
+              chart: {
+                type: "line",
+                height: 350,
               },
-            ],
-            xaxis: {
-              categories: subjects,
-            },
-            yaxis: {
-              min: 0, // Set minimum y-axis value
-              max: 10, // Set maximum y-axis value
-            },
-          };
+              series: [
+                {
+                  name: "Grades",
+                  data: grades,
+                },
+              ],
+              xaxis: {
+                categories: subjects,
+              },
+              yaxis: {
+                min: 0, // Set minimum y-axis value
+                max: 10, // Set maximum y-axis value
+              },
+            };
 
-          const chart = new ApexCharts(document.querySelector("#gradeChartContainer"), chartOptions);
-          chart.render();
-        });
-
-      fetch("/tasks")
-        .then((response) => response.json())
-        .then((data) => {
-          const taskList = document.getElementById("taskList");
-
-          data.forEach((task) => {
-            const row = document.createElement("tr");
-
-            const taskName = document.createElement("td");
-            taskName.textContent = task.name;
-            row.appendChild(taskName);
-
-            const due = document.createElement("td");
-            due.textContent = task.due;
-            row.appendChild(due);
-
-            const status = document.createElement("td");
-            status.textContent = task.status;
-            row.appendChild(status);
-
-            taskList.querySelector("tbody").appendChild(row);
+            const chart = new ApexCharts(
+              document.querySelector("#gradeChartContainer"),
+              chartOptions
+            );
+            chart.render();
           });
-        });
 
-      fetch("/studentlist")
-        .then((response) => response.json())
-        .then((data) => {
-          const studentTable = document.getElementById("studentTable");
+        fetch("/tasks")
+          .then((response) => response.json())
+          .then((data) => {
+            const taskList = document.getElementById("taskList");
 
-          data.forEach((student) => {
-            const row = document.createElement("tr");
+            // Clear existing task rows
+            taskList.innerHTML =
+              "<table><tr><th>ID</th><th>Task Name</th><th>Due Date</th><th>Status</th></tr></table>";
 
-            const studentID = document.createElement("td");
-            studentID.textContent = student[0];
-            row.appendChild(studentID);
-
-            const firstName = document.createElement("td");
-            firstName.textContent = student[1];
-            row.appendChild(firstName);
-
-            const lastName = document.createElement("td");
-            lastName.textContent = student[2];
-            row.appendChild(lastName);
-
-            studentTable.querySelector("tbody").appendChild(row);
-          });
-        });
-
-        fetch('/attendancepercentage')
-            .then(response => response.json())
-            .then(data => {
-                // Create the donut chart
-                const chart = new ApexCharts(document.querySelector('#attendanceChart'), {
-                    series: [data, 100 - data], // Data for attendance and remaining percentage
-                    labels: ['Present', 'Absent'],
-                    colors: ['#008FFB', '#E5E5E5'], // Customize the colors as desired
-                    chart: {
-                        type: 'donut',
-                        height: 360,
-                    },
-                });
-
-                // Render the chart
-                chart.render();
-            })
-            .catch(error => {
-                console.error('Error:', error);
+            // Add tasks to the task list
+            const table = taskList.querySelector("table");
+            data.tasks.forEach((task) => {
+              const row = table.insertRow();
+              row.innerHTML = `<td>${task.id}</td><td>${task.task_name}</td><td>${task.due_date}</td><td>${task.status}</td>`;
             });
+          })
+          .catch((error) => console.error("Error fetching tasks:", error));
 
-    </script>
-</body>
+        fetch("/studentlist")
+          .then((response) => response.json())
+          .then((data) => {
+            const studentTable = document.getElementById("studentTable");
 
+            data.forEach((student) => {
+              const row = document.createElement("tr");
+
+              const studentID = document.createElement("td");
+              studentID.textContent = student[0];
+              row.appendChild(studentID);
+
+              const firstName = document.createElement("td");
+              firstName.textContent = student[1];
+              row.appendChild(firstName);
+
+              const lastName = document.createElement("td");
+              lastName.textContent = student[2];
+              row.appendChild(lastName);
+
+              studentTable.querySelector("tbody").appendChild(row);
+            });
+          });
+
+        fetch("/attendancepercentage")
+          .then((response) => response.json())
+          .then((data) => {
+            // Create the donut chart
+            const chart = new ApexCharts(
+              document.querySelector("#attendanceChart"),
+              {
+                series: [data, 100 - data], // Data for attendance and remaining percentage
+                labels: ["Present", "Absent"],
+                colors: ["#008FFB", "#E5E5E5"], // Customize the colors as desired
+                chart: {
+                  type: "donut",
+                  height: 360,
+                },
+              }
+            );
+
+            // Render the chart
+            chart.render();
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      </script>
+    </div>
+  </body>
 </html>

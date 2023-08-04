@@ -208,34 +208,44 @@ def get_student_grades():
     else:
         return jsonify({})
 
-
-@app.route("/tasks")
+@app.route('/tasks', methods=['GET'])
 def get_tasks():
-    conn = connect_to_database()
-    c = conn.cursor()
-    c.execute("SELECT name, due, status FROM tasks")
-    data = c.fetchall()
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('SELECT * FROM tasks')
+    tasks = cursor.fetchall()
+    
     conn.close()
+    
+    task_list = []
+    for task in tasks:
+        task_dict = {
+            'id': task[0],
+            'task_name': task[1],
+            'due_date': task[2],
+            'status': task[3]
+        }
+        task_list.append(task_dict)
+    
+    return jsonify({'tasks': task_list})
 
-    tasks = [{"name": task[0], "due": task[1], "status": task[2]} for task in data]
-    return jsonify(tasks)
-
-@app.route("/add_task", methods=["POST"])
+@app.route('/add_task', methods=['POST'])
 def add_task():
-    if request.method == "POST":
-        task_name = request.form.get("taskName")
-        due_date = request.form.get("dueDate")
-
-        if task_name and due_date:
-            conn = connect_to_database()
-            c = conn.cursor()
-            c.execute("INSERT INTO tasks (name, due, status) VALUES (?, ?, ?)",
-                      (task_name, due_date, "Pending"))
-            conn.commit()
-            conn.close()
-
-    return "Success"
-
+    task_name = request.form.get('task_name')
+    due_date = request.form.get('due_date')
+    status =  request.form.get('status')
+    
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('INSERT INTO tasks (task_name, due_date, status) VALUES (?, ?, ?)',
+                   (task_name, due_date, status))
+    
+    conn.commit()
+    conn.close()
+    
+    return jsonify({'success': True})
 
 @app.route("/perfomance")
 def perfomance():
