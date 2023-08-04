@@ -72,6 +72,27 @@
 #studentTable th {
   background-color: #f2f2f2;
 }
+.faculty-list {
+  margin: 20px;
+}
+
+#facultyTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+
+#facultyTable th,
+#facultyTable td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#facultyTable th {
+  background-color: #f2f2f2;
+}
+
 
 p {
   font-size: 1.5rem;
