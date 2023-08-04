@@ -126,8 +126,23 @@
               </tbody>
             </table>
           </div>
-        </div>
 
+          {% if user_type == "faculty" %}
+  <div class="faculty-section">
+    <button id="toggleFormButton">Add task</button>
+    <form id="addTaskForm">
+      <label for="taskName">Task Name:</label>
+      <input type="text" id="taskName" name="taskName" required><br>
+  
+      <label for="dueDate">Due Date:</label>
+      <input type="date" id="dueDate" name="dueDate" required><br>
+
+      <button type="submit" id="addTaskButton">Add</button>
+    </form>
+  </div>
+  {% endif %}
+        </div>
+        
       </div>
     </div>
 
