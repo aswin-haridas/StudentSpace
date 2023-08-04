@@ -480,6 +480,11 @@ def user_management():
 @app.route('/edit_user_profile')
 def edit_user_profile():
     user_id = request.args.get('id')
+    
+
+    return "Edit User Profile Page for User ID: {}".format(user_id)
+
+    
 
 @app.route("/logout")
 def logout():
