@@ -129,7 +129,9 @@
               "
             >
               <p>Tasks</p>
+              {% elif user_type == 'faculty' %}
               <button class="btn btn-primary" id="addTaskBtn">Add Task</button>
+              {% endif %}
             </div>
 
             <div id="taskList">
