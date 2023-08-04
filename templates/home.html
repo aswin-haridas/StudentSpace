@@ -149,7 +149,7 @@
               </tbody>
             </table>
           </div>
-          
+
           <div class="tasks">
             <div
               class="tasks-header"
@@ -340,15 +340,15 @@
               const row = document.createElement("tr");
 
               const facultyID = document.createElement("td");
-              facultyID.textContent = faculty.id;
+              facultyID.textContent = faculty[0]; // Assuming faculty.id is at index 0
               row.appendChild(facultyID);
 
               const name = document.createElement("td");
-              name.textContent = faculty.name;
+              name.textContent = faculty[1]; // Assuming faculty.name is at index 1
               row.appendChild(name);
 
               const department = document.createElement("td");
-              department.textContent = faculty.department;
+              department.textContent = faculty[2]; // Assuming faculty.department is at index 2
               row.appendChild(department);
 
               facultyTable.querySelector("tbody").appendChild(row);
