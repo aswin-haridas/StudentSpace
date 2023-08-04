@@ -154,24 +154,9 @@
             <div id="taskFormContainer" style="display: none">
               <form action="/add_task" method="POST" id="addTaskForm">
                 <label for="taskName">New Task</label>
-                <input
-                  type="text"
-                  id="taskName"
-                  name="task_name"
-                  required
-                />
-                <input
-                  type="date"
-                  id="dueDate"
-                  name="due_date"
-                  required
-                />
-                <input
-                  type="text"
-                  id="status"
-                  name="status"
-                  required
-                />
+                <input type="text" id="taskName" name="task_name" required />
+                <input type="date" id="dueDate" name="due_date" required />
+                <input type="text" id="status" name="status" required />
                 <input type="submit" value="Done" class="btn btn-primary" />
               </form>
             </div>
@@ -199,9 +184,16 @@
                 });
 
                 if (response.ok) {
+                  form.reset();
+                  taskFormContainer.style.display = "none";
+
+                  // Parse the response JSON to get the new task data
                   const newTask = await response.json();
-                  // Update task list table
-                  const newRow = taskListTable.insertRow();
+
+                  // Update the task list dynamically
+                  const taskList = document.getElementById("taskList");
+                  const taskTable = taskList.querySelector("table");
+                  const newRow = taskTable.insertRow();
                   const idCell = newRow.insertCell(0);
                   const nameCell = newRow.insertCell(1);
                   const dueDateCell = newRow.insertCell(2);
@@ -210,14 +202,6 @@
                   nameCell.textContent = newTask.task_name;
                   dueDateCell.textContent = newTask.due_date;
                   statusCell.textContent = newTask.status;
-                  newRow.innerHTML = `
-                  <td>${newTask.id}</td>
-                  <td>${newTask.task_name}</td>
-                  <td>${newTask.due_date}</td>
-                  <td>${newTask.status}</td>`;
-
-                  form.reset();
-                  taskFormContainer.style.display = "none";
                 }
               });
 
