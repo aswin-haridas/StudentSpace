@@ -51,11 +51,12 @@
     <div class="main-section">
       <div id="popup" class="popup">
         <form class="userform">
-          <label for="username">Username:</label>
+          <label for="text">Editing for {{username}}</label>
+          <br><br>
+          <label for="username">Name:</label>
           <input type="text" id="username" name="username" />
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" />
-
+          <br><br>
+          
           <label for="role">Role:</label>
           <select id="role" name="role">
             <option value="admin">Admin</option>
@@ -74,22 +75,19 @@
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Username</th>
-              <th>Password</th>
+              <th>Name</th>
               <th>Role</th>
               <th></th>
             </tr>
           </thead>
-          <tbody id="userTableBody">
-            {% for user in users_data %}
+          <tbody id="rollTableBody">
+            {% for role in role_data %}
             <tr>
-              <td>{{ user[0] }}</td>
-              <td>{{ user[1] }}</td>
-              <td>{{ user[2] }}</td>
-              <td>{{ user[3] }}</td>
+              <td>{{ role[0] }}</td>
+              <td>{{ role[1] }}</td>
+             
               <td>
-                <a href="#">
+                <a href="#" class="edit-link">
                   <img style="width: 15px" src="{{ editimage }}" alt="Edit Icon" />
                 </a>
               </td>
@@ -100,7 +98,36 @@
       </div>
     </div>
   </div>
-  <script></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var popup = document.getElementById("popup");
+      var editLinks = document.querySelectorAll(".edit-link");
+      var cancelButton = document.getElementById("cancelButton");
+      var okButton = document.getElementById("okButton");
+      var mainSection = document.querySelector(".main");
+      var userForm = document.querySelector(".userform"); // Select the form
+
+      editLinks.forEach(function (editLink) {
+        editLink.addEventListener("click", function (event) {
+          event.preventDefault();
+          popup.style.display = "block";
+          mainSection.classList.add("popup-active");
+          mainSection.style.filter = "blur(5px)"; // Apply blur to the main section
+          userForm.style.display = "block"; // Show the form
+        });
+      });
+
+      function closePopup() {
+        popup.style.display = "none";
+        mainSection.classList.remove("popup-active");
+        mainSection.style.filter = "none"; // Remove blur from the main section
+        userForm.style.display = "none"; // Hide the form
+      }
+
+      cancelButton.addEventListener("click", closePopup);
+      okButton.addEventListener("click", closePopup);
+    });
+  </script>
 </body>
 
 </html>
