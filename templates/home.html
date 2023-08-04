@@ -131,13 +131,6 @@
               </tbody>
             </table>
           </div>
-
-          {% elif user_type == 'student' %}
-          <p>Progress</p>
-          <div class="chart-container">
-            <div id="gradeChartContainer" class="chart"></div>
-            <div id="attendanceChart" class="chart"></div>
-          </div>
           {% elif user_type == 'faculty' %}
           <div class="student-list">
             <p>Student List</p>
@@ -154,8 +147,14 @@
               </tbody>
             </table>
           </div>
+          {% elif user_type == 'student' %}
+          <p>Progress</p>
+          <div class="chart-container">
+            <div id="gradeChartContainer" class="chart"></div>
+            <div id="attendanceChart" class="chart"></div>
+          </div>
           {% endif %}
-
+          {% if user_type != 'admin' %}
           <div class="tasks">
             <div
               class="tasks-header"
@@ -171,7 +170,7 @@
               <button class="btn btn-primary" id="addTaskBtn">Add Task</button>
               {% endif %}
             </div>
-
+          
             <div id="taskList">
               <table>
                 <tr>
@@ -190,6 +189,7 @@
                 {% endfor %}
               </table>
             </div>
+            {% endif %}
             {% if user_type == 'faculty' %}
             <div id="taskFormContainer" style="display: none">
               <form action="/add_task" method="POST" id="addTaskForm">
@@ -201,36 +201,35 @@
               </form>
             </div>
             {% endif %}
-
+          
             <script>
               const addTaskBtn = document.getElementById("addTaskBtn");
-              const taskFormContainer =
-                document.getElementById("taskFormContainer");
+              const taskFormContainer = document.getElementById("taskFormContainer");
               const addTaskForm = document.getElementById("addTaskForm");
               const taskListTable = document.getElementById("taskListTable");
-
+          
               addTaskBtn.addEventListener("click", () => {
                 taskFormContainer.style.display = "block";
               });
-
+          
               addTaskForm.addEventListener("submit", async (event) => {
                 event.preventDefault();
-
+          
                 const form = event.target;
                 const formData = new FormData(form);
-
+          
                 const response = await fetch(form.action, {
                   method: "POST",
                   body: formData,
                 });
-
+          
                 if (response.ok) {
                   form.reset();
                   taskFormContainer.style.display = "none";
-
+          
                   // Parse the response JSON to get the new task data
                   const newTask = await response.json();
-
+          
                   // Update the task list dynamically
                   const taskList = document.getElementById("taskList");
                   const taskTable = taskList.querySelector("table");

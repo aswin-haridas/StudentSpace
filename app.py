@@ -442,22 +442,11 @@ def notes():
 def user_management():
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
-
     cursor.execute('SELECT * FROM users')
     users_list = cursor.fetchall()
-
-
     connection.close()
-
     return render_template('usermgmt.html', users_list=users_list)
 
-@app.route('/role_management')
-def role_management():
-    return render_template('rolemgmt.html')
-
-@app.route('/course_management')
-def course_management():
-    return render_template('coursemgmt.html')
 
 
 @app.route("/logout")
