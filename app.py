@@ -418,20 +418,50 @@ def courses():
         name=name,
     )
 
+
 @app.route('/user_management')
 def user_management_route():
     # Your logic for user management here
-    return render_template('user_management.html')
+    user_data = {
+        'name': 'John Doe',
+        'username': 'johndoe',
+        'user_type': 'admin',  # Example user type
+        'search': 'search_icon_url',
+        'notification': 'notification_icon_url',
+        'settings': 'settings_icon_url'
+        # Add other relevant data here
+    }
+    return render_template('usermgmt.html', **user_data)
 
 @app.route('/role_management')
 def role_management_route():
     # Your logic for role management here
-    return render_template('role_management.html')
+    role_data = {
+        'name': 'John Doe',
+        'username': 'johndoe',
+        'user_type': 'admin',  # Example user type
+        'search': 'search_icon_url',
+        'notification': 'notification_icon_url',
+        'settings': 'settings_icon_url'
+        # Add other relevant data here
+    }
+    return render_template('rolemgmt.html', **role_data)
 
 @app.route('/course_management')
 def course_management_route():
     # Your logic for course management here
-    return render_template('course_management.html')
+    course_data = {
+        'name': 'John Doe',
+        'username': 'johndoe',
+        'user_type': 'admin',  # Example user type
+        'search': 'search_icon_url',
+        'notification': 'notification_icon_url',
+        'settings': 'settings_icon_url'
+        # Add other relevant data here
+    }
+    return render_template('coursemgmt.html', **course_data)
+
+
 
 @app.route("/notes")
 def notes():
