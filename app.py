@@ -427,23 +427,17 @@ def coursemgmt():
     
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT course_id, course_name, instructor, credits,course_image FROM courses")
-    courses_data = cursor.fetchall()
+    cursor.execute("SELECT name, course FROM faculties")
+    coursemgmt = [
+        dict(name=row[0], course=row[1])
+        for row in cursor.fetchall()
+    ]
     conn.close()
-
-    courses = []
-    for course in courses_data:
-        course_dict = {
-            "course_id": course[0],
-            "course_name": course[1],
-            "instructor": course[2],
-            "credits": course[3]
-        }
-        courses.append(course_dict)
+    
     
     return render_template(
         "coursemgmt.html",
-        courses=courses,
+        coursemgmt=coursemgmt,
         user_type=user_type,
         name=name,
     )
