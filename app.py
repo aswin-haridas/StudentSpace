@@ -211,18 +211,30 @@ def get_student_grades():
 
 @app.route("/tasks")
 def get_tasks():
-    conn = sqlite3.connect("database.db")
+    conn = connect_to_database()
     c = conn.cursor()
     c.execute("SELECT name, due, status FROM tasks")
     data = c.fetchall()
     conn.close()
 
-    tasks = []
-    for task in data:
-        task_dict = {"name": task[0], "due": task[1], "status": task[2]}
-        tasks.append(task_dict)
-
+    tasks = [{"name": task[0], "due": task[1], "status": task[2]} for task in data]
     return jsonify(tasks)
+
+@app.route("/add_task", methods=["POST"])
+def add_task():
+    if request.method == "POST":
+        task_name = request.form.get("taskName")
+        due_date = request.form.get("dueDate")
+
+        if task_name and due_date:
+            conn = connect_to_database()
+            c = conn.cursor()
+            c.execute("INSERT INTO tasks (name, due, status) VALUES (?, ?, ?)",
+                      (task_name, due_date, "Pending"))
+            conn.commit()
+            conn.close()
+
+    return "Success"
 
 
 @app.route("/perfomance")
