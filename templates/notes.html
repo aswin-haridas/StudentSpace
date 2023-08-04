@@ -35,17 +35,19 @@
 
     <div class="sidebar">
       <div class="sidebar-tabs">
-        <a href="{{ url_for('home', username=username, name=name, user_type=user_type) }}">Dashboard</a>
+        <a
+          href="{{ url_for('home', username=username, name=name, user_type=user_type) }}"
+          >Dashboard</a
+        >
       </div>
+
+      {% if user_type == 'student' %}
       <div class="sidebar-tabs">
         <a href="{{ url_for('profile') }}">My Profile</a>
       </div>
       <div class="sidebar-tabs">
         <a href="{{ url_for('courses') }}">Courses</a>
       </div>
-
-      {% if user_type == 'student' %}
-
       <div class="sidebar-tabs">
         <a href="{{ url_for('perfomance') }}">Performance</a>
       </div>
@@ -56,7 +58,12 @@
         <a href="{{ url_for('notes') }}">Notes</a>
       </div>
       {% elif user_type == 'faculty' %}
-
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('profile') }}">My Profile</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('courses') }}">Courses</a>
+      </div>
       <div class="sidebar-tabs">
         <a href="{{ url_for('perfomance') }}">Class grades</a>
       </div>
@@ -64,21 +71,19 @@
         <a href="{{ url_for('classAttendance') }}">Class Attendance</a>
       </div>
       <div class="sidebar-tabs">
-        <a href="{{ url_for('notes') }}">Notes</a>
+        <a href="{{ url_for('notes') }}">Upload notes</a>
       </div>
-
       {% elif user_type == 'admin' %}
       <div class="sidebar-tabs">
-        <a href="#">User management</a>
+        <a href="{{ url_for('notes') }}">User management</a>
       </div>
       <div class="sidebar-tabs">
-        <a href="#">Role management</a>
+        <a href="{{ url_for('notes') }}">Role management</a>
       </div>
       <div class="sidebar-tabs">
-        <a href="#">Permission management</a>
+        <a href="{{ url_for('notes') }}">Permission management</a>
       </div>
       {% endif %}
-
     </div>
 
     <!-- templates/notes.html -->

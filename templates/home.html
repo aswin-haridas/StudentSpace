@@ -52,15 +52,14 @@
             >Dashboard</a
           >
         </div>
+
+        {% if user_type == 'student' %}
         <div class="sidebar-tabs">
           <a href="{{ url_for('profile') }}">My Profile</a>
         </div>
         <div class="sidebar-tabs">
           <a href="{{ url_for('courses') }}">Courses</a>
         </div>
-
-        {% if user_type == 'student' %}
-
         <div class="sidebar-tabs">
           <a href="{{ url_for('perfomance') }}">Performance</a>
         </div>
@@ -71,6 +70,12 @@
           <a href="{{ url_for('notes') }}">Notes</a>
         </div>
         {% elif user_type == 'faculty' %}
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('profile') }}">My Profile</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </div>
         <div class="sidebar-tabs">
           <a href="{{ url_for('perfomance') }}">Class grades</a>
         </div>
