@@ -89,7 +89,7 @@
                 <a href="{{ url_for('classAttendance') }}">Class Attendance</a>
             </div>
             <div class="sidebar-tabs">
-                <a href="#">Upload notes</a>
+                <a href="{{ url_for('notes') }}">Upload notes</a>
             </div>
 
             {% elif user_type == 'admin' %}
