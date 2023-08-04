@@ -435,12 +435,13 @@ def coursemgmt():
     conn.close()
     
     
-    return render_template(
-        "coursemgmt.html",
-        coursemgmt=coursemgmt,
-        user_type=user_type,
-        name=name,
-    )
+    return  render_template(
+    "coursemgmt.html",
+    notes=coursemgmt,
+    user_type=user_type,
+    name=name,
+)
+
  
 @app.route("/rolemgmt")
 def rolemgmt():
