@@ -86,10 +86,10 @@
         </div>
         {% elif user_type == 'admin' %}
 <div class="sidebar-tabs">
-    <a href="{{ url_for('usermgmt') }}">User management</a>
+    <a href="">User management</a>
 </div>
 <div class="sidebar-tabs">
-    <a href="{{ url_for('rolemgmt') }}">Role management</a>
+    <a href="">Role management</a>
 </div>
 <div class="sidebar-tabs">
     <a href="{{ url_for('coursemgmt') }}">Course management</a>
@@ -122,7 +122,7 @@
             <button class="btn btn-primary" id="uploadNotesBtn">Add Data</button>
           </div>
           <div id="uploadForm" style="display: none;">
-            <form action="{{ url_for('notes') }}" method="POST" id="noteUploadForm" enctype="multipart/form-data">
+            <form action="{{ url_for('coursemgmt') }}" method="POST" id="noteUploadForm" enctype="multipart/form-data">
               <label for="name">Name</label>
               <input type="text" id="name" name="name" required><br><br>
               <label for="course">Course</label>
@@ -135,42 +135,44 @@
       </div>
       
       <script>
-        const uploadNotesBtn = document.getElementById('uploadNotesBtn');
-        const uploadForm = document.getElementById('uploadForm');
-        const notesTableBody = document.getElementById('notesTableBody');
-      
-        uploadNotesBtn.addEventListener('click', () => {
-          uploadForm.style.display = 'block';
-        });
-      
-        document.getElementById('noteUploadForm').addEventListener('submit', async (event) => {
-          event.preventDefault();
-      
-          const form = event.target;
-          const formData = new FormData(form);
-      
-          const response = await fetch(form.action, {
-            method: 'POST',
-            body: formData
-          });
-      
-          if (response.ok) {
-            const newNote = await response.json();
-            const newRow = document.createElement('tr');
-            newRow.classList.add('note-row');
-            newRow.innerHTML = `
-              <td>${newNote.name}</td>
-              <td>${newNote.course}</td>
-              
-            `;
-      
-            notesTableBody.appendChild(newRow);
-            form.reset();
-      
-            // Hide the form after successful submission
-            uploadForm.style.display = 'none';
-          }
-        });
+       document.addEventListener('DOMContentLoaded', () => {
+       const uploadNotesBtn = document.getElementById('uploadNotesBtn');
+       const uploadForm = document.getElementById('uploadForm');
+  const notesTableBody = document.getElementById('notesTableBody');
+
+  uploadNotesBtn.addEventListener('click', () => {
+    uploadForm.style.display = 'block';
+  });
+
+  document.getElementById('noteUploadForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      const newNote = await response.json();
+      const newRow = document.createElement('tr');
+      newRow.classList.add('note-row');
+      newRow.innerHTML = `
+        <td>${newNote.name}</td>
+        <td>${newNote.course}</td>
+      `;
+
+      notesTableBody.appendChild(newRow);
+      form.reset();
+
+      // Hide the form after successful submission
+      uploadForm.style.display = 'none';
+    }
+  });
+});
+
       </script>
       
         </div>

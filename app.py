@@ -433,12 +433,14 @@ def coursemgmt():
         for row in cursor.fetchall()
     ]
     conn.close()
-    return render_template(
-        "coursemgmt.html",
-        coursemgmt=coursemgmt,
-        user_type=user_type,
-        name=name,
-    )
+    
+    
+    return  render_template(
+    "coursemgmt.html",
+    notes=coursemgmt,
+    user_type=user_type,
+    name=name,
+)
 
  
 @app.route('/role_management')
