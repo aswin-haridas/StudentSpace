@@ -418,48 +418,34 @@ def courses():
         name=name,
     )
 
-
-@app.route('/user_management')
-def user_management_route():
-    # Your logic for user management here
-    user_data = {
-        'name': 'John Doe',
-        'username': 'johndoe',
-        'user_type': 'admin',  # Example user type
-        'search': 'search_icon_url',
-        'notification': 'notification_icon_url',
-        'settings': 'settings_icon_url'
-        # Add other relevant data here
-    }
-    return render_template('usermgmt.html', **user_data)
-
-@app.route('/role_management')
-def role_management_route():
-    # Your logic for role management here
-    role_data = {
-        'name': 'John Doe',
-        'username': 'johndoe',
-        'user_type': 'admin',  # Example user type
-        'search': 'search_icon_url',
-        'notification': 'notification_icon_url',
-        'settings': 'settings_icon_url'
-        # Add other relevant data here
-    }
-    return render_template('rolemgmt.html', **role_data)
-
 @app.route('/course_management')
 def course_management_route():
-    # Your logic for course management here
-    course_data = {
-        'name': 'John Doe',
-        'username': 'johndoe',
-        'user_type': 'admin',  # Example user type
-        'search': 'search_icon_url',
-        'notification': 'notification_icon_url',
-        'settings': 'settings_icon_url'
-        # Add other relevant data here
-    }
-    return render_template('coursemgmt.html', **course_data)
+    user_type = session.get("user_type")
+    name = session.get("name")
+    
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT course_id, course_name, instructor, credits, course_image FROM courses")
+    courses_data = cursor.fetchall()
+    conn.close()
+
+    courses = []
+    for course in courses_data:
+        course_dict = {
+            "course_id": course[0],
+            "course_name": course[1],
+            "instructor": course[2],
+            "credits": course[3],
+            "course_image": course[4]
+        }
+        courses.append(course_dict)
+    
+    return render_template(
+        "coursemgmt.html",
+        courses=courses,
+        user_type=user_type,
+        name=name,
+    )
 
 
 
