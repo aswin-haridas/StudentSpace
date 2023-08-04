@@ -127,13 +127,66 @@
             >
               <p>Tasks</p>
               {% if user_type == "faculty" %}
-              <button
-                class="add-task-button"
-                style="display: inline-block; margin-left: 10px"
-                id="showAddTaskForm"
-              >
-                Add Task
-              </button>
+              <div class="faculty-section">
+                <button class="btn btn-primary" id="uploadNotesBtn">Upload Notes</button>
+              </div>
+              <div id="uploadForm" style="display: none;">
+                <form action="{{ url_for('notes') }}" method="POST" id="noteUploadForm" enctype="multipart/form-data">
+                  <label for="title">Title:</label>
+                  <input type="text" id="title" name="title" required><br><br>
+                  <label for="content">Content:</label>
+                  <textarea id="content" name="content" required></textarea><br><br>
+                  <label for="file_url">File URL:</label>
+                  <input type="text" id="file_url" name="file_url" required><br><br>
+                  <input type="submit" value="Upload" class="btn btn-primary">
+                </form>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          
+          <script>
+            const uploadNotesBtn = document.getElementById('uploadNotesBtn');
+            const uploadForm = document.getElementById('uploadForm');
+            const notesTableBody = document.getElementById('notesTableBody');
+          
+            uploadNotesBtn.addEventListener('click', () => {
+              uploadForm.style.display = 'block';
+            });
+          
+            document.getElementById('noteUploadForm').addEventListener('submit', async (event) => {
+              event.preventDefault();
+          
+              const form = event.target;
+              const formData = new FormData(form);
+          
+              const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+              });
+          
+              if (response.ok) {
+                const newNote = await response.json();
+                const newRow = document.createElement('tr');
+                newRow.classList.add('note-row');
+                newRow.innerHTML = `
+                  <td>${newNote.title}</td>
+                  <td>${newNote.content}</td>
+                  <td>${newNote.uploaded_by}</td>
+                  <td>
+                    <a href="${newNote.file_url}" class="btn btn-primary">View or Download</a>
+                  </td>
+                `;
+          
+                notesTableBody.appendChild(newRow);
+                form.reset();
+          
+                // Hide the form after successful submission
+                uploadForm.style.display = 'none';
+              }
+            });
+          </script>
+          
             </div>
             {% endif %}
 
