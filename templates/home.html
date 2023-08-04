@@ -154,6 +154,7 @@
               </tbody>
             </table>
           </div>
+          {% endif %}
 
           <div class="tasks">
             <div
@@ -170,6 +171,7 @@
               <button class="btn btn-primary" id="addTaskBtn">Add Task</button>
               {% endif %}
             </div>
+            
 
             <div id="taskList">
               <table>
@@ -189,7 +191,7 @@
                 {% endfor %}
               </table>
             </div>
-
+            {% if user_type == 'faculty' %}
             <div id="taskFormContainer" style="display: none">
               <form action="/add_task" method="POST" id="addTaskForm">
                 <label for="taskName">New Task</label>
