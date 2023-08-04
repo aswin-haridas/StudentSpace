@@ -439,7 +439,7 @@ def notes():
     )
 
 @app.route('/user_management')
-def user_management_route():
+def user_management():
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
 
@@ -452,11 +452,11 @@ def user_management_route():
     return render_template('usermgmt.html', users_list=users_list)
 
 @app.route('/role_management')
-def role_management_route():
+def role_management():
     return render_template('rolemgmt.html')
 
 @app.route('/course_management')
-def course_management_route():
+def course_management():
     return render_template('coursemgmt.html')
 
 
