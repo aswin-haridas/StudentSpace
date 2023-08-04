@@ -422,7 +422,6 @@ def courses():
 
 @app.route("/coursemgmt", methods=['GET', 'POST'])
 def coursemgmt():
-    user_type = session.get("user_type")
     name = session.get("name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
@@ -460,7 +459,6 @@ def coursemgmt():
     return render_template(
         "coursemgmt.html",
         courses=courses,
-        user_type=user_type,
         name=name
     )
 
