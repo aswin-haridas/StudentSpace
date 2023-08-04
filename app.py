@@ -204,7 +204,7 @@ def get_student_grades():
     user_id = session.get("user_id")
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
-    c.execute("SELECT s1, s2, s3, s4, s5, s6, s7 FROM grades WHERE id = ?", (user_id,))
+    c.execute("SELECT s1, s2, s3, s4, s5, s6 FROM grades WHERE id = ?", (user_id,))
     data = c.fetchone()
     conn.close()
     if data:
@@ -215,7 +215,6 @@ def get_student_grades():
             "s4": data[3],
             "s5": data[4],
             "s6": data[5],
-            "s7": data[6],
         }
         return jsonify(grade_data)
     else:
@@ -440,25 +439,6 @@ def notes():
         user_type=user_type,
         name=name,
     )
-
-
-
-@app.route('/user_management')
-def user_management_route():
-    # Your logic for user management here
-    return render_template('usermgmt.html')
-
-@app.route('/role_management')
-def role_management_route():
-    # Your logic for role management here
-    return render_template('rolemgmt.html')
-
-@app.route('/course_management')
-def course_management_route():
-    # Your logic for course management here
-    return render_template('coursemgmt.html')
-
-
 
 
 @app.route("/logout")
