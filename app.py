@@ -111,7 +111,7 @@ def profile():
     cursor = conn.cursor()
 
     if user_type == "student":
-        cursor.execute("SELECT id, name, dob, email, course, contact, address, pfp FROM students WHERE id=?", (user_id,))
+        cursor.execute("SELECT id, name, dob, email, course, contact, address, pfp FROM studentlist WHERE id=?", (user_id,))
         user_info = cursor.fetchone()
         if user_info is None:
             conn.close()
@@ -132,7 +132,7 @@ def profile():
             address=address,
         )
     elif user_type == "faculty":
-        cursor.execute("SELECT id, name, dob, email, department, contact, address, pfp FROM faculty WHERE id=?", (user_id,))
+        cursor.execute("SELECT id, name, dob, email, department, contact, address, pfp FROM facultylist WHERE id=?", (user_id,))
         user_info = cursor.fetchone()
         if user_info is None:
             conn.close()
@@ -357,7 +357,6 @@ def classAttendance():
         selected_day=selected_day,
     )
 
-
 @app.route("/courses")
 def courses():
     user_type = session.get("user_type")
@@ -373,6 +372,16 @@ def courses():
         user_type=user_type,
         name=name,
     )
+
+@app.route("/course/<int:course_id>")
+def course_details(course_id):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM courses WHERE id=?", (course_id,))
+    course_data = cursor.fetchone()
+    conn.close()
+    return render_template("course_details.html", course=course_data)
+
 
 
 @app.route("/notes")

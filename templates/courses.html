@@ -99,16 +99,17 @@
         <div class="main">
           {% for course in courses %}
           <div class="card">
-            <img src="https://picsum.photos/200/300?random=1" class="card-img-top" alt="Fissure in Sandstone" style="height: 200px;">
+            <img src="{{ url_for('static', filename='course_images/' + course[3]) }}" alt="{{ course[1] }}">
             <div class="card-body">
               <h5 class="card-title">{{ course[1] }}</h5>
               <p class="card-text">{{ course[2] }}</p>
-              <button class="button-38" role="button">View course</button>
+              <a href="{{ url_for('course_details', course_id=course[0]) }}" class="button-38" role="button">View course</a>
             </div>
           </div>
           {% endfor %}
         </div>
       </div>
+      
     </div>
   </body>
 </html>
