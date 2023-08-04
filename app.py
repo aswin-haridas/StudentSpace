@@ -15,6 +15,7 @@ def common_icons():
     search = "/static/assets/search.png"
     notification = "/static/assets/notification.png"
     settings = "/static/assets/settings.png"
+    editimage="/static/assets/edit.png"
 
     return dict(
         search=search,
@@ -23,6 +24,7 @@ def common_icons():
         admin=admin,
         faculty=faculty,
         student=student,
+        editimage=editimage
     )
 
 
@@ -440,14 +442,16 @@ def notes():
 
 @app.route('/user_management')
 def user_management():
-    connection = sqlite3.connect('database.db')
+    connection = connect_to_database()
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM users')
-    users_list = cursor.fetchall()
+    users_data = cursor.fetchall()
     connection.close()
-    return render_template('usermgmt.html', users_list=users_list)
+    return render_template('usermgmt.html', users_data=users_data)
 
-
+@app.route('/edit_user_profile')
+def edit_user_profile():
+    user_id = request.args.get('id')
 
 @app.route("/logout")
 def logout():
