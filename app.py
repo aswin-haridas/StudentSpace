@@ -422,7 +422,6 @@ def courses():
 def course_management_route():
     user_type = session.get("user_type")
     name = session.get("name")
-    
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT course_id, course_name, instructor, credits, course_image FROM courses")
