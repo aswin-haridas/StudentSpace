@@ -43,20 +43,20 @@
           </div>
         </div>
       </div>
-      <div class="sidebar" style="width: 300px;">
-        <div class="sidebar-tabs">
+      <div class="sidebar" >
+        <div class="sidebar-tabs" >
           <a
             href="{{ url_for('home', username=username, name=name, user_type=user_type) }}"
             >Dashboard</a
           >
         </div>
-        <div class="sidebar-tabs">
+        <div class="sidebar-tabs" style="width: 160px;">
           <a href="{{ url_for('user_management_route') }}">User management</a>
         </div>
-        <div class="sidebar-tabs">
+        <div class="sidebar-tabs" style="width: 160px;">
           <a href="{{ url_for('role_management_route') }}">Role management</a>
         </div>
-        <div class="sidebar-tabs">
+        <div class="sidebar-tabs" style="width: 160px;">
           <a href="{{ url_for('course_management_route') }}"
             >Course management</a
           >
