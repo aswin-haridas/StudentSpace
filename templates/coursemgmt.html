@@ -53,10 +53,25 @@
             </div>
             {% endif %}
           </div>
-        <div class="main-section">
+          <div class="main-section">
             <div class="main">
-                rol edit
+              <div class="course-cards">
+                {% for course in courses %}
+                <div class="course-card">
+                  <img
+                    src="{{ url_for('static', filename='course_images/' + course.course_image) }}"
+                    alt="{{ course.course_name }}"
+                    width="100"
+                    height="100"
+                  />
+                  <h2>{{ course.course_name }}</h2>
+                  <p>Instructor: {{ course.instructor }}</p>
+                  <p>Credits: {{ course.credits }}</p>
+                </div>
+                {% endfor %}
+              </div>
             </div>
+          </div>
         </div>
 </body>
 
