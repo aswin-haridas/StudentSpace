@@ -209,7 +209,7 @@ def get_student_grades():
         return jsonify({})
 
 @app.route('/tasks', methods=['GET'])
-def get_tasks():
+def tasks():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     
@@ -234,18 +234,25 @@ def get_tasks():
 def add_task():
     task_name = request.form.get('task_name')
     due_date = request.form.get('due_date')
-    status =  request.form.get('status')
-    
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    
-    cursor.execute('INSERT INTO tasks (task_name, due_date, status) VALUES (?, ?, ?)',
-                   (task_name, due_date, status))
-    
-    conn.commit()
-    conn.close()
-    
-    return jsonify({'success': True})
+    status = request.form.get('status')
+
+    # Connect to the SQLite database
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+
+    # Insert the new task into the tasks table
+    cursor.execute('INSERT INTO tasks (task_name, due_date, status) VALUES (?, ?, ?)', (task_name, due_date, status))
+    connection.commit()
+
+    # Fetch the newly added task
+    cursor.execute('SELECT * FROM tasks WHERE task_name = ?', (task_name,))
+    new_task = cursor.fetchone()
+
+    # Close the database connection
+    connection.close()
+
+    # Return the new task as JSON response
+    return jsonify(new_task)
 
 @app.route("/perfomance")
 def perfomance():
@@ -395,6 +402,7 @@ def courses():
         user_type=user_type,
         name=name,
     )
+
 
 
 @app.route("/notes")
