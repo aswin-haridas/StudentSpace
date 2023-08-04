@@ -61,7 +61,6 @@
             >Dashboard</a
           >
         </div>
-
         {% if user_type == 'student' %}
         <div class="sidebar-tabs">
           <a href="{{ url_for('profile') }}">My Profile</a>
@@ -79,27 +78,34 @@
           <a href="{{ url_for('notes') }}">Notes</a>
         </div>
         {% elif user_type == 'faculty' %}
-        <table>
-          <tr>
-            <th>Student ID</th>
-            <th>Programming</th>
-            <th>Data Structures</th>
-            <th>Database Management</th>
-            <th>Algorithms</th>
-            <th>Operating Systems</th>
-          </tr>
-          {% for row in grades %}
-          <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
-            <td>{{ row[5] }}</td>
-            
-          </tr>
-          {% endfor %}
-        </table>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('profile') }}">My Profile</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('perfomance') }}">Class grades</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('classAttendance') }}">Class Attendance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('notes') }}">Upload notes</a>
+        </div>
+        {% elif user_type == 'admin' %}
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('user_management_route') }}">User management</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('role_management_route') }}">Role management</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('course_management_route') }}"
+            >Course management</a
+          >
+        </div>
+
         {% endif %}
       </div>
       <div class="main-section">
