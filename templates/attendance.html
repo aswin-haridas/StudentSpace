@@ -164,17 +164,20 @@
                     <thead>
                         <tr>
                             <th>Student ID</th>
+                            <th>Student Name</th>
                             <th>Attendance</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for student_id, attendance_status in attendance_data.items() %}
+                        {% for student_id, data in attendance_data.items() %}
                         <tr>
                             <td>{{ student_id }}</td>
-                            <td>{{ attendance_status }}</td>
+                            <td>{{ data['name'] }}</td>
+                            <td>{{ data['status'] }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
+                    
                 </table>
                 {% endif %}
             </div>

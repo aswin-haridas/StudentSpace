@@ -353,7 +353,7 @@ def classAttendance():
     days = [str(date[0]) for date in dates]
 
     cursor.execute(
-        "SELECT id, status FROM attendance WHERE date=?",
+        "SELECT id, name, status FROM attendance WHERE date=?",
         (selected_day,),
     )
     rows = cursor.fetchall()
@@ -361,9 +361,12 @@ def classAttendance():
     attendance_data = {}
     for row in rows:
         student_id = row[0]
-        attendance_status = row[1]
-        attendance_data[student_id] = attendance_status
-
+        attendance_name = row[1]
+        attendance_status = row[2]
+        attendance_data[student_id] = {
+        'name': attendance_name,
+        'status': attendance_status
+    }
     conn.close()
     return render_template(
         "attendance.html",
