@@ -23,40 +23,43 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   </head>
 
-<body>
-  <div class="StudentSpace">
-    <div class="header">
-      <div class="left-section">
-        StudentSpace.
-      </div>
-      <div class="middle-section">
-        <input class="search-bar" type="text" placeholder="Search" />
-        <img class="search-icon" src="{{search}}" />
-      </div>
-      <div class="right-section">
-        <div class="name">
-          <a href="{{ url_for('profile') }}" class="name">Hii {{name}} </a>
+  <body>
+    <div class="StudentSpace">
+      <div class="header">
+        <div class="left-section">StudentSpace.</div>
+        <div class="middle-section">
+          <input class="search-bar" type="text" placeholder="Search" />
+          <img class="search-icon" src="{{search}}" />
         </div>
-        <div class="notification-icon">
-          <img class="notification-icon" src="{{notification}}" />
+        <div class="right-section">
+          <div class="name">
+            <a href="{{ url_for('profile') }}" class="name">Hii {{name}} </a>
+          </div>
+          <div class="notification-icon">
+            <img class="notification-icon" src="{{notification}}" />
+          </div>
+          <div class="settings-icon">
+            <a href="{{ url_for('logout') }}"
+              ><img class="settings-icon" src="{{settings}}"
+            /></a>
+          </div>
         </div>
-        <div class="settings-icon">
-          <a href="{{ url_for('logout') }}"><img class="settings-icon" src="{{settings}}" /></a>
+      </div>
+      <div class="sidebar">
+        <div class="sidebar-tabs">
+          <a
+            href="{{ url_for('home', username=username, name=name, user_type=user_type) }}"
+            >Dashboard</a
+          >
         </div>
-      </div>
-    </div>
-    <div class="sidebar">
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('home', username=username, name=name, user_type=user_type) }}">Dashboard</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('profile') }}">My Profile</a>
-      </div>
-      <div class="sidebar-tabs">
-        <a href="{{ url_for('courses') }}">Courses</a>
-      </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('profile') }}">My Profile</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </div>
 
-      {% if user_type == 'student' %}
+        {% if user_type == 'student' %}
 
         <div class="sidebar-tabs">
           <a href="{{ url_for('perfomance') }}">Performance</a>
@@ -115,27 +118,19 @@
             </table>
           </div>
           {% endif %}
-
           <div class="tasks">
             <div
+              class="tasks-header"
               style="
                 display: flex;
                 flex-direction: row;
-                align-items: center;
                 justify-content: space-between;
+                height: 40px;
               "
             >
               <p>Tasks</p>
-              {% if user_type == "faculty" %}
-              <button
-                class="add-task-button"
-                style="display: inline-block; margin-left: 10px"
-                id="showAddTaskForm"
-              >
-                Add Task
-              </button>
+              <button class="btn btn-primary" id="addTaskBtn">Add Task</button>
             </div>
-            {% endif %}
 
             <div id="taskList">
               <table>
@@ -155,41 +150,77 @@
                 {% endfor %}
               </table>
             </div>
-            <script>
-              // Get references to the relevant DOM elements
-              const showAddTaskButton = document.getElementById("showAddTaskForm");
-              const formContainer = document.getElementById("formContainer");
-              const addTaskForm = document.getElementById("addTaskForm");
-            
-              // Add click event listener to the "Add Task" button
-              showAddTaskButton.addEventListener("click", () => {
-                formContainer.classList.toggle("hidden"); // Toggle the visibility of the form container
-                addTaskForm.classList.toggle("hidden"); // Toggle the visibility of the form itself
-              });
-            
-              // You can also add code here to handle form submission and updating the task list dynamically
-            </script>
-            
-            
-            <div id="formContainer" class="hidden">
-              <form id="addTaskForm" class="hidden">
-                <input
-                  type="text"
-                  name="task_name"
-                  placeholder="Task Name"
-                  required
-                />
-                <input type="date" name="due_date" required />
-                <input type="text" name="status" required />
-                <button class="add-task-button" type="submit">Done</button>
+
+            <div id="taskFormContainer" style="display: none">
+              <form action="/add_task" method="POST" id="addTaskForm">
+                <label for="taskName">New Task</label>
+                <input type="text" id="taskName" name="task_name" required />
+                <input type="date" id="dueDate" name="due_date" required />
+                <input type="text" id="status" name="status" required />
+                <input type="submit" value="Done" class="btn btn-primary" />
               </form>
             </div>
+
+            <script>
+              const addTaskBtn = document.getElementById("addTaskBtn");
+              const taskFormContainer =
+                document.getElementById("taskFormContainer");
+              const addTaskForm = document.getElementById("addTaskForm");
+              const taskListTable = document.getElementById("taskListTable");
+
+              addTaskBtn.addEventListener("click", () => {
+                taskFormContainer.style.display = "block";
+              });
+
+              addTaskForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const form = event.target;
+                const formData = new FormData(form);
+
+                const response = await fetch(form.action, {
+                  method: "POST",
+                  body: formData,
+                });
+
+                if (response.ok) {
+                  form.reset();
+                  taskFormContainer.style.display = "none";
+
+                  // Parse the response JSON to get the new task data
+                  const newTask = await response.json();
+
+                  // Update the task list dynamically
+                  const taskList = document.getElementById("taskList");
+                  const taskTable = taskList.querySelector("table");
+                  const newRow = taskTable.insertRow();
+                  const idCell = newRow.insertCell(0);
+                  const nameCell = newRow.insertCell(1);
+                  const dueDateCell = newRow.insertCell(2);
+                  const statusCell = newRow.insertCell(3);
+                  idCell.textContent = newTask.id;
+                  nameCell.textContent = newTask.task_name;
+                  dueDateCell.textContent = newTask.due_date;
+                  statusCell.textContent = newTask.status;
+                }
+              });
+
+              const cancelButton = document.createElement("button");
+              cancelButton.textContent = "Cancel";
+              cancelButton.classList.add("btn", "btn-secondary");
+              addTaskForm.appendChild(cancelButton);
+
+              // Add click event to the "Cancel" button
+              cancelButton.addEventListener("click", () => {
+                addTaskForm.reset();
+                taskFormContainer.style.display = "none";
+              });
+            </script>
           </div>
         </div>
       </div>
 
       <script>
-
         fetch("/grades")
           .then((response) => response.json())
           .then((data) => {
