@@ -23,43 +23,40 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   </head>
 
-  <body>
-    <div class="StudentSpace">
-      <div class="header">
-        <div class="left-section">StudentSpace.</div>
-        <div class="middle-section">
-          <input class="search-bar" type="text" placeholder="Search" />
-          <img class="search-icon" src="{{search}}" />
+<body>
+  <div class="StudentSpace">
+    <div class="header">
+      <div class="left-section">
+        StudentSpace.
+      </div>
+      <div class="middle-section">
+        <input class="search-bar" type="text" placeholder="Search" />
+        <img class="search-icon" src="{{search}}" />
+      </div>
+      <div class="right-section">
+        <div class="name">
+          <a href="{{ url_for('profile') }}" class="name">Hii {{name}} </a>
         </div>
-        <div class="right-section">
-          <div class="name">
-            <a href="{{ url_for('profile') }}" class="name">Hii {{name}} </a>
-          </div>
-          <div class="notification-icon">
-            <img class="notification-icon" src="{{notification}}" />
-          </div>
-          <div class="settings-icon">
-            <a href="{{ url_for('logout') }}"
-              ><img class="settings-icon" src="{{settings}}"
-            /></a>
-          </div>
+        <div class="notification-icon">
+          <img class="notification-icon" src="{{notification}}" />
+        </div>
+        <div class="settings-icon">
+          <a href="{{ url_for('logout') }}"><img class="settings-icon" src="{{settings}}" /></a>
         </div>
       </div>
-      <div class="sidebar">
-        <div class="sidebar-tabs">
-          <a
-            href="{{ url_for('home', username=username, name=name, user_type=user_type) }}"
-            >Dashboard</a
-          >
-        </div>
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('profile') }}">My Profile</a>
-        </div>
-        <div class="sidebar-tabs">
-          <a href="{{ url_for('courses') }}">Courses</a>
-        </div>
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('home', username=username, name=name, user_type=user_type) }}">Dashboard</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('profile') }}">My Profile</a>
+      </div>
+      <div class="sidebar-tabs">
+        <a href="{{ url_for('courses') }}">Courses</a>
+      </div>
 
-        {% if user_type == 'student' %}
+      {% if user_type == 'student' %}
 
         <div class="sidebar-tabs">
           <a href="{{ url_for('perfomance') }}">Performance</a>
