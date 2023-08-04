@@ -443,32 +443,28 @@ def coursemgmt():
 )
 
  
-@app.route("/rolemgmt")
-def rolemgmt():
-    user_type = session.get("user_type")
+@app.route('/role_management')
+def role_management():
     name = session.get("name")
-    
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT role_id, role_name, description FROM roles")
+    connection = connect_to_database()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM roles')
     roles_data = cursor.fetchall()
-    conn.close()
+    connection.close()
+    return render_template('rolemgmt.html', roles_data=roles_data, name=name)
 
-    roles = []
-    for role in roles_data:
-        role_dict = {
-            "role_id": role[0],
-            "role_name": role[1],
-            "description": role[2]
-        }
-        roles.append(role_dict)
-    
-    return render_template(
-        "rolemgmt.html",
-        roles=roles,
-        user_type=user_type,
-        name=name,
-    )
+
+@app.route('/user_management')
+def user_management():
+    name=session.get("name")
+    connection = connect_to_database()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM users')
+    users_data = cursor.fetchall()
+    connection.close()
+    return render_template('usermgmt.html', users_data=users_data,name=name)
+
+
 
 @app.route("/notes")
 def notes():
@@ -489,17 +485,6 @@ def notes():
         user_type=user_type,
         name=name,
     )
-
-@app.route('/user_management')
-def user_management():
-    name=session.get("name")
-    connection = connect_to_database()
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM users')
-    users_data = cursor.fetchall()
-    connection.close()
-    return render_template('usermgmt.html', users_data=users_data,name=name)
-
 
 
 @app.route("/logout")
