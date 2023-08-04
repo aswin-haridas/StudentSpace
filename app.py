@@ -349,27 +349,30 @@ def classAttendance():
 def courses():
     user_type = session.get("user_type")
     name = session.get("name")
+    
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM courses")
+    cursor.execute("SELECT course_id, course_name, instructor, credits, course_image FROM courses")
     courses_data = cursor.fetchall()
     conn.close()
+
+    courses = []
+    for course in courses_data:
+        course_dict = {
+            "course_id": course[0],
+            "course_name": course[1],
+            "instructor": course[2],
+            "credits": course[3],
+            "course_image": course[4]
+        }
+        courses.append(course_dict)
+    
     return render_template(
         "courses.html",
-        courses=courses_data,
+        courses=courses,
         user_type=user_type,
         name=name,
     )
-
-@app.route("/course/<int:course_id>")
-def course_details(course_id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM courses WHERE id=?", (course_id,))
-    course_data = cursor.fetchone()
-    conn.close()
-    return render_template("course_details.html", course=course_data)
-
 
 
 @app.route("/notes")
