@@ -1,3 +1,4 @@
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -36,7 +37,3 @@ tbody tr:hover {
   flex-direction: column;
 }
 
-.popup-active {
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: saturate(180%) blur(10px);
-}
