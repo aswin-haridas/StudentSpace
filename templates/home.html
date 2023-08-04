@@ -33,7 +33,7 @@
         </div>
         <div class="right-section">
           <div class="name">
-            <a href="{{ url_for('profile') }}" class="name">Hii {{name}} </a>
+            <a href="{{ url_for('profile') }}" class="name">Hi {{name}} </a>
           </div>
           <div class="notification-icon">
             <img class="notification-icon" src="{{notification}}" />
@@ -149,7 +149,7 @@
               </tbody>
             </table>
           </div>
-          {% endif %}
+          
           <div class="tasks">
             <div
               class="tasks-header"
@@ -161,7 +161,7 @@
               "
             >
               <p>Tasks</p>
-              {% elif user_type == 'faculty' %}
+              {% if user_type == 'faculty' %}
               <button class="btn btn-primary" id="addTaskBtn">Add Task</button>
               {% endif %}
             </div>
@@ -194,6 +194,7 @@
                 <input type="submit" value="Done" class="btn btn-primary" />
               </form>
             </div>
+            {% endif %}
 
             <script>
               const addTaskBtn = document.getElementById("addTaskBtn");

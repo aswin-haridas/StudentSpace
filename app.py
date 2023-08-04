@@ -68,6 +68,8 @@ def home():
         cursor.execute("SELECT name FROM studentlist WHERE id=?", (user_id,))
     elif user_type == "faculty":
         cursor.execute("SELECT name FROM facultylist WHERE id=?", (user_id,))
+    elif user_type == "admin":
+        cursor.execute("SELECT name FROM facultylist WHERE id=?", (user_id,))
 
     result = cursor.fetchone()
     name = None
