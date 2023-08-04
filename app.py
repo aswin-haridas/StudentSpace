@@ -420,27 +420,49 @@ def courses():
         name=name,
     )
 
-@app.route("/coursemgmt")
+@app.route("/coursemgmt", methods=['GET', 'POST'])
 def coursemgmt():
     user_type = session.get("user_type")
     name = session.get("name")
-    
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT name, course FROM faculties")
-    coursemgmt = [
-        dict(name=row[0], course=row[1])
-        for row in cursor.fetchall()
-    ]
-    conn.close()
-    
-    
-    return  render_template(
-    "coursemgmt.html",
-    notes=coursemgmt,
-    user_type=user_type,
-    name=name,
-)
+    courses = [dict(name=row[0], course=row[1]) for row in cursor.fetchall()]
+
+    if request.method == 'POST':
+        name = request.form.get('name')
+        course = request.form.get('course')
+
+        conn = sqlite3.connect("database.db")
+        cursor = conn.cursor()
+
+        # Insert the data into the database
+        cursor.execute("INSERT INTO faculties(name, course) VALUES (?, ?)",
+                       (name, course))
+        conn.commit()
+        conn.close()
+
+        # Fetch the last inserted row ID (auto-incremented)
+        conn = sqlite3.connect("database.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT last_insert_rowid()")
+        last_id = cursor.fetchone()[0]
+        conn.close()
+
+        # Return the new course details as JSON
+        new_course = {
+            "id":last_id,
+            "name": name,
+            "course": course,
+        }
+        return jsonify(new_course)
+
+    return render_template(
+        "coursemgmt.html",
+        courses=courses,
+        user_type=user_type,
+        name=name
+    )
 
  
 @app.route('/role_management')
@@ -479,7 +501,7 @@ def notes():
         title = request.form.get('title')
         content = request.form.get('content')
         file_url = request.form.get('file_url')
-        uploaded_by = "Faculty"  # You need to determine the uploaded_by value
+        uploaded_by = name # You need to determine the uploaded_by value
 
         conn = sqlite3.connect("database.db")
         cursor = conn.cursor()
