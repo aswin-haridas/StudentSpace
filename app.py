@@ -441,6 +441,25 @@ def notes():
     )
 
 
+
+@app.route('/user_management')
+def user_management_route():
+    # Your logic for user management here
+    return render_template('usermgmt.html')
+
+@app.route('/role_management')
+def role_management_route():
+    # Your logic for role management here
+    return render_template('rolemgmt.html')
+
+@app.route('/course_management')
+def course_management_route():
+    # Your logic for course management here
+    return render_template('coursemgmt.html')
+
+
+
+
 @app.route("/logout")
 def logout():
     session.clear()
