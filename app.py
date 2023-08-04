@@ -469,6 +469,19 @@ def rolemgmt():
         name=name,
     )
 
+
+@app.route('/user_management')
+def user_management():
+    name=session.get("name")
+    connection = connect_to_database()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM users')
+    users_data = cursor.fetchall()
+    connection.close()
+    return render_template('usermgmt.html', users_data=users_data,name=name)
+
+
+
 @app.route("/notes")
 def notes():
     user_type = session.get("user_type")
@@ -488,17 +501,6 @@ def notes():
         user_type=user_type,
         name=name,
     )
-
-@app.route('/user_management')
-def user_management():
-    name=session.get("name")
-    connection = connect_to_database()
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM users')
-    users_data = cursor.fetchall()
-    connection.close()
-    return render_template('usermgmt.html', users_data=users_data,name=name)
-
 
 
 @app.route("/logout")

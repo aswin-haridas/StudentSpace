@@ -75,11 +75,13 @@
         <div id="popup" class="popup">
           <form class="userform">
             <label for="text">Editing for {{username}}</label>
+            <br><br>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" />
+            <br><br>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" />
-
+            <br><br>
             <label for="role">Role:</label>
             <select id="role" name="role">
               <option value="admin">Admin</option>
@@ -121,7 +123,6 @@
                     />
                   </a>
                 </td>
-                
               </tr>
               {% endfor %}
             </tbody>
@@ -136,26 +137,28 @@
         var cancelButton = document.getElementById("cancelButton");
         var okButton = document.getElementById("okButton");
         var mainSection = document.querySelector(".main");
-    
+        var userForm = document.querySelector(".userform"); // Select the form
+
         editLinks.forEach(function (editLink) {
           editLink.addEventListener("click", function (event) {
             event.preventDefault();
             popup.style.display = "block";
             mainSection.classList.add("popup-active");
             mainSection.style.filter = "blur(5px)"; // Apply blur to the main section
+            userForm.style.display = "block"; // Show the form
           });
         });
-    
+
         function closePopup() {
           popup.style.display = "none";
           mainSection.classList.remove("popup-active");
           mainSection.style.filter = "none"; // Remove blur from the main section
+          userForm.style.display = "none"; // Hide the form
         }
-    
+
         cancelButton.addEventListener("click", closePopup);
         okButton.addEventListener("click", closePopup);
       });
     </script>
-    
   </body>
 </html>
