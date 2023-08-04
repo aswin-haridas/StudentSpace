@@ -77,8 +77,8 @@
                 <a href="{{ url_for('attendance') }}">Attendance</a>
             </div>
             <div class="sidebar-tabs">
-        <a href="{{ url_for('notes') }}">Notes</a>
-      </div>
+                <a href="#">Notes</a>
+              </div>
 
             {% elif user_type == 'faculty' %}
 
@@ -89,18 +89,18 @@
                 <a href="{{ url_for('classAttendance') }}">Class Attendance</a>
             </div>
             <div class="sidebar-tabs">
-                <a href="{{ url_for('notes') }}">Upload notes</a>
+                <a href="#">Upload notes</a>
             </div>
 
             {% elif user_type == 'admin' %}
             <div class="sidebar-tabs">
-                <a href="{{ url_for('notes') }}">User management</a>
+                <a href="#">User management</a>
             </div>
             <div class="sidebar-tabs">
-                <a href="{{ url_for('notes') }}">Role management</a>
+                <a href="#">Role management</a>
             </div>
             <div class="sidebar-tabs">
-                <a href="{{ url_for('notes') }}">Permission management</a>
+                <a href="#">Permission management</a>
             </div>
             {% endif %}
             
