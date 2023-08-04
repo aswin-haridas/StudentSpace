@@ -12,7 +12,7 @@
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='perfomance-style.css') }}"
+      href="{{ url_for('static', filename='admin-style.css') }}"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -72,6 +72,27 @@
         </div>
       </div>
       <div class="main-section">
+        <div id="popup" class="popup">
+          <form class="userform">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" />
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" />
+
+            <label for="role">Role:</label>
+            <select id="role" name="role">
+              <option value="admin">Admin</option>
+              <option value="faculty">Faculty</option>
+              <option value="student">Student</option>
+            </select>
+
+            <div class="button-container">
+              <button type="button" id="cancelButton">Cancel</button>
+              <button type="button" id="okButton">OK</button>
+            </div>
+          </form>
+        </div>
+
         <div class="main">
           <table>
             <thead>
@@ -91,7 +112,7 @@
                 <td>{{ user[2] }}</td>
                 <td>{{ user[3] }}</td>
                 <td>
-                  <a href="/edit_user_profile?id={{ user[0] }}">
+                  <a href="#">
                     <img
                       style="width: 15px"
                       src="{{ editimage }}"
@@ -106,5 +127,6 @@
         </div>
       </div>
     </div>
+    <script></script>
   </body>
 </html>

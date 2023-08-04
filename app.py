@@ -470,21 +470,15 @@ def notes():
 
 @app.route('/user_management')
 def user_management():
+    name=session.get("name")
     connection = connect_to_database()
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM users')
     users_data = cursor.fetchall()
     connection.close()
-    return render_template('usermgmt.html', users_data=users_data)
+    return render_template('usermgmt.html', users_data=users_data,name=name)
 
-@app.route('/edit_user_profile')
-def edit_user_profile():
-    user_id = request.args.get('id')
-    
 
-    return "Edit User Profile Page for User ID: {}".format(user_id)
-
-    
 
 @app.route("/logout")
 def logout():
