@@ -165,6 +165,16 @@ def get_student_list():
     conn.close()
     return jsonify(student_list)
 
+@app.route("/facultylist")
+def get_faculty_list():
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+    c.execute("SELECT id, name, department FROM facultylist")  # Adjust the table name as needed
+    faculty_list = c.fetchall()
+    conn.close()
+    return jsonify(faculty_list)
+
+
 
 @app.route("/attendancepercentage")
 def attendancepercentage():

@@ -95,7 +95,39 @@
 
       <div class="main-section">
         <div class="main">
-          {% if user_type == 'student' %}
+          {% if user_type == 'admin' %}
+          <div class="student-list">
+            <p>Student List</p>
+            <table id="studentTable">
+              <thead>
+                <tr>
+                  <th>Student ID</th>
+                  <th>First Name</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Student rows will be dynamically inserted here -->
+              </tbody>
+            </table>
+          </div>
+          <div class="faculty-list">
+            <p>Faculty List</p>
+            <table id="facultyTable">
+              <thead>
+                <tr>
+                  <th>Faculty ID</th>
+                  <th>Name</th>
+                  <th>department</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Faculty rows will be dynamically inserted here -->
+              </tbody>
+            </table>
+          </div>
+
+          {% elif user_type == 'student' %}
           <p>Progress</p>
           <div class="chart-container">
             <div id="gradeChartContainer" class="chart"></div>
@@ -295,6 +327,30 @@
               row.appendChild(lastName);
 
               studentTable.querySelector("tbody").appendChild(row);
+            });
+          });
+
+        fetch("/facultylist")
+          .then((response) => response.json())
+          .then((data) => {
+            const facultyTable = document.getElementById("facultyTable");
+
+            data.forEach((faculty) => {
+              const row = document.createElement("tr");
+
+              const facultyID = document.createElement("td");
+              facultyID.textContent = faculty.id;
+              row.appendChild(facultyID);
+
+              const name = document.createElement("td");
+              name.textContent = faculty.name;
+              row.appendChild(name);
+
+              const department = document.createElement("td");
+              department.textContent = faculty.department;
+              row.appendChild(department);
+
+              facultyTable.querySelector("tbody").appendChild(row);
             });
           });
 
