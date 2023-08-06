@@ -12,7 +12,7 @@
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='admin-style.css') }}"
+      href="{{ url_for('static', filename='courses-style.css') }}"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,7 +21,6 @@
       rel="stylesheet"
     />
   </head>
-
   <body>
     <div class="StudentSpace">
       <div class="header">
@@ -52,111 +51,129 @@
             >Dashboard</a
           >
         </div>
+
+        {% if user_type == 'student' %}
         <div class="sidebar-tabs">
-          <a href="{{ url_for('user_management') }}">User management</a>
+          <a href="{{ url_for('profile') }}">My Profile</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('role_management') }}">Role management</a>
+          <a href="{{ url_for('courses') }}">Courses</a>
         </div>
         <div class="sidebar-tabs">
-          <a href="{{ url_for('coursemgmt') }}">Course management</a>
+          <a href="{{ url_for('perfomance') }}">Performance</a>
         </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('attendance') }}">Attendance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('notes') }}">Notes</a>
+        </div>
+        {% elif user_type == 'faculty' %}
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('profile') }}">My Profile</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('perfomance') }}">Class grades</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('classAttendance') }}">Class Attendance</a>
+        </div>
+        <div class="sidebar-tabs">
+          <a href="{{ url_for('notes') }}">Upload notes</a>
+        </div>
+        {% elif user_type == 'admin' %}
+<div class="sidebar-tabs">
+    <a href="{{ url_for('usermgmt') }}">User management</a>
+</div>
+<div class="sidebar-tabs">
+    <a href="{{ url_for('rolemgmt') }}">Role management</a>
+</div>
+<div class="sidebar-tabs">
+    <a href="{{ url_for('coursemgmt') }}">Course management</a>
+</div>
+
+        {% endif %}
       </div>
 
       <div class="main-section">
         <div class="main">
-          <table>
+          <table class="note-table">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Course</th>
-                <th></th>
+                <th>Course alloted</th>
               </tr>
             </thead>
-            <tbody id="CourseTableBody">
-              {% for course in courses %}
-              <tr>
-                <td>{{ course.name }}</td>
-                <td>{{ course.course }}</td>
-
-                <td>
-                  <a href="#" class="edit-link">
-                    <img
-                      style="width: 15px"
-                      src="{{ editimage }}"
-                      alt="Edit Icon"
-                    />
-                  </a>
-                </td>
+            <tbody id="notesTableBody">
+              {% for note in notes %}
+              <tr class="note-row">
+                <td>{{ note.name }}</td>
+                <td>{{ note.course }}</td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
-
+      
+          {% if user_type == "admin" %}
           <div class="faculty-section">
-            <button class="btn btn-primary" id="uploadNotesBtn">
-              Add Course
-            </button>
+            <button class="btn btn-primary" id="uploadNotesBtn">Add Data</button>
           </div>
-          <div id="uploadForm" style="display: none">
-            <form
-              action="{{ url_for('coursemgmt') }}"
-              method="POST"
-              id="noteUploadForm"
-              enctype="multipart/form-data"
-            >
+          <div id="uploadForm" style="display: none;">
+            <form action="{{ url_for('notes') }}" method="POST" id="noteUploadForm" enctype="multipart/form-data">
               <label for="name">Name</label>
-              <input type="text" id="name" name="name" required /><br /><br />
+              <input type="text" id="name" name="name" required><br><br>
               <label for="course">Course</label>
-              <textarea id="course" name="course" required></textarea
-              ><br /><br />
-              <input type="submit" value="Upload" class="btn btn-primary" />
+              <textarea id="course" name="course" required></textarea><br><br>
+              <input type="submit" value="Upload" class="btn btn-primary">
             </form>
           </div>
+          {% endif %}
         </div>
       </div>
-
+      
       <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          const uploadNotesBtn = document.getElementById("uploadNotesBtn");
-          const uploadForm = document.getElementById("uploadForm");
-          const notesTableBody = document.getElementById("notesTableBody");
-
-          uploadNotesBtn.addEventListener("click", () => {
-            uploadForm.style.display = "block";
+        const uploadNotesBtn = document.getElementById('uploadNotesBtn');
+        const uploadForm = document.getElementById('uploadForm');
+        const notesTableBody = document.getElementById('notesTableBody');
+      
+        uploadNotesBtn.addEventListener('click', () => {
+          uploadForm.style.display = 'block';
+        });
+      
+        document.getElementById('noteUploadForm').addEventListener('submit', async (event) => {
+          event.preventDefault();
+      
+          const form = event.target;
+          const formData = new FormData(form);
+      
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData
           });
-
-          document
-            .getElementById("noteUploadForm")
-            .addEventListener("submit", async (event) => {
-              event.preventDefault();
-
-              const form = event.target;
-              const formData = new FormData(form);
-
-              const response = await fetch(form.action, {
-                method: "POST",
-                body: formData,
-              });
-
-              if (response.ok) {
-                const newNote = await response.json();
-                const newRow = document.createElement("tr");
-                newRow.classList.add("note-row");
-                newRow.innerHTML = `
-        <td>${newNote.name}</td>
-        <td>${newNote.course}</td>
-      `;
-
-                notesTableBody.appendChild(newRow);
-                form.reset();
-
-                // Hide the form after successful submission
-                uploadForm.style.display = "none";
-              }
-            });
+      
+          if (response.ok) {
+            const newNote = await response.json();
+            const newRow = document.createElement('tr');
+            newRow.classList.add('note-row');
+            newRow.innerHTML = `
+              <td>${newNote.name}</td>
+              <td>${newNote.course}</td>
+              
+            `;
+      
+            notesTableBody.appendChild(newRow);
+            form.reset();
+      
+            // Hide the form after successful submission
+            uploadForm.style.display = 'none';
+          }
         });
       </script>
-    </div>
+      
+        </div>
+      
   </body>
 </html>

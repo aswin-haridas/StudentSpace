@@ -86,15 +86,14 @@
         </div>
         {% elif user_type == 'admin' %}
 <div class="sidebar-tabs">
-  <div class="sidebar-tabs">
-    <a href="{{ url_for('user_management') }}">User management</a>
-  </div>
-  <div class="sidebar-tabs">
-    <a href="{{ url_for('role_management') }}">Role management</a>
-  </div>
-  <div class="sidebar-tabs">
-    <a href="{{ url_for('coursemgmt') }}">Course management</a>
-  </div>
+    <a href="{{ url_for('user_management_route') }}">User management</a>
+</div>
+<div class="sidebar-tabs">
+    <a href="{{ url_for('role_management_route') }}">Role management</a>
+</div>
+<div class="sidebar-tabs">
+    <a href="{{ url_for('course_management_route') }}">Course management</a>
+</div>
 
         {% endif %}
       </div>

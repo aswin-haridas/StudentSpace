@@ -420,58 +420,54 @@ def courses():
         name=name,
     )
 
-@app.route("/coursemgmt", methods=['GET', 'POST'])
+@app.route("/coursemgmt")
 def coursemgmt():
+    user_type = session.get("user_type")
     name = session.get("name")
+    
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT name, course FROM faculties")
-    courses = [dict(name=row[0], course=row[1]) for row in cursor.fetchall()]
-
-    if request.method == 'POST':
-        name = request.form.get('name')
-        course = request.form.get('course')
-
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-
-        # Insert the data into the database
-        cursor.execute("INSERT INTO faculties(name, course) VALUES (?, ?)",
-                       (name, course))
-        conn.commit()
-        conn.close()
-
-        # Fetch the last inserted row ID (auto-incremented)
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT last_insert_rowid()")
-        last_id = cursor.fetchone()[0]
-        conn.close()
-
-        # Return the new course details as JSON
-        new_course = {
-            "id":last_id,
-            "name": name,
-            "course": course,
-        }
-        return jsonify(new_course)
-
+    coursemgmt = [
+        dict(name=row[0], course=row[1])
+        for row in cursor.fetchall()
+    ]
+    conn.close()
+    
+    
     return render_template(
         "coursemgmt.html",
-        courses=courses,
-        name=name
+        coursemgmt=coursemgmt,
+        user_type=user_type,
+        name=name,
     )
-
  
-@app.route('/role_management')
-def role_management():
+@app.route("/rolemgmt")
+def rolemgmt():
+    user_type = session.get("user_type")
     name = session.get("name")
-    connection = connect_to_database()
-    cursor = connection.cursor()
-    cursor.execute('SELECT name,roll FROM faculties')
-    role_data = cursor.fetchall()
-    connection.close()
-    return render_template('rolemgmt.html', role_data=role_data, name=name)
+    
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT role_id, role_name, description FROM roles")
+    roles_data = cursor.fetchall()
+    conn.close()
+
+    roles = []
+    for role in roles_data:
+        role_dict = {
+            "role_id": role[0],
+            "role_name": role[1],
+            "description": role[2]
+        }
+        roles.append(role_dict)
+    
+    return render_template(
+        "rolemgmt.html",
+        roles=roles,
+        user_type=user_type,
+        name=name,
+    )
 
 
 @app.route('/user_management')
@@ -486,53 +482,26 @@ def user_management():
 
 
 
-@app.route("/notes", methods=['GET', 'POST'])
+@app.route("/notes")
 def notes():
     user_type = session.get("user_type")
     name = session.get("name")
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT title, content, uploaded_by, file_url FROM notes")
-    notes = [dict(title=row[0], content=row[1], uploaded_by=row[2], file_url=row[3]) for row in cursor.fetchall()]
+    notes = [
+        dict(title=row[0], content=row[1], uploaded_by=row[2], file_url=row[3])
+        for row in cursor.fetchall()
+    ]
 
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        file_url = request.form.get('file_url')
-        uploaded_by = name # You need to determine the uploaded_by value
-
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-
-        # Insert the data into the database
-        cursor.execute("INSERT INTO notes (title, content, uploaded_by, file_url) VALUES (?, ?, ?, ?)",
-                       (title, content, uploaded_by, file_url))
-        conn.commit()
-        conn.close()
-
-        # Fetch the last inserted row ID (auto-incremented)
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT last_insert_rowid()")
-        last_id = cursor.fetchone()[0]
-        conn.close()
-
-        # Return the new note details as JSON
-        new_note = {
-            "id": last_id,
-            "title": title,
-            "content": content,
-            "uploaded_by": uploaded_by,
-            "file_url": file_url
-        }
-        return jsonify(new_note)
-
+    conn.close()
     return render_template(
         "notes.html",
         notes=notes,
         user_type=user_type,
-        name=name
+        name=name,
     )
+
 
 @app.route("/logout")
 def logout():
