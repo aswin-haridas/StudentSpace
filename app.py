@@ -12,7 +12,7 @@ def common_icons():
     admin = "/static/assets/admin.png"
     student = "/static/assets/student.png"
     faculty = "/static/assets/faculty.png"
-    search = "/static/assets/search.png"
+    search = "/static/assets/search.png" 
     notification = "/static/assets/notification.png"
     settings = "/static/assets/settings.png"
     editimage="/static/assets/edit.png"
